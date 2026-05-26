@@ -18,10 +18,11 @@ with lib;
         indent-guides.render = true;
         line-number = "relative";
       };
-      theme = mkForce {
-        dark = "catppuccin-frappe";
-        light = "catppuccin-latte";
-      };
+      # TODO: theme is supported post 2026 september release
+      # theme = mkForce {
+      #   dark = "catppuccin-frappe";
+      #   light = "catppuccin-latte";
+      # };
     };
   };
 }
