@@ -12,6 +12,6 @@ with lib;
     };
   };
 
-  xdg.configFile."ghostty/themes/catppuccin-latte".source =
-    "${config.catppuccin.sources.ghostty}/catppuccin-latte.conf";
+  xdg.configFile."ghostty/themes/catppuccin-frappe".source =
+    "${config.catppuccin.sources.ghostty}/catppuccin-frappe.conf";
 }
