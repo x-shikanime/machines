@@ -14,9 +14,9 @@
         inputs.sops-nix.darwinModules.sops
         {
           home-manager.sharedModules = [
-            inputs.devlib.homeManagerModule
-            inputs.colemak.homeManagerModule
-            inputs.sops-nix.homeManagerModule
+            inputs.devlib.homeModule
+            inputs.colemak.homeModule
+            inputs.sops-nix.homeModule
           ];
         }
       ];

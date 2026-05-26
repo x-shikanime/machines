@@ -16,9 +16,9 @@
           inputs.sops-nix.nixosModules.sops
           {
             home-manager.sharedModules = [
-              inputs.devlib.homeManagerModule
-              inputs.colemak.homeManagerModule
-              inputs.sops-nix.homeManagerModule
+              inputs.devlib.homeModule
+              inputs.colemak.homeModule
+              inputs.sops-nix.homeModule
             ];
           }
         ];
@@ -39,8 +39,8 @@
                 inputs.home-manager.nixosModules.home-manager
                 {
                   home-manager.sharedModules = [
-                    inputs.devlib.homeManagerModule
-                    inputs.colemak.homeManagerModule
+                    inputs.devlib.homeModule
+                    inputs.colemak.homeModule
                   ];
                 }
               ];
@@ -62,8 +62,8 @@
                 inputs.home-manager.nixosModules.home-manager
                 {
                   home-manager.sharedModules = [
-                    inputs.devlib.homeManagerModule
-                    inputs.colemak.homeManagerModule
+                    inputs.devlib.homeModule
+                    inputs.colemak.homeModule
                   ];
                 }
               ];
