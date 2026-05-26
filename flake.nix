@@ -2,6 +2,18 @@
   description = "Shikanime's home configuration";
 
   inputs = {
+    colemak = {
+      url = "github:shikanime/colemak";
+      inputs = {
+        devenv.follows = "devenv";
+        devlib.follows = "devlib";
+        flake-parts.follows = "flake-parts";
+        git-hooks.follows = "git-hooks";
+        nixpkgs.follows = "nixpkgs";
+        treefmt-nix.follows = "treefmt-nix";
+      };
+    };
+
     devenv = {
       url = "github:cachix/devenv";
       inputs = {

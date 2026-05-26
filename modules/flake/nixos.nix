@@ -17,6 +17,7 @@
           {
             home-manager.sharedModules = [
               inputs.devlib.homeManagerModule
+              inputs.colemak.homeManagerModule
               inputs.sops-nix.homeManagerModule
             ];
           }
@@ -39,6 +40,7 @@
                 {
                   home-manager.sharedModules = [
                     inputs.devlib.homeManagerModule
+                    inputs.colemak.homeManagerModule
                   ];
                 }
               ];
@@ -61,6 +63,7 @@
                 {
                   home-manager.sharedModules = [
                     inputs.devlib.homeManagerModule
+                    inputs.colemak.homeManagerModule
                   ];
                 }
               ];

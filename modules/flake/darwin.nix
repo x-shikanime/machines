@@ -15,6 +15,7 @@
         {
           home-manager.sharedModules = [
             inputs.devlib.homeManagerModule
+            inputs.colemak.homeManagerModule
             inputs.sops-nix.homeManagerModule
           ];
         }
