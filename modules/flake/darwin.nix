@@ -6,6 +6,13 @@
     darwinConfigurations.telsha = inputs.nix-darwin.lib.darwinSystem {
       pkgs = import inputs.nixpkgs {
         system = "aarch64-darwin";
+        overlays = [
+          (_final: prev: {
+            direnv = prev.direnv.overrideAttrs (_: {
+              doCheck = false;
+            });
+          })
+        ];
         config.allowUnfree = true;
       };
       modules = [
