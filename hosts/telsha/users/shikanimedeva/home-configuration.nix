@@ -24,7 +24,7 @@ in
     ../../../../modules/home/starship.nix
     ../../../../modules/home/vcs.nix
     ../../../../modules/home/workstation.nix
-    ../../../../modules/home/zed.nix
+    ../../../../modules/home/zed-editor.nix
   ];
 
   home = {

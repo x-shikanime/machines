@@ -2,6 +2,11 @@
   description = "Shikanime's home configuration";
 
   inputs = {
+    catppuccin = {
+      url = "github:catppuccin/nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     colemak = {
       url = "github:shikanime/colemak";
       inputs = {

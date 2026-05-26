@@ -4,7 +4,7 @@
   programs = {
     k9s.enable = true;
 
-    ssh.matchBlocks."ssh.dev.azure.com".extraOptions = {
+    ssh.settings."ssh.dev.azure.com" = {
       HostkeyAlgorithms = "+ssh-rsa";
       PubkeyAcceptedKeyTypes = "+ssh-rsa";
     };

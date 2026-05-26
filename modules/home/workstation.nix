@@ -8,6 +8,13 @@
 with lib;
 
 {
+  catppuccin = {
+    enable = true;
+    flavor = "latte";
+  };
+
+  colemak.enable = true;
+
   home = {
     packages = with pkgs; [
       bitwarden-cli
@@ -67,27 +74,27 @@ with lib;
 
     ssh = {
       enable = true;
-      matchBlocks = {
+      settings = {
         "catbox.taila659a.ts.net" = {
-          user = "shika";
-          setEnv.TERM = "xterm-256color";
+          User = "shika";
+          SetEnv.TERM = "xterm-256color";
         };
         "fushi.taila659a.ts.net" = {
-          user = "shika";
-          setEnv.TERM = "xterm-256color";
+          User = "shika";
+          SetEnv.TERM = "xterm-256color";
         };
         "minish.taila659a.ts.net" = {
-          user = "shika";
-          setEnv.TERM = "xterm-256color";
+          User = "shika";
+          SetEnv.TERM = "xterm-256color";
         };
         "nishir.taila659a.ts.net" = {
-          user = "shika";
-          setEnv.TERM = "xterm-256color";
+          User = "shika";
+          SetEnv.TERM = "xterm-256color";
         };
         "thinkcentre-m710t.tailfb4bb2.ts.net" = {
-          forwardX11 = true;
-          user = "william-phetsinorath";
-          setEnv.TERM = "xterm-256color";
+          ForwardX11 = true;
+          User = "william-phetsinorath";
+          SetEnv.TERM = "xterm-256color";
         };
       };
     };

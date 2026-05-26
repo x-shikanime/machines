@@ -11,14 +11,16 @@
         };
         modules = [
           ../../hosts/nixtar/configuration.nix
-          inputs.home-manager.nixosModules.home-manager
+          inputs.catppuccin.nixosModules.default
+          inputs.home-manager.nixosModules.default
           inputs.nixos-wsl.nixosModules.default
-          inputs.sops-nix.nixosModules.sops
+          inputs.sops-nix.nixosModules.default
           {
             home-manager.sharedModules = [
-              inputs.devlib.homeModule
-              inputs.colemak.homeModule
-              inputs.sops-nix.homeModule
+              inputs.catppuccin.homeModules.default
+              inputs.colemak.homeModules.default
+              inputs.devlib.homeModules.default
+              inputs.sops-nix.homeModules.default
             ];
           }
         ];
@@ -36,11 +38,13 @@
               };
               modules = [
                 ../../hosts/catbox/configuration.nix
-                inputs.home-manager.nixosModules.home-manager
+                inputs.catppuccin.nixosModules.default
+                inputs.home-manager.nixosModules.default
                 {
                   home-manager.sharedModules = [
-                    inputs.devlib.homeModule
-                    inputs.colemak.homeModule
+                    inputs.catppuccin.homeModules.default
+                    inputs.colemak.homeModules.default
+                    inputs.devlib.homeModules.default
                   ];
                 }
               ];
@@ -59,11 +63,13 @@
               };
               modules = [
                 ../../hosts/catbox/configuration.nix
-                inputs.home-manager.nixosModules.home-manager
+                inputs.catppuccin.nixosModules.default
+                inputs.home-manager.nixosModules.default
                 {
                   home-manager.sharedModules = [
-                    inputs.devlib.homeModule
-                    inputs.colemak.homeModule
+                    inputs.catppuccin.homeModules.default
+                    inputs.colemak.homeModules.default
+                    inputs.devlib.homeModules.default
                   ];
                 }
               ];

@@ -1,3 +1,7 @@
+{ lib, ... }:
+
+with lib;
+
 {
   programs.zed-editor = {
     enable = true;
@@ -20,7 +24,7 @@
         };
       };
 
-      icon_theme = {
+      icon_theme = mkForce {
         mode = "system";
         light = "Catppuccin Latte";
         dark = "Catppuccin Frappé";
@@ -55,8 +59,8 @@
 
       theme = {
         mode = "system";
-        light = "Catppuccin Latte";
-        dark = "Catppuccin Frappé";
+        light = mkForce "Catppuccin Latte";
+        dark = mkForce "Catppuccin Frappé";
       };
 
       vim_mode = true;

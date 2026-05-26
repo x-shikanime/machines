@@ -10,13 +10,14 @@
       };
       modules = [
         ../../hosts/telsha/darwin-configuration.nix
-        inputs.home-manager.darwinModules.home-manager
-        inputs.sops-nix.darwinModules.sops
+        inputs.home-manager.darwinModules.default
+        inputs.sops-nix.darwinModules.default
         {
           home-manager.sharedModules = [
-            inputs.devlib.homeModule
-            inputs.colemak.homeModule
-            inputs.sops-nix.homeModule
+            inputs.catppuccin.homeModules.default
+            inputs.colemak.homeModules.default
+            inputs.devlib.homeModules.default
+            inputs.sops-nix.homeModules.default
           ];
         }
       ];
