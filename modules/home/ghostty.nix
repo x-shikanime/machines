@@ -1,4 +1,4 @@
-{ lib, pkgs, ... }:
+{ config, lib, pkgs, ... }:
 
 with lib;
 
@@ -11,4 +11,7 @@ with lib;
       command = "${getExe pkgs.zsh} -c ${getExe pkgs.nushell}";
     };
   };
+
+  xdg.configFile."ghostty/themes/catppuccin-latte".source =
+    "${config.catppuccin.sources.ghostty}/catppuccin-latte.conf";
 }
