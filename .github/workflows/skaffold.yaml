@@ -1,4 +1,3 @@
----
 name: Skaffold
 permissions:
   contents: read

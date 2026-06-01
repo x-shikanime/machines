@@ -1,4 +1,3 @@
----
 apiVersion: skaffold/v4beta9
 kind: Config
 metadata:
