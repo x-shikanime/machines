@@ -4,13 +4,13 @@
 {
   flake = {
     nixosConfigurations = {
-      minish = inputs.nixpkgs.lib.nixosSystem {
+      manash = inputs.nixpkgs.lib.nixosSystem {
         pkgs = import inputs.nixpkgs {
           system = "x86_64-linux";
           config.allowUnfree = true;
         };
         modules = [
-          ../../hosts/minish/configuration.nix
+          ../../hosts/manash/configuration.nix
           inputs.disko.nixosModules.disko
           inputs.home-manager.nixosModules.home-manager
           inputs.sops-nix.nixosModules.sops
@@ -63,7 +63,7 @@
             };
           in
           catbox.config.system.build.buildLayeredImage;
-        minish = self.nixosConfigurations.minish.config.system.build.toplevel;
+        manash = self.nixosConfigurations.manash.config.system.build.toplevel;
         nixtar = self.nixosConfigurations.nixtar.config.system.build.tarballBuilder;
       };
       aarch64-linux = {

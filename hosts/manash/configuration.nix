@@ -108,7 +108,7 @@
 
   hardware.facter.reportPath = ./facter.json;
 
-  networking.hostName = "minish";
+  networking.hostName = "manash";
 
   services = {
     avahi = {
@@ -138,7 +138,7 @@
 
   sops = {
     age.sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
-    defaultSopsFile = ../../secrets/minish.enc.yaml;
+    defaultSopsFile = ../../secrets/manash.enc.yaml;
     defaultSopsFormat = "yaml";
     secrets = {
       tailscale-authkey = { };

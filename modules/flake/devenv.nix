@@ -87,7 +87,7 @@
             in
             [
               {
-                path_regex = "secrets/minish.enc.yaml";
+                path_regex = "secrets/manash.enc.yaml";
                 key_groups = [
                   {
                     age = age ++ [

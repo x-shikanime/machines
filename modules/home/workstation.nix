@@ -83,7 +83,7 @@ with lib;
           User = "shika";
           SetEnv.TERM = "xterm-256color";
         };
-        "minish.taila659a.ts.net" = {
+        "manash.taila659a.ts.net" = {
           User = "shika";
           SetEnv.TERM = "xterm-256color";
         };
