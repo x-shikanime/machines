@@ -256,6 +256,7 @@
       tofu-controller = {
         repo = "https://flux-iac.github.io/tofu-controller";
         name = "tofu-controller";
+        hash = "sha256-YQRWHQwNn+Du9LNcveCBzTnacRDtWNJHwvXxeIxtKcc=";
         version = "0.16.2";
         targetNamespace = "flux-system";
         createNamespace = true;
