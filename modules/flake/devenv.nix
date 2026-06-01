@@ -85,10 +85,19 @@
               age = [
                 "age1pwl9yz4k4255a4h8qz7lafce8wxhsul0cnqwmr8528fqgujlfshshv3z3g" # telsha
                 "age1x9v4ps90txy9mk4392uya93tyzx40te4dvns4chg5s6q8mfy03ns74jpay" # nixtar
-                "age18zmkeyxun4gflllelsmdhwjh5xpfwrqshdxrednv7zljphepxc6strhysn" # github-actions
               ];
             in
             [
+              {
+                path_regex = "secrets/minish.enc.yaml";
+                key_groups = [
+                  {
+                    age = age ++ [
+                      "age1f4yuh4j3gqafjduusfpxz3na9xtwth9s6gznq043mfex0zglp5jqkkdm64" # host
+                    ];
+                  }
+                ];
+              }
               {
                 path_regex = "secrets/nixtar.enc.yaml";
                 key_groups = [
