@@ -116,11 +116,11 @@
     };
   };
 
+  hardware.facter.reportPath = ./facter.json;
+
   nix.extraOptions = ''
     !include ${config.sops.secrets.nix-config.path}
   '';
-
-  hardware.facter.reportPath = ./facter.json;
 
   networking = {
     firewall = {
@@ -152,8 +152,9 @@
   services.rke2 = {
     enable = true;
     role = "server";
+    cisHardening = true;
     extraFlags = [
-      "--write-kubeconfig-mode=0644"
+      "--secrets-encryption"
       # Keep overlay traffic on Tailnet since the firewall only opens CNI/RKE2
       # ports on tailscale0
       "--flannel-iface=tailscale0"
