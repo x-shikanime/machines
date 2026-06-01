@@ -62,6 +62,8 @@
       "net.ipv4.neigh.default.gc_thresh1" = 1024;
       "net.ipv4.neigh.default.gc_thresh2" = 2048;
       "net.ipv4.neigh.default.gc_thresh3" = 4096;
+      "net.ipv6.conf.all.forwarding" = 1;
+      "net.ipv6.conf.default.forwarding" = 1;
 
       # Increase conntrack room for NAT, service meshes, and
       # clustered east-west traffic
@@ -154,7 +156,9 @@
     role = "server";
     cisHardening = true;
     extraFlags = [
+      "--cluster-cidr=10.42.0.0/16,2001:cafe:42::/56"
       "--secrets-encryption"
+      "--service-cidr=10.43.0.0/16,2001:cafe:43::/112"
     ];
 
     cni = "canal";
@@ -279,15 +283,8 @@
   systemd.services.rke2-sops-age = {
     wants = [ "rke2-server.service" ];
     after = [ "rke2-server.service" ];
-    environment = {
-      KUBECONFIG = "/etc/rancher/rke2/rke2.yaml";
-    };
-    serviceConfig = {
-      Type = "oneshot";
-      Restart = "on-failure";
-      RestartSec = "10s";
-      StartLimitIntervalSec = 0;
-    };
+    environment.KUBECONFIG = "/etc/rancher/rke2/rke2.yaml";
+    serviceConfig.Type = "oneshot";
     preStart = ''
       until ${pkgs.kubectl}/bin/kubectl get namespace flux-system >/dev/null 2>&1; do
         sleep 1
@@ -301,15 +298,6 @@
             --dry-run=client -o yaml | ${pkgs.kubectl}/bin/kubectl apply -f -
       fi
     '';
-  };
-
-  systemd.timers.rke2-sops-age = {
-    wantedBy = [ "timers.target" ];
-    timerConfig = {
-      OnBootSec = "2m";
-      OnUnitActiveSec = "15m";
-      RandomizedDelaySec = "2m";
-    };
   };
 
   services = {
