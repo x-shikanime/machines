@@ -30,8 +30,6 @@
       "fs.file-max" = 2097152;
       "fs.inotify.max_user_instances" = 8192;
       "fs.inotify.max_user_watches" = 524288;
-      "kernel.panic" = 10;
-      "kernel.panic_on_oops" = 1;
 
       # Let bridged Kubernetes traffic traverse the iptables hooks that CNIs
       # expect
