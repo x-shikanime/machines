@@ -72,8 +72,6 @@
           with pkgs;
           [
             age
-            docker
-            scaleway-cli
             skaffold
           ]
           ++ lib.optional stdenv.hostPlatform.isLinux nixos-facter;
