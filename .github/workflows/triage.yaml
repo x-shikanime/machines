@@ -1,4 +1,3 @@
----
 name: Triage
 permissions:
   pull-requests: write

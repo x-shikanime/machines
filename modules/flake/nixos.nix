@@ -6,11 +6,12 @@
     nixosConfigurations = {
       minish = inputs.nixpkgs.lib.nixosSystem {
         pkgs = import inputs.nixpkgs {
-          system = "aarch64-linux";
+          system = "x86_64-linux";
           config.allowUnfree = true;
         };
         modules = [
           ../../hosts/minish/configuration.nix
+          inputs.disko.nixosModules.disko
           inputs.home-manager.nixosModules.home-manager
           inputs.sops-nix.nixosModules.sops
           {
@@ -62,6 +63,7 @@
             };
           in
           catbox.config.system.build.buildLayeredImage;
+        minish = self.nixosConfigurations.minish.config.system.build.toplevel;
         nixtar = self.nixosConfigurations.nixtar.config.system.build.tarballBuilder;
       };
       aarch64-linux = {
@@ -84,7 +86,6 @@
             };
           in
           catbox.config.system.build.buildLayeredImage;
-        minish = self.nixosConfigurations.minish.config.system.build.sdImage;
       };
     };
   };

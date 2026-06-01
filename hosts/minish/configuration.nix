@@ -1,8 +1,12 @@
-{ config, modulesPath, ... }:
+{
+  config,
+  lib,
+  modulesPath,
+  ...
+}:
 
 {
   imports = [
-    "${modulesPath}/installer/cd-dvd/installation-cd-base.nix"
     "${modulesPath}/profiles/headless.nix"
     ../../modules/nixos/base.nix
     ../../modules/nixos/longhorn.nix
@@ -12,11 +16,81 @@
     ./users/nishir/home-configuration.nix
   ];
 
+  bootloader = {
+    efi.canTouchEfiVariables = true;
+    systemd-boot.enable = true;
+  };
+  boot.supportedFilesystems = [ "zfs" ];
+
+  disko.devices = {
+    disk.main = {
+      type = "disk";
+      device = lib.mkDefault "/dev/nvme0n1";
+      content = {
+        type = "gpt";
+        partitions = {
+          ESP = {
+            size = "1G";
+            type = "EF00";
+            content = {
+              type = "filesystem";
+              format = "vfat";
+              mountpoint = "/boot";
+              mountOptions = [ "umask=0077" ];
+            };
+          };
+          root = {
+            size = "100%";
+            content = {
+              type = "zfs";
+              pool = "zroot";
+            };
+          };
+        };
+      };
+    };
+    zpool.zroot = {
+      type = "zpool";
+      rootFsOptions = {
+        acltype = "posixacl";
+        atime = "off";
+        canmount = "off";
+        compression = "zstd";
+        dnodesize = "auto";
+        mountpoint = "none";
+        normalization = "formD";
+        relatime = "on";
+        xattr = "sa";
+      };
+      options = {
+        ashift = "12";
+        autotrim = "on";
+      };
+      datasets = {
+        root = {
+          type = "zfs_fs";
+          mountpoint = "/";
+          options.mountpoint = "legacy";
+        };
+        nix = {
+          type = "zfs_fs";
+          mountpoint = "/nix";
+          options.mountpoint = "legacy";
+        };
+      };
+    };
+  };
+
   nix.extraOptions = ''
     !include ${config.sops.secrets.nix-config.path}
   '';
 
-  networking.hostName = "minish";
+  hardware.facter.reportPath = ./facter.json;
+
+  networking = {
+    hostId = "8f36c2a1";
+    hostName = "minish";
+  };
 
   services = {
     avahi = {
