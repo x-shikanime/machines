@@ -74,7 +74,6 @@
       "vm.dirty_ratio" = 10;
       "vm.dirty_writeback_centisecs" = 500;
       "vm.max_map_count" = 262144;
-      "vm.overcommit_memory" = 0;
       "vm.page-cluster" = 0;
       "vm.swappiness" = 10;
       "vm.vfs_cache_pressure" = 200;
