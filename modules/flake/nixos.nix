@@ -35,6 +35,7 @@
           {
             home-manager.sharedModules = [
               inputs.catppuccin.homeModules.default
+              inputs.colemak.homeModules.default
               inputs.devlib.homeModules.default
               inputs.sops-nix.homeModules.default
             ];
@@ -58,6 +59,7 @@
                 {
                   home-manager.sharedModules = [
                     inputs.catppuccin.homeModules.default
+                    inputs.colemak.homeModules.default
                     inputs.devlib.homeModules.default
                   ];
                 }
@@ -82,6 +84,7 @@
                 {
                   home-manager.sharedModules = [
                     inputs.catppuccin.homeModules.default
+                    inputs.colemak.homeModules.default
                     inputs.devlib.homeModules.default
                   ];
                 }
