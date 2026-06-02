@@ -78,9 +78,11 @@ in
   ];
 
   # Required for Docker credential management
-  environment.systemPackages = [
-    pkgs.docker-credential-helpers
-    pkgs.wl-clipboard
+  environment.systemPackages = with pkgs; [
+    docker-credential-helpers
+    dunst
+    libnotify
+    wl-clipboard
   ];
 
   hardware = {
