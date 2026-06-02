@@ -113,17 +113,6 @@ in
       openFirewall = true;
     };
 
-    tailscale = {
-      enable = true;
-      openFirewall = true;
-      authKeyFile = config.sops.secrets.tailscale-authkey.path;
-      extraUpFlags = [
-        "--accept-dns=false"
-        "--ssh"
-      ];
-      useRoutingFeatures = "both";
-    };
-
     xserver.videoDrivers = [ "nvidia" ];
   };
 
@@ -135,11 +124,7 @@ in
     };
     defaultSopsFile = ../../secrets/nixtar.enc.yaml;
     defaultSopsFormat = "yaml";
-    secrets = {
-      nix-config = { };
-      tailscale-authkey = { };
-      tailscale-operator-config-manifest = { };
-    };
+    secrets.nix-config = { };
   };
 
   users.users.shika = {
