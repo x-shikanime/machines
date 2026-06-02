@@ -171,8 +171,4 @@ in
       generateResolvConf = false;
     };
   };
-
-  systemd.tmpfiles.rules = [
-    "L+ /var/lib/rancher/rke2/server/manifests/tailscale-operator-config.yaml - - - - ${config.sops.secrets.tailscale-operator-config-manifest.path}"
-  ];
 }
