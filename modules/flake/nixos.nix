@@ -34,6 +34,7 @@
           inputs.sops-nix.nixosModules.sops
           {
             home-manager.sharedModules = [
+              inputs.catppuccin.homeModules.default
               inputs.devlib.homeModules.default
               inputs.sops-nix.homeModules.default
             ];
@@ -56,7 +57,8 @@
                 inputs.home-manager.nixosModules.home-manager
                 {
                   home-manager.sharedModules = [
-                    inputs.devlib.homeManagerModule
+                    inputs.catppuccin.homeModules.default
+                    inputs.devlib.homeModules.default
                   ];
                 }
               ];
@@ -79,7 +81,8 @@
                 inputs.home-manager.nixosModules.home-manager
                 {
                   home-manager.sharedModules = [
-                    inputs.devlib.homeManagerModule
+                    inputs.catppuccin.homeModules.default
+                    inputs.devlib.homeModules.default
                   ];
                 }
               ];
