@@ -161,8 +161,6 @@
       "--service-cidr=10.43.0.0/16,2001:cafe:43::/112"
     ];
 
-    cni = "canal";
-
     # Let kubelet and RKE2 drain workloads cleanly on shutdown/reboot.
     gracefulNodeShutdown.enable = true;
 
@@ -264,18 +262,6 @@
             "shikanime"
           ];
         };
-      };
-    };
-
-    manifests.rke2-canal-config.content = {
-      apiVersion = "helm.cattle.io/v1";
-      kind = "HelmChartConfig";
-      metadata = {
-        name = "rke2-canal";
-        namespace = "kube-system";
-      };
-      spec.valuesContent = builtins.toJSON {
-        flannel.iface = "tailscale0";
       };
     };
   };
