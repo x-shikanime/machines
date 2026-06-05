@@ -175,6 +175,13 @@
     enable = true;
     role = "server";
     cisHardening = true;
+    images = with config.services.rke2.package; [
+      # Keep RKE2 off live registry pulls during bootstrap; this node has been
+      # failing while fetching the runtime image from Docker Hub.
+      images-core-linux-amd64-tar-zst
+      images-canal-linux-amd64-tar-zst
+      images-multus-linux-amd64-tar-zst
+    ];
     extraFlags = [
       "--cluster-cidr=10.42.0.0/16,2001:cafe:42::/56"
       "--secrets-encryption"
