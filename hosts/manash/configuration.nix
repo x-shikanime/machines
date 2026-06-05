@@ -159,6 +159,8 @@
       "--cluster-cidr=10.42.0.0/16,2001:cafe:42::/56"
       "--secrets-encryption"
       "--service-cidr=10.43.0.0/16,2001:cafe:43::/112"
+      "--cni=multus"
+      "--cni=canal"
     ];
 
     # Let kubelet and RKE2 drain workloads cleanly on shutdown/reboot.
@@ -261,6 +263,32 @@
             "flux-system"
             "shikanime"
           ];
+        };
+      };
+    };
+
+    manifests = {
+      rke2-canal-config.content = {
+        apiVersion = "helm.cattle.io/v1";
+        kind = "HelmChartConfig";
+        metadata = {
+          name = "rke2-canal";
+          namespace = "kube-system";
+        };
+        spec.valuesContent = builtins.toJSON {
+          flannel.iface = "tailscale0";
+        };
+      };
+
+      rke2-coredns-config.content = {
+        apiVersion = "helm.cattle.io/v1";
+        kind = "HelmChartConfig";
+        metadata = {
+          name = "rke2-coredns";
+          namespace = "kube-system";
+        };
+        spec.valuesContent = builtins.toJSON {
+          nodelocal.enabled = true;
         };
       };
     };
