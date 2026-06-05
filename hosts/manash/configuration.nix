@@ -77,15 +77,6 @@
       "net.ipv6.conf.enp1s0.accept_redirects" = 0;
       "net.ipv6.conf.all.accept_redirects" = 0;
       "net.ipv6.conf.default.accept_redirects" = 0;
-      "net.ipv6.conf.all.use_tempaddr" = 2;
-      "net.ipv6.conf.default.use_tempaddr" = 2;
-      "net.ipv6.conf.enp1s0.use_tempaddr" = 2;
-      "net.ipv6.conf.all.temp_prefered_lft" = 86400;
-      "net.ipv6.conf.default.temp_prefered_lft" = 86400;
-      "net.ipv6.conf.enp1s0.temp_prefered_lft" = 86400;
-      "net.ipv6.conf.all.temp_valid_lft" = 604800;
-      "net.ipv6.conf.default.temp_valid_lft" = 604800;
-      "net.ipv6.conf.enp1s0.temp_valid_lft" = 604800;
       "net.ipv6.route.mtu_expires" = 600;
       "net.ipv6.route.min_adv_mss" = 1220;
 
