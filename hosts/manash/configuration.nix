@@ -206,7 +206,7 @@
   };
 
   services.rke2 = {
-    enable = false;
+    enable = true;
     role = "server";
     cisHardening = true;
     images = with config.services.rke2.package; [
