@@ -179,7 +179,6 @@
       "--cluster-cidr=10.42.0.0/16,2001:cafe:42::/56"
       "--secrets-encryption"
       "--service-cidr=10.43.0.0/16,2001:cafe:43::/112"
-      "--node-ip=100.74.220.28,fd7a:115c:a1e0::8d3a:dc1c"
       "--cni=multus"
       "--cni=canal"
     ];
@@ -289,18 +288,6 @@
     };
 
     manifests = {
-      rke2-canal-config.content = {
-        apiVersion = "helm.cattle.io/v1";
-        kind = "HelmChartConfig";
-        metadata = {
-          name = "rke2-canal";
-          namespace = "kube-system";
-        };
-        spec.valuesContent = builtins.toJSON {
-          flannel.iface = "enp1s0";
-        };
-      };
-
       rke2-coredns-config.content = {
         apiVersion = "helm.cattle.io/v1";
         kind = "HelmChartConfig";
