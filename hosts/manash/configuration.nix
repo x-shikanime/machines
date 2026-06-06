@@ -372,6 +372,18 @@
           nodelocal.enabled = true;
         };
       };
+
+      rke2-multus-config.content = {
+        apiVersion = "helm.cattle.io/v1";
+        kind = "HelmChartConfig";
+        metadata = {
+          name = "rke2-multus";
+          namespace = "kube-system";
+        };
+        spec.valuesContent = builtins.toJSON {
+          manifests.dhcpDaemonSet = true;
+        };
+      };
     };
   };
 
