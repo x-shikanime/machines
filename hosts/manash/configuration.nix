@@ -388,7 +388,7 @@
           namespace = "kube-system";
         };
         spec.valuesContent = builtins.toJSON {
-          rke2-whereabouts.enabled = true;
+          manifests.dhcpDaemonSet = true;
         };
       };
     };
