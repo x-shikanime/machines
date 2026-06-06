@@ -158,9 +158,10 @@
   '';
 
   networking = {
-    # Keep the standard precedence ordering, but strongly prefer IPv4-mapped
-    # addresses when a destination is available over both families. This only
-    # affects glibc consumers
+    # Long-term host policy: prefer IPv4 when a destination is reachable over
+    # both families, while keeping IPv6 available. This is the NixOS-level
+    # abstraction for glibc consumers and should remain even after the
+    # temporary firewall workaround below is removed.
     getaddrinfo.precedence = {
       "::1/128" = 50;
       "::/0" = 40;
@@ -170,6 +171,16 @@
     };
     firewall = {
       enable = true;
+      extraCommands = ''
+        # Temporary runtime workaround: some Go/containerd paths bypass glibc
+        # address selection and still choose public IPv6 for HTTPS pulls.
+        # Reject WAN IPv6 tcp/443 on enp1s0 so registry/CDN traffic falls back
+        # to IPv4 without disabling cluster-internal IPv6.
+        ip6tables -A OUTPUT -o enp1s0 -p tcp --dport 443 -j REJECT
+      '';
+      extraStopCommands = ''
+        ip6tables -D OUTPUT -o enp1s0 -p tcp --dport 443 -j REJECT 2>/dev/null || true
+      '';
       interfaces.enp1s0 = {
         allowedTCPPorts = [
           # Kubernetes API
