@@ -170,6 +170,14 @@
     };
     firewall = {
       enable = true;
+      extraCommands = ''
+        # Force public registry/CDN pulls to prefer IPv4 while preserving
+        # cluster-internal IPv6.
+        ip6tables -A OUTPUT -o enp1s0 -p tcp --dport 443 -j REJECT
+      '';
+      extraStopCommands = ''
+        ip6tables -D OUTPUT -o enp1s0 -p tcp --dport 443 -j REJECT 2>/dev/null || true
+      '';
       interfaces.enp1s0 = {
         allowedTCPPorts = [
           # Kubernetes API
