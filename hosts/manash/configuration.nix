@@ -246,6 +246,7 @@
       "--cni=multus,canal"
       "--kube-controller-manager-arg=node-cidr-mask-size-ipv4=24"
       "--kube-controller-manager-arg=node-cidr-mask-size-ipv6=112"
+      "--kubelet-arg=max-pods=200"
       "--node-ip=100.74.220.28,fd7a:115c:a1e0::8d3a:dc1c"
       "--secrets-encryption"
       "--service-cidr=10.96.0.0/12,fd01::/108"
