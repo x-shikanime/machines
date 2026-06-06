@@ -159,18 +159,6 @@
         "x-systemd.wants=rke2-longhorn-default-disks-config.service"
       ];
     };
-
-    "/mnt/reimu" = {
-      label = "reimu";
-      fsType = "xfs";
-      options = [
-        "nofail"
-        "x-systemd.automount"
-        "x-systemd.device-timeout=10s"
-        "x-systemd.mount-timeout=30s"
-        "x-systemd.wants=rke2-longhorn-default-disks-config.service"
-      ];
-    };
   };
 
   nix.extraOptions = ''
