@@ -135,21 +135,27 @@
 
   hardware.facter.reportPath = ./facter.json;
 
-  fileSystems."/mnt/remilia" = {
-    device = "/dev/disk/by-label/remilia";
+  fileSystems."/mnt/flandre" = {
+    label = "flandre";
     fsType = "xfs";
     options = [
       "nofail"
       "x-systemd.automount"
+      "x-systemd.device-timeout=10s"
+      "x-systemd.mount-timeout=30s"
+      "x-systemd.wants=rke2-longhorn-default-disks-config.service"
     ];
   };
 
-  fileSystems."/mnt/flandre" = {
-    device = "/dev/disk/by-label/flandre";
+  fileSystems."/mnt/remilia" = {
+    label = "remilia";
     fsType = "xfs";
     options = [
       "nofail"
       "x-systemd.automount"
+      "x-systemd.device-timeout=10s"
+      "x-systemd.mount-timeout=30s"
+      "x-systemd.wants=rke2-longhorn-default-disks-config.service"
     ];
   };
 
@@ -227,6 +233,7 @@
       images-canal-linux-amd64-tar-zst
       images-multus-linux-amd64-tar-zst
     ];
+    nodeLabel = [ "node.longhorn.io/create-default-disk=config" ];
     extraFlags = [
       "--cluster-cidr=10.244.0.0/16,fd00::/108"
       "--cni=multus,canal"
@@ -368,7 +375,8 @@
     };
   };
 
-  systemd.services.rke2-sops-age = {
+  systemd.services.rke2-flux-sops-age = {
+    description = "Create sops-age secret for flux-system";
     wants = [ "rke2-server.service" ];
     after = [ "rke2-server.service" ];
     environment.KUBECONFIG = "/etc/rancher/rke2/rke2.yaml";
@@ -386,6 +394,50 @@
             --dry-run=client -o yaml | ${pkgs.kubectl}/bin/kubectl apply -f -
       fi
     '';
+  };
+
+  systemd.services.rke2-longhorn-default-disks-config = {
+    description = "Apply Longhorn default-disks-config annotation";
+    wants = [ "rke2-server.service" ];
+    after = [ "rke2-server.service" ];
+    wantedBy = [ "multi-user.target" ];
+    environment.KUBECONFIG = "/etc/rancher/rke2/rke2.yaml";
+    serviceConfig.Type = "oneshot";
+    preStart = ''
+      until ${pkgs.kubectl}/bin/kubectl get node ${config.networking.hostName} >/dev/null 2>&1; do
+        sleep 1
+      done
+    '';
+    script =
+      let
+        nodeTags = builtins.toJSON [
+          "control-plane"
+          "worker"
+        ];
+
+        longhornDefaultDisksConfig = builtins.toJSON [
+          {
+            path = "/var/lib/longhorn";
+            allowScheduling = true;
+          }
+          {
+            path = "/mnt/flandre";
+            allowScheduling = true;
+            tags = [ "hdd" ];
+          }
+          {
+            path = "/mnt/remilia";
+            allowScheduling = true;
+            tags = [ "hdd" ];
+          }
+        ];
+      in
+      ''
+        ${pkgs.kubectl}/bin/kubectl annotate node ${config.networking.hostName} \
+          node.longhorn.io/default-node-tags='${nodeTags}' \
+          node.longhorn.io/default-disks-config='${longhornDefaultDisksConfig}' \
+          --overwrite
+      '';
   };
 
   services = {
