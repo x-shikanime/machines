@@ -226,13 +226,6 @@
     enable = true;
     role = "server";
     cisHardening = true;
-    images = with config.services.rke2.package; [
-      # Keep RKE2 off live registry pulls during bootstrap; this node has been
-      # failing while fetching the runtime image from Docker Hub.
-      images-core-linux-amd64-tar-zst
-      images-canal-linux-amd64-tar-zst
-      images-multus-linux-amd64-tar-zst
-    ];
     nodeLabel = [ "node.longhorn.io/create-default-disk=config" ];
     extraFlags = [
       "--cluster-cidr=10.244.0.0/16,fd00::/108"
