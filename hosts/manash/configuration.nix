@@ -172,14 +172,23 @@
     firewall = {
       enable = true;
       extraCommands = ''
-        # Temporary runtime workaround: some Go/containerd paths bypass glibc
-        # address selection and still choose public IPv6 for HTTPS pulls.
-        # Reject WAN IPv6 tcp/443 on enp1s0 so registry/CDN traffic falls back
-        # to IPv4 without disabling cluster-internal IPv6.
-        ip6tables -A OUTPUT -o enp1s0 -p tcp --dport 443 -j REJECT
+        # Medium-term host policy: keep local/special-use IPv6 and the
+        # cluster's internal IPv6 ranges, but reject public IPv6 egress on the
+        # WAN interface so runtimes fall back to IPv4.
+        ip6tables -A OUTPUT -o enp1s0 -d ::1/128 -j ACCEPT
+        ip6tables -A OUTPUT -o enp1s0 -d fe80::/10 -j ACCEPT
+        ip6tables -A OUTPUT -o enp1s0 -d fc00::/7 -j ACCEPT
+        ip6tables -A OUTPUT -o enp1s0 -d fd00::/108 -j ACCEPT
+        ip6tables -A OUTPUT -o enp1s0 -d fd01::/108 -j ACCEPT
+        ip6tables -A OUTPUT -o enp1s0 -d 2000::/3 -j REJECT --reject-with icmp6-addr-unreachable
       '';
       extraStopCommands = ''
-        ip6tables -D OUTPUT -o enp1s0 -p tcp --dport 443 -j REJECT 2>/dev/null || true
+        ip6tables -D OUTPUT -o enp1s0 -d ::1/128 -j ACCEPT 2>/dev/null || true
+        ip6tables -D OUTPUT -o enp1s0 -d fe80::/10 -j ACCEPT 2>/dev/null || true
+        ip6tables -D OUTPUT -o enp1s0 -d fc00::/7 -j ACCEPT 2>/dev/null || true
+        ip6tables -D OUTPUT -o enp1s0 -d fd00::/108 -j ACCEPT 2>/dev/null || true
+        ip6tables -D OUTPUT -o enp1s0 -d fd01::/108 -j ACCEPT 2>/dev/null || true
+        ip6tables -D OUTPUT -o enp1s0 -d 2000::/3 -j REJECT --reject-with icmp6-addr-unreachable 2>/dev/null || true
       '';
       interfaces.enp1s0 = {
         allowedTCPPorts = [
@@ -219,9 +228,9 @@
       images-multus-linux-amd64-tar-zst
     ];
     extraFlags = [
-      "--cluster-cidr=10.42.0.0/16,2001:cafe:42::/56"
+      "--cluster-cidr=10.244.0.0/16,fd00::/108"
       "--secrets-encryption"
-      "--service-cidr=10.43.0.0/16,2001:cafe:43::/112"
+      "--service-cidr=10.96.0.0/12,fd01::/108"
       "--node-ip=100.74.220.28,fd7a:115c:a1e0::8d3a:dc1c"
       "--cni=multus,canal"
     ];
@@ -396,7 +405,7 @@
       extraUpFlags = [
         "--ssh"
         "--accept-routes"
-        "--advertise-routes=10.42.0.0/24,2001:cafe:42::/64"
+        "--advertise-routes=10.244.0.0/16,fd00::/108"
       ];
       useRoutingFeatures = "server";
     };
