@@ -1,13 +1,11 @@
 {
   config,
   pkgs,
-  modulesPath,
   ...
 }:
 
 {
   imports = [
-    "${modulesPath}/profiles/headless.nix"
     ../../modules/nixos/base.nix
     ../../modules/nixos/longhorn.nix
   ];
