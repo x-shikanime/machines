@@ -135,28 +135,42 @@
 
   hardware.facter.reportPath = ./facter.json;
 
-  fileSystems."/mnt/flandre" = {
-    label = "flandre";
-    fsType = "xfs";
-    options = [
-      "nofail"
-      "x-systemd.automount"
-      "x-systemd.device-timeout=10s"
-      "x-systemd.mount-timeout=30s"
-      "x-systemd.wants=rke2-longhorn-default-disks-config.service"
-    ];
-  };
+  fileSystems = {
+    "/mnt/flandre" = {
+      label = "flandre";
+      fsType = "xfs";
+      options = [
+        "nofail"
+        "x-systemd.automount"
+        "x-systemd.device-timeout=10s"
+        "x-systemd.mount-timeout=30s"
+        "x-systemd.wants=rke2-longhorn-default-disks-config.service"
+      ];
+    };
 
-  fileSystems."/mnt/remilia" = {
-    label = "remilia";
-    fsType = "xfs";
-    options = [
-      "nofail"
-      "x-systemd.automount"
-      "x-systemd.device-timeout=10s"
-      "x-systemd.mount-timeout=30s"
-      "x-systemd.wants=rke2-longhorn-default-disks-config.service"
-    ];
+    "/mnt/remilia" = {
+      label = "remilia";
+      fsType = "xfs";
+      options = [
+        "nofail"
+        "x-systemd.automount"
+        "x-systemd.device-timeout=10s"
+        "x-systemd.mount-timeout=30s"
+        "x-systemd.wants=rke2-longhorn-default-disks-config.service"
+      ];
+    };
+
+    "/mnt/reimu" = {
+      label = "reimu";
+      fsType = "xfs";
+      options = [
+        "nofail"
+        "x-systemd.automount"
+        "x-systemd.device-timeout=10s"
+        "x-systemd.mount-timeout=30s"
+        "x-systemd.wants=rke2-longhorn-default-disks-config.service"
+      ];
+    };
   };
 
   nix.extraOptions = ''
