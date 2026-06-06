@@ -22,11 +22,16 @@
     ];
   };
 
-  # Let Docker manage /etc/resolv.conf
+  # Prevent resolvconf from overriding Docker managed resolv.conf
   environment.etc."resolv.conf".enable = false;
 
-  # Let Kubernetes manage the network configuration
-  networking.useDHCP = false;
+  networking = {
+    # Let Kubernetes manage the network configuration
+    useDHCP = false;
+
+    # Let Docker manage /etc/resolv.conf
+    resolvconf.enable = false;
+  };
 
   programs.nix-ld = {
     enable = true;
