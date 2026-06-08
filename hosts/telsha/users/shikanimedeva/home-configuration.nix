@@ -15,12 +15,6 @@ let
   toml = pkgs.formats.toml { };
   yaml = pkgs.formats.yaml { };
 
-  saplingConfigDir =
-    if pkgs.stdenv.hostPlatform.isDarwin then
-      "Library/Preferences/sapling"
-    else
-      removePrefix config.home.homeDirectory "${config.xdg.configHome}/sapling";
-
   name = "William Phetsinorath";
   signingKey = "0CC037FFEA0769A1";
 in
@@ -38,7 +32,7 @@ in
   ];
 
   home = {
-    file."${saplingConfigDir}/sapling.conf".source =
+    file."Library/Preferences/sapling/sapling.conf".source =
       config.lib.file.mkOutOfStoreSymlink config.sops.templates.sapling-config.path;
     sessionVariables = {
       GHSTACKRC_PATH = config.lib.file.mkOutOfStoreSymlink config.sops.templates.ghstack-config.path;
@@ -109,19 +103,19 @@ in
         };
         mode = "0640";
       };
-      git-config.file = gitIni.generate "config" {
-        user = {
-          inherit name;
-          inherit signingKey;
-          email = config.sops.placeholder.shikanime-studio-email;
-        };
-      };
       glab-cli-config.file = yaml.generate "config.yaml" {
         git_protocol = "https";
         hosts.gitlab.com = {
           api_host = "gitlab.com";
           api_protocol = "https";
           token = config.sops.placeholder.gitlab-token;
+        };
+      };
+      git-config.file = gitIni.generate "config" {
+        user = {
+          inherit name;
+          inherit signingKey;
+          email = config.sops.placeholder.shikanime-studio-email;
         };
       };
       jujutsu-config.file = toml.generate "config.toml" {

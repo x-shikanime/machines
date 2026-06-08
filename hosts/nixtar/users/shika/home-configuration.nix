@@ -30,7 +30,7 @@ in
     ../../../../modules/home/zed-editor.nix
   ];
 
-  home.sessionVariables.GHSTACKRC_PATH = config.file.mkOutOfStoreSymlink config.sops.templates.ghstack-config.path;
+  home.sessionVariables.GHSTACKRC_PATH = config.lib.file.mkOutOfStoreSymlink config.sops.templates.ghstack-config.path;
 
   nix.extraOptions = ''
     !include ${config.sops.templates.nix-config.path}
@@ -43,7 +43,7 @@ in
 
     git = {
       includes = [
-        { path = config.file.mkOutOfStoreSymlink config.sops.templates.git-config.path; }
+        { path = config.lib.file.mkOutOfStoreSymlink config.sops.templates.git-config.path; }
       ];
       signing = {
         format = "openpgp";
@@ -69,19 +69,15 @@ in
         authToken = config.sops.placeholder.cachix-token;
         hostname = "https://cachix.org";
       };
-      ghstack-config.file = ini.generate "ghstackrc" {
-        ghstack = {
-          github_oauth = config.sops.placeholder.github-token;
-          github_url = "github.com";
-          github_username = "shikanime";
+      ghstack-config = {
+        file = ini.generate "ghstackrc" {
+          ghstack = {
+            github_oauth = config.sops.placeholder.github-token;
+            github_url = "github.com";
+            github_username = "shikanime";
+          };
         };
-      };
-      git-config.file = gitIni.generate "config" {
-        user = {
-          inherit name;
-          inherit signingKey;
-          email = config.sops.placeholder.shikanime-studio-email;
-        };
+        mode = "0640";
       };
       glab-cli-config.file = yaml.generate "config.yaml" {
         git_protocol = "https";
@@ -89,6 +85,13 @@ in
           api_host = "gitlab.com";
           api_protocol = "https";
           token = config.sops.placeholder.gitlab-token;
+        };
+      };
+      git-config.file = gitIni.generate "config" {
+        user = {
+          inherit name;
+          inherit signingKey;
+          email = config.sops.placeholder.shikanime-studio-email;
         };
       };
       jujutsu-config.file = toml.generate "config.toml" {
@@ -143,16 +146,24 @@ in
           "mergiraf.args" = "merge --git $base $local $other -o $output";
           "mergiraf.priority" = 30;
         };
+        ui = {
+          editor = "hx";
+          username = "${name} <${config.sops.placeholder.shikanime-studio-email}>";
+        };
       };
     };
   };
 
   xdg.configFile = {
     "cachix/cachix.dhall".source =
-      config.file.mkOutOfStoreSymlink config.sops.templates.cachix-config.path;
+      config.lib.file.mkOutOfStoreSymlink config.sops.templates.cachix-config.path;
+    "glab-cli/config.yml" = {
+      force = true;
+      source = config.lib.file.mkOutOfStoreSymlink config.sops.templates.glab-cli-config.path;
+    };
     "jj/conf.d/default.toml".source =
-      config.file.mkOutOfStoreSymlink config.sops.templates.jujutsu-config.path;
+      config.lib.file.mkOutOfStoreSymlink config.sops.templates.jujutsu-config.path;
     "sapling/sapling.conf".source =
-      config.file.mkOutOfStoreSymlink config.sops.templates.sapling-config.path;
+      config.lib.file.mkOutOfStoreSymlink config.sops.templates.sapling-config.path;
   };
 }
