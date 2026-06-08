@@ -9,10 +9,11 @@ with lib;
 
 let
   toDhall = generators.toDhall { };
-  toINI = generators.toINI { };
-  toYAML = generators.toYAML { };
 
+  gitIni = pkgs.formats.gitIni { };
+  ini = pkgs.formats.ini { };
   toml = pkgs.formats.toml { };
+  yaml = pkgs.formats.yaml { };
 
   saplingConfigDir =
     if pkgs.stdenv.hostPlatform.isDarwin then
@@ -99,7 +100,7 @@ in
         hostname = "https://cachix.org";
       };
       ghstack-config = {
-        content = toINI {
+        file = ini.generate "ghstackrc" {
           ghstack = {
             github_oauth = config.sops.placeholder.github-token;
             github_url = "github.com";
@@ -108,14 +109,14 @@ in
         };
         mode = "0640";
       };
-      git-config.content = generators.toGitINI {
+      git-config.file = gitIni.generate "config" {
         user = {
           inherit email;
           inherit name;
           inherit signingKey;
         };
       };
-      glab-cli-config.content = toYAML {
+      glab-cli-config.file = yaml.generate "config.yaml" {
         git_protocol = "https";
         hosts.gitlab.com = {
           api_host = "gitlab.com";
@@ -123,7 +124,7 @@ in
           token = config.sops.placeholder.gitlab-token;
         };
       };
-      jujutsu-config.file = toml.generate "jujutsu-config" {
+      jujutsu-config.file = toml.generate "config.toml" {
         "--scope" = [
           {
             "--when.repositories" = [ "~/Source/Repos/github.com/cloud-pi-native" ];
@@ -147,7 +148,7 @@ in
       nix-config.content = ''
         extra-access-tokens = "github.com=${config.sops.placeholder.nix-access-token}";
       '';
-      sapling-config.content = toINI {
+      sapling-config.file = ini.generate "sapling.conf" {
         alias = {
           ci = "ci --message-field Signed-off-by=\"${name} <${email}>\"";
           commit = "commit --message-field Signed-off-by=\"${name} <${email}>\"";
