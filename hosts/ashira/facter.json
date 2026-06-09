@@ -36,10 +36,10 @@
         "sysfs_bus_id": "3-10:1.0",
         "module_alias": "usb:v8087p0026d0002dcE0dsc01dp01icE0isc01ip01in00",
         "model": "Bluetooth Device",
-        "index": 35,
+        "index": 33,
         "driver": "btusb",
         "driver_module": "btusb",
-        "attached_to": 34,
+        "attached_to": 32,
         "driver_modules": ["btusb"],
         "drivers": ["btusb"],
         "device": { "hex": "0026", "value": 38 },
@@ -84,10 +84,10 @@
         "sysfs_bus_id": "3-10:1.1",
         "module_alias": "usb:v8087p0026d0002dcE0dsc01dp01icE0isc01ip01in01",
         "model": "Bluetooth Device",
-        "index": 39,
+        "index": 36,
         "driver": "btusb",
         "driver_module": "btusb",
-        "attached_to": 34,
+        "attached_to": 32,
         "driver_modules": ["btusb"],
         "drivers": ["btusb"],
         "device": { "hex": "0026", "value": 38 },
@@ -476,7 +476,7 @@
           }
         ],
         "model": "CT1000E100SSD8",
-        "serial": "2533EADB1FD6",
+        "serial": "2534EADBC740",
         "sysfs_id": "/class/block/nvme0n1",
         "sysfs_device_link": "/devices/pci0000:00/0000:00:1d.0/0000:03:00.0/nvme/nvme0",
         "sysfs_bus_id": "nvme0",
@@ -499,9 +499,9 @@
         "class_list": ["disk", "block_device", "nvme"],
         "bus_type": { "name": "NVME", "hex": "0096", "value": 150 },
         "unix_device_names": [
-          "/dev/disk/by-id/nvme-CT1000E100SSD8_2533EADB1FD6",
-          "/dev/disk/by-id/nvme-CT1000E100SSD8_2533EADB1FD6_1",
-          "/dev/disk/by-id/nvme-eui.000000000000000000a07501eadb1fd6",
+          "/dev/disk/by-id/nvme-CT1000E100SSD8_2534EADBC740",
+          "/dev/disk/by-id/nvme-CT1000E100SSD8_2534EADBC740_1",
+          "/dev/disk/by-id/nvme-eui.000000000000000000a07501eadbc740",
           "/dev/disk/by-path/pci-0000:03:00.0-nvme-1",
           "/dev/nvme0n1"
         ],
@@ -509,14 +509,6 @@
       },
       {
         "resources": [
-          {
-            "type": "baud",
-            "bits": 0,
-            "handshake": 0,
-            "parity": 0,
-            "speed": 480000000,
-            "stop_bits": 0
-          },
           {
             "type": "disk_geo",
             "cylinders": 7630885,
@@ -535,8 +527,8 @@
         "model": "SABRENT Disk",
         "module_alias": "usb:v152DpA578d0100dc00dsc00dp00ic08isc06ip62in00",
         "unix_device_name2": "/dev/sg0",
-        "sysfs_id": "/class/block/sdb",
-        "sysfs_device_link": "/devices/pci0000:00/0000:00:14.0/usb3/3-5/3-5:1.0/host0/target0:0:0/0:0:0:0",
+        "sysfs_id": "/class/block/sda",
+        "sysfs_device_link": "/devices/pci0000:00/0000:00:14.0/usb4/4-1/4-1:1.0/host0/target0:0:0/0:0:0:0",
         "driver": "uas",
         "driver_module": "uas",
         "sysfs_bus_id": "0:0:0:0",
@@ -557,66 +549,14 @@
         "class_list": ["disk", "usb", "scsi", "block_device"],
         "bus_type": { "name": "SCSI", "hex": "0084", "value": 132 },
         "unix_device_names": [
-          "/dev/disk/by-id/ata-ST8000VN002-2ZM188_ZPV0HR7T",
+          "/dev/disk/by-id/ata-ST8000VN002-2ZM188_ZPV0WD95",
           "/dev/disk/by-id/usb-SABRENT_SABRENT_DD5641988396B-0:0",
-          "/dev/disk/by-id/wwn-0x5000c500e8524fdc",
-          "/dev/disk/by-label/flandre",
-          "/dev/disk/by-path/pci-0000:00:14.0-usb-0:5:1.0-scsi-0:0:0:0",
-          "/dev/disk/by-path/pci-0000:00:14.0-usbv2-0:5:1.0-scsi-0:0:0:0",
-          "/dev/disk/by-uuid/c2b1e8f5-534f-4dd8-abd8-446230d6185a",
-          "/dev/sdb"
-        ],
-        "vendor": { "name": "SABRENT", "hex": "152d", "value": 5421 }
-      },
-      {
-        "resources": [
-          {
-            "type": "disk_geo",
-            "cylinders": 7630885,
-            "geo_type": "logical",
-            "heads": 64,
-            "sectors": 32,
-            "size": "0x0"
-          },
-          {
-            "type": "size",
-            "unit": "sectors",
-            "value_1": 15628053168,
-            "value_2": 512
-          }
-        ],
-        "model": "SABRENT Disk",
-        "module_alias": "usb:v152DpA578d0114dc00dsc00dp00ic08isc06ip62in00",
-        "unix_device_name2": "/dev/sg1",
-        "sysfs_id": "/class/block/sdc",
-        "sysfs_device_link": "/devices/pci0000:00/0000:00:14.0/usb4/4-2/4-2:1.0/host2/target2:0:0/2:0:0:0",
-        "driver": "uas",
-        "driver_module": "uas",
-        "sysfs_bus_id": "2:0:0:0",
-        "serial": "DB9876543213F",
-        "index": 32,
-        "attached_to": 27,
-        "base_class": {
-          "name": "Mass Storage Device",
-          "hex": "0106",
-          "value": 262
-        },
-        "revision": { "name": "0114", "hex": "0000", "value": 0 },
-        "drivers": ["sd", "uas"],
-        "slot": { "bus": 2, "number": 0 },
-        "sub_class": { "name": "Disk", "hex": "0000", "value": 0 },
-        "driver_modules": ["sd_mod", "uas"],
-        "device": { "hex": "a578", "value": 42360 },
-        "class_list": ["disk", "usb", "scsi", "block_device"],
-        "bus_type": { "name": "SCSI", "hex": "0084", "value": 132 },
-        "unix_device_names": [
-          "/dev/disk/by-id/ata-ST8000VN002-2ZM188_ZPV0HQ9L",
-          "/dev/disk/by-id/wwn-0x5000c500e85259c4",
-          "/dev/disk/by-label/remilia",
-          "/dev/disk/by-path/pci-0000:00:14.0-usb-0:2:1.0-scsi-0:0:0:0",
-          "/dev/disk/by-path/pci-0000:00:14.0-usbv3-0:2:1.0-scsi-0:0:0:0",
-          "/dev/disk/by-uuid/ce8b0121-bd5f-419d-8a03-68620257758f",
-          "/dev/sdc"
+          "/dev/disk/by-id/wwn-0x5000c500fd787c90",
+          "/dev/disk/by-label/patchouli",
+          "/dev/disk/by-path/pci-0000:00:14.0-usb-0:1:1.0-scsi-0:0:0:0",
+          "/dev/disk/by-path/pci-0000:00:14.0-usbv3-0:1:1.0-scsi-0:0:0:0",
+          "/dev/disk/by-uuid/4ffdf459-b326-4702-a21a-8a9613ed2f17",
+          "/dev/sda"
         ],
         "vendor": { "name": "SABRENT", "hex": "152d", "value": 5421 }
       }
@@ -632,21 +572,25 @@
             "range": 64
           }
         ],
-        "label": "Onboard - Video",
+        "index": 26,
         "sysfs_id": "/devices/pci0000:00/0000:00:02.0",
         "sysfs_bus_id": "0000:00:02.0",
         "module_alias": "pci:v00008086d000046D4sv00008086sd00007270bc03sc00i00",
-        "attached_to": 0,
         "model": "Intel VGA compatible controller",
-        "index": 26,
+        "attached_to": 0,
+        "driver": "i915",
+        "driver_module": "i915",
+        "label": "Onboard - Video",
+        "device": { "hex": "46d4", "value": 18132 },
+        "drivers": ["i915"],
+        "driver_modules": ["i915"],
         "detail": {
-          "command": 7,
+          "command": 1031,
           "function": 0,
           "header_type": 0,
           "prog_if": 0,
           "secondary_bus": 0
         },
-        "device": { "hex": "46d4", "value": 18132 },
         "class_list": ["graphics_card", "pci"],
         "pci_interface": { "name": "VGA", "hex": "0000", "value": 0 },
         "slot": { "bus": 0, "number": 2 },
@@ -691,7 +635,7 @@
         "driver": "hub",
         "driver_module": "usbcore",
         "hotplug": "usb",
-        "index": 34,
+        "index": 32,
         "device": { "name": "xHCI Host Controller", "hex": "0002", "value": 2 },
         "base_class": { "name": "Hub", "hex": "010a", "value": 266 },
         "drivers": ["hub"],
@@ -753,7 +697,7 @@
         "driver_modules": ["usbcore"],
         "drivers": ["hub"],
         "hotplug": "usb",
-        "index": 36,
+        "index": 34,
         "model": "Linux 6.18.33 xhci-hcd xHCI Host Controller",
         "module_alias": "usb:v1D6Bp0003d0618dc09dsc00dp03ic09isc00ip00in00",
         "revision": { "name": "6.18", "hex": "0000", "value": 0 },
@@ -787,7 +731,7 @@
         "driver": "hub",
         "driver_module": "usbcore",
         "hotplug": "usb",
-        "index": 38,
+        "index": 35,
         "device": { "name": "xHCI Host Controller", "hex": "0002", "value": 2 },
         "base_class": { "name": "Hub", "hex": "010a", "value": 266 },
         "drivers": ["hub"],
@@ -849,7 +793,7 @@
         "driver_modules": ["usbcore"],
         "drivers": ["hub"],
         "hotplug": "usb",
-        "index": 40,
+        "index": 38,
         "model": "Linux 6.18.33 xhci-hcd xHCI Host Controller",
         "module_alias": "usb:v1D6Bp0003d0618dc09dsc00dp03ic09isc00ip00in00",
         "revision": { "name": "6.18", "hex": "0000", "value": 0 },
@@ -1090,48 +1034,11 @@
     ],
     "network_interface": [
       {
-        "attached_to": 0,
-        "base_class": {
-          "name": "Network Interface",
-          "hex": "0107",
-          "value": 263
-        },
-        "class_list": ["network_interface"],
-        "index": 46,
-        "model": "Loopback network interface",
-        "sub_class": { "name": "Loopback", "hex": "0000", "value": 0 },
-        "sysfs_id": "/class/net/lo",
-        "unix_device_names": ["lo"]
-      },
-      {
-        "resources": [
-          { "type": "hwaddr", "address": 55 },
-          { "type": "phwaddr", "address": 55 }
-        ],
-        "index": 52,
-        "sysfs_id": "/class/net/enp2s0",
-        "sysfs_device_link": "/devices/pci0000:00/0000:00:1c.3/0000:02:00.0",
-        "driver": "igc",
-        "driver_module": "igc",
-        "model": "Ethernet network interface",
-        "attached_to": 13,
-        "drivers": ["igc"],
-        "driver_modules": ["igc"],
-        "sub_class": { "name": "Ethernet", "hex": "0001", "value": 1 },
-        "class_list": ["network_interface"],
-        "base_class": {
-          "name": "Network Interface",
-          "hex": "0107",
-          "value": 263
-        },
-        "unix_device_names": ["enp2s0"]
-      },
-      {
         "resources": [
           { "type": "hwaddr", "address": 57 },
           { "type": "phwaddr", "address": 57 }
         ],
-        "index": 57,
+        "index": 40,
         "sysfs_id": "/class/net/wlo1",
         "sysfs_device_link": "/devices/pci0000:00/0000:00:14.3",
         "driver": "iwlwifi",
@@ -1154,7 +1061,7 @@
           { "type": "hwaddr", "address": 55 },
           { "type": "phwaddr", "address": 55 }
         ],
-        "index": 76,
+        "index": 42,
         "sysfs_id": "/class/net/enp1s0",
         "sysfs_device_link": "/devices/pci0000:00/0000:00:1c.0/0000:01:00.0",
         "driver": "igc",
@@ -1171,6 +1078,43 @@
           "value": 263
         },
         "unix_device_names": ["enp1s0"]
+      },
+      {
+        "attached_to": 0,
+        "base_class": {
+          "name": "Network Interface",
+          "hex": "0107",
+          "value": 263
+        },
+        "class_list": ["network_interface"],
+        "index": 60,
+        "model": "Loopback network interface",
+        "sub_class": { "name": "Loopback", "hex": "0000", "value": 0 },
+        "sysfs_id": "/class/net/lo",
+        "unix_device_names": ["lo"]
+      },
+      {
+        "resources": [
+          { "type": "hwaddr", "address": 55 },
+          { "type": "phwaddr", "address": 55 }
+        ],
+        "index": 63,
+        "sysfs_id": "/class/net/enp2s0",
+        "sysfs_device_link": "/devices/pci0000:00/0000:00:1c.3/0000:02:00.0",
+        "driver": "igc",
+        "driver_module": "igc",
+        "model": "Ethernet network interface",
+        "attached_to": 13,
+        "drivers": ["igc"],
+        "driver_modules": ["igc"],
+        "sub_class": { "name": "Ethernet", "hex": "0001", "value": 1 },
+        "class_list": ["network_interface"],
+        "base_class": {
+          "name": "Network Interface",
+          "hex": "0107",
+          "value": 263
+        },
+        "unix_device_names": ["enp2s0"]
       }
     ],
     "pci": [
