@@ -4,6 +4,24 @@
 {
   flake = {
     nixosConfigurations = {
+      ashira = inputs.nixpkgs.lib.nixosSystem {
+        pkgs = import inputs.nixpkgs {
+          system = "x86_64-linux";
+          config.allowUnfree = true;
+        };
+        modules = [
+          ../../hosts/ashira/configuration.nix
+          inputs.disko.nixosModules.disko
+          inputs.home-manager.nixosModules.home-manager
+          inputs.sops-nix.nixosModules.sops
+          {
+            home-manager.sharedModules = [
+              inputs.devlib.homeModules.default
+              inputs.sops-nix.homeModules.default
+            ];
+          }
+        ];
+      };
       manash = inputs.nixpkgs.lib.nixosSystem {
         pkgs = import inputs.nixpkgs {
           system = "x86_64-linux";
@@ -11,6 +29,24 @@
         };
         modules = [
           ../../hosts/manash/configuration.nix
+          inputs.disko.nixosModules.disko
+          inputs.home-manager.nixosModules.home-manager
+          inputs.sops-nix.nixosModules.sops
+          {
+            home-manager.sharedModules = [
+              inputs.devlib.homeModules.default
+              inputs.sops-nix.homeModules.default
+            ];
+          }
+        ];
+      };
+      nalsha = inputs.nixpkgs.lib.nixosSystem {
+        pkgs = import inputs.nixpkgs {
+          system = "x86_64-linux";
+          config.allowUnfree = true;
+        };
+        modules = [
+          ../../hosts/nalsha/configuration.nix
           inputs.disko.nixosModules.disko
           inputs.home-manager.nixosModules.home-manager
           inputs.sops-nix.nixosModules.sops
@@ -46,6 +82,7 @@
 
     packages = {
       x86_64-linux = {
+        ashira = self.nixosConfigurations.ashira.config.system.build.toplevel;
         catbox =
           let
             catbox = inputs.nixpkgs.lib.nixosSystem {
@@ -68,6 +105,7 @@
           in
           catbox.config.system.build.buildLayeredImage;
         manash = self.nixosConfigurations.manash.config.system.build.toplevel;
+        nalsha = self.nixosConfigurations.nalsha.config.system.build.toplevel;
         nixtar = self.nixosConfigurations.nixtar.config.system.build.tarballBuilder;
       };
       aarch64-linux = {

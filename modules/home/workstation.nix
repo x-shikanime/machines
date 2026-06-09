@@ -80,6 +80,10 @@ with lib;
     ssh = {
       enable = true;
       settings = {
+        "ashira.taila659a.ts.net" = {
+          User = "shika";
+          SetEnv.TERM = "xterm-256color";
+        };
         "catbox.taila659a.ts.net" = {
           User = "shika";
           SetEnv.TERM = "xterm-256color";
@@ -89,6 +93,10 @@ with lib;
           SetEnv.TERM = "xterm-256color";
         };
         "manash.taila659a.ts.net" = {
+          User = "shika";
+          SetEnv.TERM = "xterm-256color";
+        };
+        "nalsha.taila659a.ts.net" = {
           User = "shika";
           SetEnv.TERM = "xterm-256color";
         };

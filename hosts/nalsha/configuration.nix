@@ -145,36 +145,16 @@
     };
   };
 
-  fileSystems = {
-    "/mnt/flandre" = {
-      label = "flandre";
-      fsType = "xfs";
-      options = [
-        "nofail"
-        "x-systemd.automount"
-        "x-systemd.device-timeout=10s"
-        "x-systemd.mount-timeout=30s"
-      ];
-    };
-
-    "/mnt/remilia" = {
-      label = "remilia";
-      fsType = "xfs";
-      options = [
-        "nofail"
-        "x-systemd.automount"
-        "x-systemd.device-timeout=10s"
-        "x-systemd.mount-timeout=30s"
-      ];
-    };
-  };
-
-  networking.hostName = "manash";
+  networking.hostName = "nalsha";
 
   shikanime.rke2 = {
     enable = true;
     tailscale.enable = true;
-    extraConfig.nodeIP = "100.74.220.28,fd7a:115c:a1e0::8d3a:dc1c";
+    extraConfig = {
+      nodeIP = "100.74.220.28,fd7a:115c:a1e0::8d3a:dc1c";
+      serverAddr = "https://manash.taila659a.ts.net:9345";
+      tokenFile = config.sops.secrets.rke2-token.path;
+    };
     longhorn.enable = true;
     flux = {
       enable = true;
@@ -216,10 +196,11 @@
 
   sops = {
     age.sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
-    defaultSopsFile = ../../secrets/manash.enc.yaml;
+    defaultSopsFile = ../../secrets/nalsha.enc.yaml;
     defaultSopsFormat = "yaml";
     secrets = {
       nix-access-token = { };
+      rke2-token = { };
       tailscale-authkey = { };
     };
     templates.nix-config.content = ''

@@ -1,5 +1,4 @@
 {
-  config,
   modulesPath,
   pkgs,
   ...
@@ -92,10 +91,6 @@ in
 
   networking.hostName = "nixtar";
 
-  nix.extraOptions = ''
-    !include ${config.sops.templates.nix-config.path}
-  '';
-
   programs.nix-ld = {
     enable = true;
     libraries = [
@@ -121,10 +116,6 @@ in
     };
     defaultSopsFile = ../../secrets/nixtar.enc.yaml;
     defaultSopsFormat = "yaml";
-    secrets.nix-access-token = { };
-    templates.nix-config.content = ''
-      extra-access-tokens = "github.com=${config.sops.placeholder.nix-access-token}";
-    '';
   };
 
   users.users.shika = {

@@ -90,11 +90,31 @@
             in
             [
               {
+                path_regex = "secrets/ashira.enc.yaml";
+                key_groups = [
+                  {
+                    age = age ++ [
+                      "age1f4yuh4j3gqafjduusfpxz3na9xtwth9s6gznq043mfex0zglp5jqkkdm64" # placeholder
+                    ];
+                  }
+                ];
+              }
+              {
                 path_regex = "secrets/manash.enc.yaml";
                 key_groups = [
                   {
                     age = age ++ [
                       "age1f4yuh4j3gqafjduusfpxz3na9xtwth9s6gznq043mfex0zglp5jqkkdm64" # host
+                    ];
+                  }
+                ];
+              }
+              {
+                path_regex = "secrets/nalsha.enc.yaml";
+                key_groups = [
+                  {
+                    age = age ++ [
+                      "age1f4yuh4j3gqafjduusfpxz3na9xtwth9s6gznq043mfex0zglp5jqkkdm64" # placeholder
                     ];
                   }
                 ];
