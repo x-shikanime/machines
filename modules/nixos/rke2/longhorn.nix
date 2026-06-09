@@ -67,6 +67,11 @@ with lib;
       wantedBy = [ "multi-user.target" ];
       environment.KUBECONFIG = "/etc/rancher/rke2/rke2.yaml";
       serviceConfig.Type = "oneshot";
+      preStart = ''
+        until ${pkgs.kubectl}/bin/kubectl get node ${config.networking.hostName} >/dev/null 2>&1; do
+          sleep 1
+        done
+      '';
       script =
         let
           mountRoot = cfg.longhorn.mountRoot;
@@ -148,10 +153,6 @@ with lib;
               done
             } | ${pkgs.jq}/bin/jq -sc '.'
           )"
-
-          until ${pkgs.kubectl}/bin/kubectl get node ${config.networking.hostName} >/dev/null 2>&1; do
-            sleep 1
-          done
 
           ${pkgs.kubectl}/bin/kubectl annotate node ${config.networking.hostName} \
             node.longhorn.io/default-disks-config="$longhornDefaultDisksConfig" \

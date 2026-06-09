@@ -141,11 +141,12 @@ with lib;
       after = [ "rke2-server.service" ];
       environment.KUBECONFIG = "/etc/rancher/rke2/rke2.yaml";
       serviceConfig.Type = "oneshot";
-      script = ''
+      preStart = ''
         until ${pkgs.kubectl}/bin/kubectl get namespace flux-system >/dev/null 2>&1; do
           sleep 1
         done
-
+      '';
+      script = ''
         if ! ${pkgs.kubectl}/bin/kubectl -n flux-system get secret sops-age >/dev/null 2>&1; then
           ${pkgs.ssh-to-age}/bin/ssh-to-age -private-key -i /etc/ssh/ssh_host_ed25519_key | \
             ${pkgs.kubectl}/bin/kubectl -n flux-system create secret generic sops-age \
