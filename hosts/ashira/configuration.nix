@@ -150,7 +150,11 @@
   shikanime.rke2 = {
     enable = true;
     tailscale.enable = true;
-    extraConfig.nodeIP = "100.74.220.28,fd7a:115c:a1e0::8d3a:dc1c";
+    extraConfig = {
+      nodeIP = "100.74.220.28,fd7a:115c:a1e0::8d3a:dc1c";
+      serverAddr = "https://100.74.220.28:9345";
+      tokenFile = config.sops.secrets.rke2-token.path;
+    };
     longhorn.enable = true;
     flux = {
       enable = true;
@@ -196,6 +200,7 @@
     defaultSopsFormat = "yaml";
     secrets = {
       nix-access-token = { };
+      rke2-token = { };
       tailscale-authkey = { };
     };
     templates.nix-config.content = ''

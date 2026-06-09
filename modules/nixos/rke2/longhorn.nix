@@ -45,13 +45,12 @@ with lib;
 
     boot.supportedFilesystems = [ "nfs" ];
 
-    environment.systemPackages = with pkgs;
-      [
-        cryptsetup
-        lvm2
-        nfs-utils
-        openiscsi
-      ];
+    environment.systemPackages = with pkgs; [
+      cryptsetup
+      lvm2
+      nfs-utils
+      openiscsi
+    ];
 
     systemd.tmpfiles.rules = [
       "L+ /usr/local/bin - - - - /run/current-system/sw/bin/"
