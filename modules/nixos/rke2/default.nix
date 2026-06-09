@@ -124,10 +124,15 @@ with lib;
         ip6tables -D OUTPUT -o ${cfg.interface} -d fd01::/108 -j ACCEPT 2>/dev/null || true
         ip6tables -D OUTPUT -o ${cfg.interface} -d 2000::/3 -j REJECT --reject-with icmp6-addr-unreachable 2>/dev/null || true
       '';
-      interfaces.${cfg.interface}.allowedTCPPorts = [
-        6443
-        9345
-      ];
+      interfaces.${cfg.interface} = {
+        allowedTCPPorts = [
+          6443
+          9345
+        ];
+        allowedUDPPorts = [
+          8472
+        ];
+      };
       allowedTCPPortRanges = [
         {
           from = 30000;
