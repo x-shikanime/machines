@@ -85,6 +85,7 @@ in
       github-token = { };
       gitlab-token = { };
       gouv-email = { };
+      gouv-signing-key = { };
       shikanime-studio-email = { };
       nix-access-token = { };
     };
