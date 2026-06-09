@@ -6,10 +6,6 @@
     ../../modules/nixos/rke2
   ];
 
-  home-manager.users.nishir.imports = [
-    ./users/nishir/home-configuration.nix
-  ];
-
   boot = {
     # Kubernetes and Longhorn rely on bridge netfilter and overlayfs; BBR
     # improves WAN/Tailnet flows
@@ -127,6 +123,17 @@
     };
   };
 
+  fileSystems."/mnt/flandre" = {
+    label = "flandre";
+    fsType = "xfs";
+    options = [
+      "nofail"
+      "x-systemd.automount"
+      "x-systemd.device-timeout=10s"
+      "x-systemd.mount-timeout=30s"
+    ];
+  };
+
   hardware = {
     # Intel N150 needs firmware plus userspace graphics/QSV libraries so the
     # Jellyfin pod can use VAAPI/QSV via /dev/dri/renderD128.
@@ -145,18 +152,22 @@
     };
   };
 
-  fileSystems."/mnt/flandre" = {
-    label = "flandre";
-    fsType = "xfs";
-    options = [
-      "nofail"
-      "x-systemd.automount"
-      "x-systemd.device-timeout=10s"
-      "x-systemd.mount-timeout=30s"
-    ];
-  };
+  home-manager.users.nishir.imports = [
+    ./users/nishir/home-configuration.nix
+  ];
 
   networking.hostName = "manash";
+
+  systemd.services.tailscale-udp-gro-forwarding = {
+    description = "Enable Tailscale UDP GRO forwarding on enp1s0";
+    after = [ "network-online.target" ];
+    wants = [ "network-online.target" ];
+    wantedBy = [ "multi-user.target" ];
+    serviceConfig.Type = "oneshot";
+    script = ''
+      ${pkgs.ethtool}/bin/ethtool -K enp1s0 rx-udp-gro-forwarding on rx-gro-list off
+    '';
+  };
 
   shikanime.rke2 = {
     enable = true;
