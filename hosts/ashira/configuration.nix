@@ -123,8 +123,8 @@
     };
   };
 
-  fileSystems."/mnt/remilia" = {
-    label = "remilia";
+  fileSystems."/mnt/patchouli" = {
+    label = "patchouli";
     fsType = "xfs";
     options = [
       "nofail"
