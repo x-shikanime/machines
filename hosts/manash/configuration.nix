@@ -172,10 +172,7 @@
   shikanime.rke2 = {
     enable = true;
     extraConfig = {
-      extraFlags = [
-        "--tls-san=ashira.taila659a.ts.net,manash.taila659a.ts.net,nalsha.taila659a.ts.net"
-      ];
-      nodeIP = "100.74.220.28,fd7a:115c:a1e0::8d3a:dc1c";
+      nodeIP = "192.168.1.28,2a02:8424:7899:f201:94eb:8d1:325a:7181";
     };
     longhorn.enable = true;
     flux = {
