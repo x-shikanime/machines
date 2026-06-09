@@ -145,28 +145,15 @@
     };
   };
 
-  fileSystems = {
-    "/mnt/flandre" = {
-      label = "flandre";
-      fsType = "xfs";
-      options = [
-        "nofail"
-        "x-systemd.automount"
-        "x-systemd.device-timeout=10s"
-        "x-systemd.mount-timeout=30s"
-      ];
-    };
-
-    "/mnt/remilia" = {
-      label = "remilia";
-      fsType = "xfs";
-      options = [
-        "nofail"
-        "x-systemd.automount"
-        "x-systemd.device-timeout=10s"
-        "x-systemd.mount-timeout=30s"
-      ];
-    };
+  fileSystems."/mnt/flandre" = {
+    label = "flandre";
+    fsType = "xfs";
+    options = [
+      "nofail"
+      "x-systemd.automount"
+      "x-systemd.device-timeout=10s"
+      "x-systemd.mount-timeout=30s"
+    ];
   };
 
   networking.hostName = "manash";
