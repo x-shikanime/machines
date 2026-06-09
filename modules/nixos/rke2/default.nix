@@ -126,8 +126,13 @@ with lib;
       '';
       interfaces.${cfg.interface} = {
         allowedTCPPorts = [
+          2379
+          2380
+          2381
           6443
+          9099
           9345
+          10250
         ];
         allowedUDPPorts = [
           8472
