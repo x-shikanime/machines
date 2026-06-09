@@ -61,6 +61,7 @@ in
       github-token = { };
       gitlab-token = { };
       gouv-email = { };
+      gouv-signing-key = { };
       shikanime-studio-email = { };
       nix-access-token = { };
     };
@@ -98,7 +99,7 @@ in
         "--scope" = [
           {
             "--when.repositories" = [ "~/Source/Repos/github.com/cloud-pi-native" ];
-            signing.key = signingKey;
+            signing.key = config.sops.placeholder.gouv-signing-key;
             user = {
               email = config.sops.placeholder.gouv-email;
               inherit name;
