@@ -224,7 +224,7 @@
       useRoutingFeatures = "server";
       authKeyFile = config.sops.secrets.tailscale-authkey.path;
       extraUpFlags = [
-        "--advertise-routes=10.244.1.0/24,fd00::1:0/112"
+        "--advertise-routes=10.244.2.0/24,fd00::2:0/112"
         "--ssh"
       ];
     };
