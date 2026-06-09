@@ -143,7 +143,7 @@ with lib;
           longhornDefaultDisksConfig="$(
             {
               ${pkgs.jq}/bin/jq -nc '{
-                path: "/var/lib/longhorn",
+                path: "/var/lib/longhorn/",
                 allowScheduling: true
               }'
               for mount_path in ${mountRoot}/*; do
