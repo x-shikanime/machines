@@ -225,7 +225,6 @@
       useRoutingFeatures = "server";
       authKeyFile = config.sops.secrets.tailscale-authkey.path;
       extraUpFlags = [
-        "--accept-routes"
         "--advertise-routes=10.244.0.0/24,fd00::/112"
         "--ssh"
       ];
