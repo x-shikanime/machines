@@ -160,7 +160,6 @@
 
   shikanime.rke2 = {
     enable = true;
-    tailscale.enable = true;
     extraConfig = {
       extraFlags = [
         "--tls-san=ashira.taila659a.ts.net,manash.taila659a.ts.net,nalsha.taila659a.ts.net"
