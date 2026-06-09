@@ -81,15 +81,41 @@ with lib;
         enable = true;
         role = "server";
         cisHardening = true;
-        manifests.rke2-canal-config.content = {
-          apiVersion = "helm.cattle.io/v1";
-          kind = "HelmChartConfig";
-          metadata = {
-            name = "rke2-canal";
-            namespace = "kube-system";
+        manifests = {
+          rke2-canal-config.content = {
+            apiVersion = "helm.cattle.io/v1";
+            kind = "HelmChartConfig";
+            metadata = {
+              name = "rke2-canal";
+              namespace = "kube-system";
+            };
+            spec.valuesContent = builtins.toJSON {
+              flannel.iface = cfg.interface;
+            };
           };
-          spec.valuesContent = builtins.toJSON {
-            flannel.iface = cfg.interface;
+
+          rke2-coredns-config.content = {
+            apiVersion = "helm.cattle.io/v1";
+            kind = "HelmChartConfig";
+            metadata = {
+              name = "rke2-coredns";
+              namespace = "kube-system";
+            };
+            spec.valuesContent = builtins.toJSON {
+              nodelocal.enabled = true;
+            };
+          };
+
+          rke2-multus-config.content = {
+            apiVersion = "helm.cattle.io/v1";
+            kind = "HelmChartConfig";
+            metadata = {
+              name = "rke2-multus";
+              namespace = "kube-system";
+            };
+            spec.valuesContent = builtins.toJSON {
+              manifests.dhcpDaemonSet = true;
+            };
           };
         };
         extraFlags = [
