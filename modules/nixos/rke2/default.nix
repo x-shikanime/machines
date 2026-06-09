@@ -10,7 +10,6 @@ in
 with lib;
 {
   imports = [
-    ./tailscale.nix
     ./longhorn.nix
     ./flux.nix
   ];
