@@ -172,10 +172,7 @@
   shikanime.rke2 = {
     enable = true;
     extraConfig = {
-      extraFlags = [
-        "--tls-san=ashira.taila659a.ts.net,manash.taila659a.ts.net,nalsha.taila659a.ts.net"
-      ];
-      nodeIP = "100.126.72.116,fd7a:115c:a1e0::be3a:4875";
+      nodeIP = "192.168.1.64,2a02:8424:7899:f201:94eb:8d1:325a:7234";
       serverAddr = "https://manash.taila659a.ts.net:9345";
       tokenFile = config.sops.secrets.rke2-token.path;
     };
@@ -227,7 +224,7 @@
       useRoutingFeatures = "server";
       authKeyFile = config.sops.secrets.tailscale-authkey.path;
       extraUpFlags = [
-        "--advertise-routes=10.244.1.0/24,fd00::1:0/112"
+        "--advertise-routes=10.244.3.0/24,fd00::3:0/112"
         "--ssh"
       ];
     };
