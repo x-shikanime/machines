@@ -94,7 +94,7 @@
                 key_groups = [
                   {
                     age = age ++ [
-                      "age1f4yuh4j3gqafjduusfpxz3na9xtwth9s6gznq043mfex0zglp5jqkkdm64" # placeholder
+                      "age1vpchtarg2xchv0dw4n248jgt3ml6m8as2ujr6w296pkreeqlyfuswn72g6"
                     ];
                   }
                 ];
@@ -104,7 +104,7 @@
                 key_groups = [
                   {
                     age = age ++ [
-                      "age1f4yuh4j3gqafjduusfpxz3na9xtwth9s6gznq043mfex0zglp5jqkkdm64" # host
+                      "age1f4yuh4j3gqafjduusfpxz3na9xtwth9s6gznq043mfex0zglp5jqkkdm64"
                     ];
                   }
                 ];
@@ -114,7 +114,7 @@
                 key_groups = [
                   {
                     age = age ++ [
-                      "age1f4yuh4j3gqafjduusfpxz3na9xtwth9s6gznq043mfex0zglp5jqkkdm64" # placeholder
+                      "age1sw9ejchqsjr29p4jwnm2a7j4u4ykr8j95z4kjnvwwkve94cy054qfsrrwl"
                     ];
                   }
                 ];
@@ -124,7 +124,7 @@
                 key_groups = [
                   {
                     age = age ++ [
-                      "age1um232l0h8wn9mtha2qf4f4mnf7ucjayvf5qxjvynatmasg8qg5mshekvjl" # host
+                      "age1um232l0h8wn9mtha2qf4f4mnf7ucjayvf5qxjvynatmasg8qg5mshekvjl"
                     ];
                   }
                 ];
@@ -134,7 +134,7 @@
                 key_groups = [
                   {
                     age = age ++ [
-                      "age1eak84xcr44yfqsg843rfu2xajxsyvjwh67a630htpnd0scy7yu5szjfh8d" # host
+                      "age1eak84xcr44yfqsg843rfu2xajxsyvjwh67a630htpnd0scy7yu5szjfh8d"
                     ];
                   }
                 ];
