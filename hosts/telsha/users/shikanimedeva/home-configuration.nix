@@ -122,7 +122,7 @@ in
         "--scope" = [
           {
             "--when.repositories" = [ "~/Source/Repos/github.com/cloud-pi-native" ];
-            signing.key = signingKey;
+            signing.key = config.sops.placeholder.gouv-signing-key;
             user = {
               email = config.sops.placeholder.gouv-email;
               inherit name;
