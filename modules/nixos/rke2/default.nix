@@ -14,7 +14,7 @@ let
   etcdPeerPort = 2380;
   etcdMetricsPort = 2381;
   canalHealthCheckPort = 9099;
-  wireguardIPv4Port = 51820;
+  wireguardPort = 51820;
   wireguardIPv6Port = 51821;
 
   nodePortRange = {
@@ -179,7 +179,7 @@ with lib;
           canalHealthCheckPort
         ];
         allowedUDPPorts = [
-          wireguardIPv4Port
+          wireguardPort
           wireguardIPv6Port
         ];
         allowedTCPPortRanges = [ nodePortRange ];
