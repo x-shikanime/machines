@@ -215,7 +215,6 @@ with lib;
                   groups = [ "system:masters" ];
                 };
                 type = "Anonymous";
-                rbac.createRoles = true;
               };
             };
           };
