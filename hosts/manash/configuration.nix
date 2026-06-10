@@ -237,7 +237,6 @@
       authKeyFile = config.sops.secrets.tailscale-authkey.path;
       extraUpFlags = [
         "--ssh"
-        "--accept-routes"
         "--advertise-routes=10.244.0.0/16,fd00::/108"
       ];
     };
