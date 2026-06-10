@@ -87,9 +87,6 @@
       "vm.watermark_boost_factor" = 0;
       "vm.watermark_scale_factor" = 125;
     };
-    environment.etc."gai.conf".text = ''
-      precedence ::ffff:0:0/96  100
-    '';
     loader = {
       efi.canTouchEfiVariables = true;
       systemd-boot.enable = true;
