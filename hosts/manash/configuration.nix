@@ -55,13 +55,13 @@
       "net.ipv6.conf.all.forwarding" = 1;
       "net.ipv6.conf.default.forwarding" = 1;
 
-      # This host forwards for Kubernetes/Tailscale, but still learns its WAN
-      # default route via router advertisements.
+      # This host forwards for Kubernetes/Tailscale, but avoids learning a WAN
+      # IPv6 default route so outbound clients fall back to IPv4.
       "net.ipv6.conf.all.accept_ra" = 2;
       "net.ipv6.conf.default.accept_ra" = 2;
       "net.ipv6.conf.enp1s0.accept_ra" = 2;
       "net.ipv6.conf.enp1s0.autoconf" = 1;
-      "net.ipv6.conf.enp1s0.accept_ra_defrtr" = 1;
+      "net.ipv6.conf.enp1s0.accept_ra_defrtr" = 0;
       "net.ipv6.conf.enp1s0.accept_ra_pinfo" = 1;
       "net.ipv6.conf.enp1s0.accept_ra_mtu" = 1;
       "net.ipv6.conf.enp1s0.accept_redirects" = 0;
@@ -87,6 +87,9 @@
       "vm.watermark_boost_factor" = 0;
       "vm.watermark_scale_factor" = 125;
     };
+    environment.etc."gai.conf".text = ''
+      precedence ::ffff:0:0/96  100
+    '';
     loader = {
       efi.canTouchEfiVariables = true;
       systemd-boot.enable = true;
@@ -236,8 +239,8 @@
       useRoutingFeatures = "server";
       authKeyFile = config.sops.secrets.tailscale-authkey.path;
       extraUpFlags = [
+        "--advertise-routes=10.244.0.0/24,fd00::/112"
         "--ssh"
-        "--advertise-routes=10.244.0.0/16,fd00::/108"
       ];
     };
   };
