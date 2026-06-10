@@ -156,20 +156,22 @@ with lib;
       '';
     };
 
-    services.rke2.autoDeployCharts = mkMerge [
-      (optionalAttrs cfg.flux.instance.enable {
-        flux = {
-          repo = "oci://ghcr.io/controlplaneio-fluxcd/charts/flux-instance";
-          name = "flux-instance";
-          hash = cfg.flux.instance.hash;
-          version = cfg.flux.instance.version;
-          targetNamespace = "flux-system";
-          createNamespace = true;
-          values = mkMerge [
-            {
+    services.rke2 = {
+      autoDeployCharts = mkMerge [
+        (optionalAttrs cfg.flux.instance.enable {
+          flux = {
+            repo = "oci://ghcr.io/controlplaneio-fluxcd/charts/flux-instance";
+            name = "flux-instance";
+            hash = cfg.flux.instance.hash;
+            version = cfg.flux.instance.version;
+            targetNamespace = "flux-system";
+            createNamespace = true;
+            values = {
               instance = {
-                distribution.registry = "ghcr.io/fluxcd";
-                distribution.version = "2.x";
+                distribution = {
+                  registry = "ghcr.io/fluxcd";
+                  version = "2.x";
+                };
                 kustomize.patches = [
                   {
                     patch = ''
@@ -183,28 +185,27 @@ with lib;
                     target.kind = "Kustomization";
                   }
                 ];
-                sync.interval = "1m";
-                sync.kind = "GitRepository";
-                sync.path = cfg.flux.path;
-                sync.pullSecret = "";
-                sync.ref = cfg.flux.ref;
-                sync.url = cfg.flux.repoUrl;
+                sync = {
+                  interval = "1m";
+                  kind = "GitRepository";
+                  path = cfg.flux.path;
+                  pullSecret = "";
+                  ref = cfg.flux.ref;
+                  url = cfg.flux.repoUrl;
+                };
               };
-            }
-            cfg.flux.instance.extraConfig
-          ];
-        };
-      })
-      (optionalAttrs cfg.flux.operator.enable {
-        flux-operator = {
-          repo = "oci://ghcr.io/controlplaneio-fluxcd/charts/flux-operator";
-          name = "flux-operator";
-          hash = cfg.flux.operator.hash;
-          version = cfg.flux.operator.version;
-          targetNamespace = "flux-system";
-          createNamespace = true;
-          values = mkMerge [
-            {
+            };
+          };
+        })
+        (optionalAttrs cfg.flux.operator.enable {
+          flux-operator = {
+            repo = "oci://ghcr.io/controlplaneio-fluxcd/charts/flux-operator";
+            name = "flux-operator";
+            hash = cfg.flux.operator.hash;
+            version = cfg.flux.operator.version;
+            targetNamespace = "flux-system";
+            createNamespace = true;
+            values = {
               healthcheck.enabled = true;
               web.config.authentication = {
                 anonymous = {
@@ -214,31 +215,75 @@ with lib;
                 type = "Anonymous";
                 rbac.createRoles = true;
               };
-            }
-            cfg.flux.operator.extraConfig
-          ];
-        };
-      })
-      (optionalAttrs cfg.flux.tofu.enable {
-        tofu-controller = {
-          repo = "https://flux-iac.github.io/tofu-controller";
-          name = "tofu-controller";
-          hash = cfg.flux.tofu.hash;
-          version = cfg.flux.tofu.version;
-          targetNamespace = "flux-system";
-          createNamespace = true;
-          values = mkMerge [
-            {
+            };
+          };
+        })
+        (optionalAttrs cfg.flux.tofu.enable {
+          tofu-controller = {
+            repo = "https://flux-iac.github.io/tofu-controller";
+            name = "tofu-controller";
+            hash = cfg.flux.tofu.hash;
+            version = cfg.flux.tofu.version;
+            targetNamespace = "flux-system";
+            createNamespace = true;
+            values = {
               awsPackage.install = false;
               runner.allowedNamespaces = [
                 "flux-system"
                 "shikanime"
               ];
-            }
-            cfg.flux.tofu.extraConfig
-          ];
-        };
-      })
-    ];
+            };
+          };
+        })
+      ];
+
+      manifests = mkMerge [
+        (optionalAttrs cfg.flux.instance.enable {
+          flux-config = {
+            content = {
+              apiVersion = "helm.cattle.io/v1";
+              kind = "HelmChartConfig";
+              metadata = {
+                name = "flux";
+                namespace = "kube-system";
+              };
+              spec = {
+                values = cfg.flux.instance.extraConfig;
+              };
+            };
+          };
+        })
+        (optionalAttrs cfg.flux.operator.enable {
+          flux-operator-config = {
+            content = {
+              apiVersion = "helm.cattle.io/v1";
+              kind = "HelmChartConfig";
+              metadata = {
+                name = "flux-operator";
+                namespace = "kube-system";
+              };
+              spec = {
+                values = cfg.flux.operator.extraConfig;
+              };
+            };
+          };
+        })
+        (optionalAttrs cfg.flux.tofu.enable {
+          tofu-controller-config = {
+            content = {
+              apiVersion = "helm.cattle.io/v1";
+              kind = "HelmChartConfig";
+              metadata = {
+                name = "tofu-controller";
+                namespace = "kube-system";
+              };
+              spec = {
+                values = cfg.flux.tofu.extraConfig;
+              };
+            };
+          };
+        })
+      ];
+    };
   };
 }
