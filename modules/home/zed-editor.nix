@@ -8,7 +8,6 @@ with lib;
 
     userSettings = {
       agent = {
-        new_thread_location = "new_worktree";
         default_model = {
           provider = "Hermes Agent";
           model = "hermes-agent";
