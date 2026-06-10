@@ -238,7 +238,7 @@ with lib;
       ];
 
       manifests = mkMerge [
-        (optionalAttrs cfg.flux.instance.enable {
+        (optionalAttrs (cfg.flux.instance.enable && cfg.flux.instance.extraConfig != { }) {
           flux-config = {
             content = {
               apiVersion = "helm.cattle.io/v1";
@@ -253,7 +253,7 @@ with lib;
             };
           };
         })
-        (optionalAttrs cfg.flux.operator.enable {
+        (optionalAttrs (cfg.flux.operator.enable && cfg.flux.operator.extraConfig != { }) {
           flux-operator-config = {
             content = {
               apiVersion = "helm.cattle.io/v1";
@@ -268,7 +268,7 @@ with lib;
             };
           };
         })
-        (optionalAttrs cfg.flux.tofu.enable {
+        (optionalAttrs (cfg.flux.tofu.enable && cfg.flux.tofu.extraConfig != { }) {
           tofu-controller-config = {
             content = {
               apiVersion = "helm.cattle.io/v1";
