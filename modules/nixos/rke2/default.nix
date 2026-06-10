@@ -6,6 +6,21 @@
 
 let
   cfg = config.shikanime.rke2;
+
+  rke2ApiServerPort = 6443;
+  rke2SupervisorPort = 9345;
+  kubeletMetricsPort = 10250;
+  etcdClientPort = 2379;
+  etcdPeerPort = 2380;
+  etcdMetricsPort = 2381;
+  canalHealthCheckPort = 9099;
+  wireguardPort = 51820;
+  wireguardIPv6Port = 51821;
+
+  nodePortRange = {
+    from = 30000;
+    to = 32767;
+  };
 in
 with lib;
 {
@@ -155,24 +170,20 @@ with lib;
       '';
       interfaces.${cfg.interface} = {
         allowedTCPPorts = [
-          2379
-          2380
-          2381
-          6443
-          9099
-          9345
-          10250
+          rke2ApiServerPort
+          rke2SupervisorPort
+          kubeletMetricsPort
+          etcdClientPort
+          etcdPeerPort
+          etcdMetricsPort
+          canalHealthCheckPort
         ];
         allowedUDPPorts = [
-          51820
+          wireguardPort
+          wireguardIPv6Port
         ];
+        allowedTCPPortRanges = [ nodePortRange ];
       };
-      allowedTCPPortRanges = [
-        {
-          from = 30000;
-          to = 32767;
-        }
-      ];
     };
   };
 }
