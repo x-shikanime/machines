@@ -1,8 +1,13 @@
 { pkgs, ... }:
 
 {
+  catppuccin.k9s.enable = false;
+
   programs = {
-    k9s.enable = true;
+    k9s = {
+      enable = true;
+      settings.k9s.ui.skin = "transparent";
+    };
 
     ssh.settings."ssh.dev.azure.com" = {
       HostkeyAlgorithms = "+ssh-rsa";
