@@ -146,14 +146,13 @@
   ];
 
   networking = {
-    # Uncomment if your specific Tailnet/ISP requires strict IPv4 fallback
-    # getaddrinfo.precedence = {
-    #   "::1/128" = 50;
-    #   "::/0" = 40;
-    #   "2002::/16" = 30;
-    #   "::/96" = 20;
-    #   "::ffff:0:0/96" = 100;
-    # };
+    getaddrinfo.precedence = {
+      "::1/128" = 50;
+      "::/0" = 40;
+      "2002::/16" = 30;
+      "::/96" = 20;
+      "::ffff:0:0/96" = 100;
+    };
 
     hostName = "ashira";
   };
