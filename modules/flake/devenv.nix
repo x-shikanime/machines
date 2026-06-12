@@ -130,16 +130,6 @@
                 ];
               }
               {
-                path_regex = "secrets/kaltashar.enc.yaml";
-                key_groups = [
-                  {
-                    age = age ++ [
-                      "age16pkwna5hq4hh03xfj6j5uew3wq6wfr5xgqgdmg6t3a27uz2dhuqsslh56c"
-                    ];
-                  }
-                ];
-              }
-              {
                 path_regex = "secrets/telsha.enc.yaml";
                 key_groups = [
                   {
