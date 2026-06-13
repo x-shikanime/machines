@@ -16,7 +16,7 @@ let
   yaml = pkgs.formats.yaml { };
 
   name = "William Phetsinorath";
-  signingKey = "721388256B3D78FA";
+  gpgSigningKey = "721388256B3D78FA";
 in
 {
   imports = [
@@ -46,7 +46,7 @@ in
         { path = config.lib.file.mkOutOfStoreSymlink config.sops.templates.git-config.path; }
       ];
       signing = {
-        format = "openpgp";
+        format = "ssh";
         signByDefault = true;
       };
     };
@@ -89,9 +89,16 @@ in
         };
       };
       git-config.file = gitIni.generate "config" {
+        gpg.format = "ssh";
         user = {
           inherit name;
-          inherit signingKey;
+          signingkey =
+            let
+              signingkey = pkgs.writeText "id_ed25519.pub" ''
+                ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPFC5VCX4U04t82TizoUmXxZ064cOqNtswe0zPDqWWRj
+              '';
+            in
+            "${signingkey}";
           email = config.sops.placeholder.shikanime-studio-email;
         };
       };
@@ -132,7 +139,7 @@ in
           "zed.gui" = true;
           "zed.priority" = 20;
         };
-        gpg.key = signingKey;
+        gpg.key = gpgSigningKey;
         hooks = {
           "precommit.git-hooks" = "test -f .git/hooks/pre-commit && .git/hooks/pre-commit || true";
           "preoutgoing.git-hooks" = "test -f .git/hooks/pre-push && .git/hooks/pre-push || true";
