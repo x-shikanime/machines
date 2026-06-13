@@ -16,7 +16,8 @@ let
   yaml = pkgs.formats.yaml { };
 
   name = "William Phetsinorath";
-  signingKey = "09CA52A835C14157";
+  gpgSigningKey = "09CA52A835C14157";
+  sshSigningKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPFC5VCX4U04t82TizoUmXxZ064cOqNtswe0zPDqWWRj";
 in
 {
   imports = [
@@ -68,7 +69,7 @@ in
         { path = config.lib.file.mkOutOfStoreSymlink config.sops.templates.git-config.path; }
       ];
       signing = {
-        format = "openpgp";
+        format = "ssh";
         signByDefault = true;
       };
     };
@@ -113,31 +114,36 @@ in
         };
       };
       git-config.file = gitIni.generate "config" {
+        gpg.format = "ssh";
         user = {
           inherit name;
-          inherit signingKey;
+          signingkey =
+            let
+              signingKey = pkgs.writeText "id_ed25519.pub" ''
+                ${sshSigningKey}
+              '';
+            in
+            "${signingKey}";
           email = config.sops.placeholder.shikanime-studio-email;
         };
       };
       jujutsu-config.file = toml.generate "config.toml" {
-        "--scope" = [
-          {
-            "--when.repositories" = [ "~/Source/Repos/github.com/cloud-pi-native" ];
-            signing.key = config.sops.placeholder.gouv-signing-key;
-            user = {
-              email = config.sops.placeholder.gouv-email;
-              inherit name;
-            };
-          }
-        ];
         signing = {
-          backend = "gpg";
+          backend = "ssh";
           behavior = "own";
-          key = signingKey;
+          key = sshSigningKey;
         };
         user = {
           inherit name;
           email = config.sops.placeholder.shikanime-studio-email;
+        };
+      };
+      juju-gouv-config.file = toml.generate "config.toml" {
+        "--when.repositories" = [ "~/Source/Repos/github.com/cloud-pi-native" ];
+        signing.key = config.sops.placeholder.gouv-signing-key;
+        user = {
+          email = config.sops.placeholder.gouv-email;
+          inherit name;
         };
       };
       nix-config.content = ''
@@ -158,7 +164,7 @@ in
           "zed.gui" = true;
           "zed.priority" = 20;
         };
-        gpg.key = signingKey;
+        gpg.key = gpgSigningKey;
         hooks = {
           "precommit.git-hooks" = "test -f .git/hooks/pre-commit && .git/hooks/pre-commit || true";
           "preoutgoing.git-hooks" = "test -f .git/hooks/pre-push && .git/hooks/pre-push || true";
@@ -185,5 +191,7 @@ in
     };
     "jj/conf.d/default.toml".source =
       config.lib.file.mkOutOfStoreSymlink config.sops.templates.jujutsu-config.path;
+    "juju/conf.d/gouv.conf".source =
+      config.lib.file.mkOutOfStoreSymlink config.sops.templates.juju-gouv-config.path;
   };
 }
