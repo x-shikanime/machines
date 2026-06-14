@@ -4,8 +4,15 @@
   ...
 }:
 
+with lib;
+
 let
   cfg = config.shikanime.rke2;
+
+  clusterCidr = filter (cidr: cidr != null) [
+    cfg.clusterCidrIPv4
+    cfg.clusterCidrIPv6
+  ];
 
   rke2ApiServerPort = 6443;
   rke2SupervisorPort = 9345;
@@ -151,8 +158,8 @@ with lib;
           };
         };
         extraFlags = [
-          (optionalString (cfg.clusterCidrs != null) "--cluster-cidr=${cfg.clusterCidrs}")
-          "--cni=${concatStringsSep "," cfg.cni}"
+          (optionalString (clusterCidr != [ ]) "--cluster-cidr=${concatStringsSep "," clusterCidr}")
+          "--cni=multus,canal"
           "--kube-controller-manager-arg=node-cidr-mask-size-ipv4=${toString cfg.nodeCidrMaskSize}"
           "--kube-controller-manager-arg=node-cidr-mask-size-ipv6=${toString cfg.nodeCidrMaskSizeIPv6}"
           (optionalString (cfg.serviceCidr != null) "--service-cidr=${cfg.serviceCidr}")
