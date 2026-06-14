@@ -166,10 +166,6 @@ with lib;
             };
             spec.valuesContent = builtins.toJSON {
               providers.kubernetesGateway.enabled = true;
-              service = {
-                type = "LoadBalancer";
-                spec.loadBalancerClass = "tailscale";
-              };
             };
           };
         };
