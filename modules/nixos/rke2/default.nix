@@ -4,8 +4,17 @@
   ...
 }:
 
+with lib;
+
 let
   cfg = config.shikanime.rke2;
+
+  clusterCidrs = lib.concatStringsSep "," (
+    lib.filter (cidr: cidr != null) [
+      cfg.clusterCidrIPv4
+      cfg.clusterCidrIPv6
+    ]
+  );
 
   rke2ApiServerPort = 6443;
   rke2SupervisorPort = 9345;
@@ -22,7 +31,6 @@ let
     to = 32767;
   };
 in
-with lib;
 {
   imports = [
     ./longhorn.nix
@@ -34,10 +42,16 @@ with lib;
       options = {
         enable = mkEnableOption "Shikanime RKE2";
 
-        clusterCidrs = mkOption {
+        clusterCidrIPv4 = mkOption {
           type = types.nullOr types.str;
-          default = "10.244.0.0/16,fd00::/108";
-          description = "The pod CIDR passed to RKE2.";
+          default = "10.244.0.0/16";
+          description = "The IPv4 pod CIDR passed to RKE2.";
+        };
+
+        clusterCidrIPv6 = mkOption {
+          type = types.nullOr types.str;
+          default = "fd00::/108";
+          description = "The IPv6 pod CIDR passed to RKE2.";
         };
 
         cni = mkOption {
@@ -61,6 +75,18 @@ with lib;
           description = "The IPv6 node CIDR mask size passed to the controller manager.";
         };
 
+        extraConfig = mkOption {
+          type = types.attrsOf types.raw;
+          default = { };
+          description = "Additional direct values merged into services.rke2.";
+        };
+
+        interface = mkOption {
+          type = types.str;
+          default = "enp1s0";
+          description = "The WAN interface used for firewall policy.";
+        };
+
         secretsEncryption = mkOption {
           type = types.bool;
           default = true;
@@ -72,18 +98,6 @@ with lib;
           default = "10.96.0.0/12,fd01::/108";
           description = "The service CIDR passed to RKE2.";
         };
-
-        interface = mkOption {
-          type = types.str;
-          default = "enp1s0";
-          description = "The WAN interface used for firewall policy.";
-        };
-
-        extraConfig = mkOption {
-          type = types.attrsOf types.raw;
-          default = { };
-          description = "Additional direct values merged into services.rke2.";
-        };
       };
     };
     default = { };
@@ -93,10 +107,18 @@ with lib;
   config = mkIf cfg.enable {
     services.rke2 = mkMerge [
       {
-        enable = true;
-        role = "server";
         cisHardening = true;
         disableKubeProxy = true;
+        enable = true;
+        extraFlags = [
+          (optionalString (clusterCidrs != [ ]) "--cluster-cidr=${concatStringsSep "," clusterCidrs}")
+          "--cni=${concatStringsSep "," cfg.cni}"
+          "--kube-controller-manager-arg=node-cidr-mask-size-ipv4=${toString cfg.nodeCidrMaskSize}"
+          "--kube-controller-manager-arg=node-cidr-mask-size-ipv6=${toString cfg.nodeCidrMaskSizeIPv6}"
+          (optionalString (cfg.serviceCidr != null) "--service-cidr=${cfg.serviceCidr}")
+        ]
+        ++ optional cfg.secretsEncryption "--secrets-encryption";
+        gracefulNodeShutdown.enable = true;
         manifests = {
           rke2-cilium-config.content = {
             apiVersion = "helm.cattle.io/v1";
@@ -105,40 +127,42 @@ with lib;
               name = "rke2-cilium";
               namespace = "kube-system";
             };
-            spec.valuesContent = builtins.toJSON {
-              kubeProxyReplacement = true;
-              k8sServiceHost = "localhost";
-              k8sServicePort = "6443";
-              encryption = {
-                enabled = true;
-                type = "wireguard";
-              };
-              cni = {
-                chainingMode = "multus";
-                exclusive = false;
-              };
-              autoDirectNodeRoutes = true;
-              gatewayAPI.enabled = true;
-              hubble = {
-                enabled = true;
-                relay.enabled = true;
-                ui.enabled = true;
-              };
-              prometheus.enabled = true;
-              operator.prometheus.enabled = true;
-              bpf.masquerade = true;
-              ipv4NativeRoutingCIDR = "10.244.0.0/16";
-              ipam.operator.clusterPoolIPv4PodCIDRList = [
-                "10.244.0.0/16"
-              ];
-            };
-          };
-
-          rke2-cilium-gateway-class.content = {
-            apiVersion = "networking.x-k8s.io/v1";
-            kind = "GatewayClass";
-            metadata.name = "rke2-cilium";
-            spec.controllerName = "cilium.io/gateway-controller";
+            spec.valuesContent = builtins.toJSON (
+              {
+                autoDirectNodeRoutes = true;
+                bpf.masquerade = true;
+                cni = {
+                  chainingMode = "multus";
+                  exclusive = false;
+                };
+                encryption = {
+                  enabled = true;
+                  type = "wireguard";
+                };
+                gatewayAPI = {
+                  enabled = true;
+                  gatewayClass.create = true;
+                };
+                hubble = {
+                  enabled = true;
+                  relay.enabled = true;
+                  ui.enabled = true;
+                };
+                k8sServiceHost = "localhost";
+                k8sServicePort = "6443";
+                kubeProxyReplacement = true;
+                operator.prometheus.enabled = true;
+                prometheus.enabled = true;
+              }
+              // optionalAttrs (cfg.clusterCidrIPv4 != null) {
+                ipv4NativeRoutingCIDR = cfg.clusterCidrIPv4;
+                ipam.operator.clusterPoolIPv4PodCIDRList = [ cfg.clusterCidrIPv4 ];
+              }
+              // optionalAttrs (cfg.clusterCidrIPv6 != null) {
+                ipv6NativeRoutingCIDR = cfg.clusterCidrIPv6;
+                ipam.operator.clusterPoolIPv6PodCIDRList = [ cfg.clusterCidrIPv6 ];
+              }
+            );
           };
 
           rke2-coredns-config.content = {
@@ -165,15 +189,7 @@ with lib;
             };
           };
         };
-        extraFlags = [
-          (optionalString (cfg.clusterCidrs != null) "--cluster-cidr=${cfg.clusterCidrs}")
-          "--cni=${concatStringsSep "," cfg.cni}"
-          "--kube-controller-manager-arg=node-cidr-mask-size-ipv4=${toString cfg.nodeCidrMaskSize}"
-          "--kube-controller-manager-arg=node-cidr-mask-size-ipv6=${toString cfg.nodeCidrMaskSizeIPv6}"
-          (optionalString (cfg.serviceCidr != null) "--service-cidr=${cfg.serviceCidr}")
-        ]
-        ++ optional cfg.secretsEncryption "--secrets-encryption";
-        gracefulNodeShutdown.enable = true;
+        role = "server";
       }
       cfg.extraConfig
     ];
@@ -198,6 +214,7 @@ with lib;
         ip6tables -D OUTPUT -o ${cfg.interface} -d 2000::/3 -j REJECT --reject-with icmp6-addr-unreachable 2>/dev/null || true
       '';
       interfaces.${cfg.interface} = {
+        allowedTCPPortRanges = [ nodePortRange ];
         allowedTCPPorts = [
           rke2ApiServerPort
           rke2SupervisorPort
@@ -211,7 +228,6 @@ with lib;
         allowedUDPPorts = [
           wireguardPort
         ];
-        allowedTCPPortRanges = [ nodePortRange ];
       };
     };
   };
