@@ -14,15 +14,15 @@ let
     cfg.clusterCidrIPv6
   ];
 
+  ciliumHealthPort = 9890;
+  etcdClientPort = 2379;
+  etcdMetricsPort = 2381;
+  etcdPeerPort = 2380;
+  gatewayAPIPort = 8443;
+  kubeletMetricsPort = 10250;
   rke2ApiServerPort = 6443;
   rke2SupervisorPort = 9345;
-  kubeletMetricsPort = 10250;
-  etcdClientPort = 2379;
-  etcdPeerPort = 2380;
-  etcdMetricsPort = 2381;
-  ciliumHealthPort = 9890;
-  wireguardPort = 51820;
-  gatewayAPIPort = 8443;
+  wireguardPort = 51871;
 
   nodePortRange = {
     from = 30000;
@@ -111,7 +111,6 @@ in
               namespace = "kube-system";
             };
             spec.valuesContent = builtins.toJSON {
-              autoDirectNodeRoutes = true;
               bpf.masquerade = true;
               cni = {
                 chainingMode = "multus";
@@ -135,8 +134,6 @@ in
               k8sServiceHost = "localhost";
               k8sServicePort = "6443";
               kubeProxyReplacement = true;
-              operator.prometheus.enabled = true;
-              prometheus.enabled = true;
             };
           };
 
