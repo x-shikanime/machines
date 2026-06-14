@@ -46,10 +46,8 @@ in
       includes = [
         { path = config.lib.file.mkOutOfStoreSymlink config.sops.templates.git-config.path; }
       ];
-      signing = {
-        format = "ssh";
-        signByDefault = true;
-      };
+      signing.signByDefault = true;
+
     };
   };
 
