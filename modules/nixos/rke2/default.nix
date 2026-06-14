@@ -109,15 +109,21 @@ with lib;
               kubeProxyReplacement = true;
               k8sServiceHost = "localhost";
               k8sServicePort = "6443";
-              encryption.enabled = true;
-              encryption.type = "wireguard";
-              cni.chainingMode = "multus";
-              cni.exclusive = false;
+              encryption = {
+                enabled = true;
+                type = "wireguard";
+              };
+              cni = {
+                chainingMode = "multus";
+                exclusive = false;
+              };
               autoDirectNodeRoutes = true;
               gatewayAPI.enabled = true;
-              hubble.enabled = true;
-              hubble.relay.enabled = true;
-              hubble.ui.enabled = true;
+              hubble = {
+                enabled = true;
+                relay.enabled = true;
+                ui.enabled = true;
+              };
               prometheus.enabled = true;
               operator.prometheus.enabled = true;
               bpf.masquerade = true;
