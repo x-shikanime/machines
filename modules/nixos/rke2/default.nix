@@ -157,7 +157,7 @@ with lib;
             };
           };
 
-          rke2-traefic-config.content = {
+          rke2-traefik-config.content = {
             apiVersion = "helm.cattle.io/v1";
             kind = "HelmChartConfig";
             metadata = {
