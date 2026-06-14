@@ -9,7 +9,7 @@ with lib;
 let
   cfg = config.shikanime.rke2;
 
-  clusterCidr = lib.filter (cidr: cidr != null) [
+  clusterCidr = filter (cidr: cidr != null) [
     cfg.clusterCidrIPv4
     cfg.clusterCidrIPv6
   ];
