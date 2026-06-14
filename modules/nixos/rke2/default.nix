@@ -61,12 +61,6 @@ with lib;
           description = "The IPv6 node CIDR mask size passed to the controller manager.";
         };
 
-        secretsEncryption = mkOption {
-          type = types.bool;
-          default = true;
-          description = "Whether to enable RKE2 secrets encryption.";
-        };
-
         serviceCidr = mkOption {
           type = types.nullOr types.str;
           default = "10.96.0.0/12,fd01::/108";
@@ -142,8 +136,8 @@ with lib;
           "--kube-controller-manager-arg=node-cidr-mask-size-ipv4=${toString cfg.nodeCidrMaskSize}"
           "--kube-controller-manager-arg=node-cidr-mask-size-ipv6=${toString cfg.nodeCidrMaskSizeIPv6}"
           (optionalString (cfg.serviceCidr != null) "--service-cidr=${cfg.serviceCidr}")
-        ]
-        ++ optional cfg.secretsEncryption "--secrets-encryption";
+          "--secrets-encryption"
+        ];
         gracefulNodeShutdown.enable = true;
       }
       cfg.extraConfig
