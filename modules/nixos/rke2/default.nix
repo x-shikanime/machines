@@ -167,8 +167,8 @@ in
           };
 
           gateway-api.source = pkgs.fetchurl {
-            url = "https://github.com/kubernetes-sigs/gateway-api/releases/download/v1.5.0/standard-install.yaml";
-            hash = "sha256-UQM4z2cJ+EQQ78zlJpJo9MfFBn79xdBMdaov0vg4DJY=";
+            url = "https://github.com/kubernetes-sigs/gateway-api/releases/download/v1.5.1/standard-install.yaml";
+            hash = "sha256-dRACs7kah/euO9JRfHmkeo1+1nApAYCKHPm9l9KE+bg=";
           };
         };
         role = "server";
