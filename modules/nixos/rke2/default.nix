@@ -9,12 +9,10 @@ with lib;
 let
   cfg = config.shikanime.rke2;
 
-  clusterCidrs = lib.concatStringsSep "," (
-    lib.filter (cidr: cidr != null) [
-      cfg.clusterCidrIPv4
-      cfg.clusterCidrIPv6
-    ]
-  );
+  clusterCidrs = lib.filter (cidr: cidr != null) [
+    cfg.clusterCidrIPv4
+    cfg.clusterCidrIPv6
+  ];
 
   rke2ApiServerPort = 6443;
   rke2SupervisorPort = 9345;
