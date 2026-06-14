@@ -13,9 +13,11 @@ let
   etcdClientPort = 2379;
   etcdPeerPort = 2380;
   etcdMetricsPort = 2381;
-  canalHealthCheckPort = 9099;
-  wireguardPort = 51820;
-  wireguardIPv6Port = 51821;
+  ciliumHealthPort = 9890;
+  ciliumVXLANPort = 8472;
+  ciliumHubblePort = 4244;
+  ciliumHubblePeerPort = 4245;
+  gatewayAPIPort = 8443;
 
   nodePortRange = {
     from = 30000;
@@ -44,7 +46,7 @@ with lib;
           type = types.listOf types.str;
           default = [
             "multus"
-            "canal"
+            "cilium"
           ];
           description = "The CNI plugins passed to RKE2.";
         };
@@ -97,19 +99,50 @@ with lib;
         role = "server";
         cisHardening = true;
         manifests = {
-          rke2-canal-config.content = {
+          rke2-cilium-config.content = {
             apiVersion = "helm.cattle.io/v1";
             kind = "HelmChartConfig";
             metadata = {
-              name = "rke2-canal";
+              name = "rke2-cilium";
               namespace = "kube-system";
             };
             spec.valuesContent = builtins.toJSON {
-              flannel = {
-                backend = "wireguard";
-                iface = cfg.interface;
+              cni = {
+                chainingMode = "multus";
+                exclusive = false;
+              };
+              tunnelProtocol = "vxlan";
+              gatewayAPI = {
+                enabled = true;
+              };
+              hubble = {
+                enabled = true;
+                relay.enabled = true;
+                ui.enabled = true;
+              };
+              prometheus = {
+                enabled = true;
+              };
+              operator = {
+                prometheus.enabled = true;
+              };
+              bpf = {
+                masquerade = true;
+              };
+              ipv4NativeRoutingCIDR = "10.244.0.0/16";
+              ipam = {
+                operator.clusterPoolIPv4PodCIDRList = [
+                  "10.244.0.0/16"
+                ];
               };
             };
+          };
+
+          rke2-cilium-gateway-class.content = {
+            apiVersion = "networking.x-k8s.io/v1";
+            kind = "GatewayClass";
+            metadata.name = "rke2-cilium";
+            spec.controllerName = "cilium.io/gateway-controller";
           };
 
           rke2-coredns-config.content = {
@@ -176,11 +209,11 @@ with lib;
           etcdClientPort
           etcdPeerPort
           etcdMetricsPort
-          canalHealthCheckPort
+          ciliumHealthPort
+          gatewayAPIPort
         ];
         allowedUDPPorts = [
-          wireguardPort
-          wireguardIPv6Port
+          ciliumVXLANPort
         ];
         allowedTCPPortRanges = [ nodePortRange ];
       };
