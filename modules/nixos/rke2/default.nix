@@ -34,19 +34,16 @@ with lib;
       options = {
         enable = mkEnableOption "Shikanime RKE2";
 
-        clusterCidrs = mkOption {
+        clusterCidrIPv4 = mkOption {
           type = types.nullOr types.str;
-          default = "10.244.0.0/16,fd00::/108";
-          description = "The pod CIDR passed to RKE2.";
+          default = "10.244.0.0/16";
+          description = "The IPv4 pod CIDR passed to RKE2.";
         };
 
-        cni = mkOption {
-          type = types.listOf types.str;
-          default = [
-            "multus"
-            "canal"
-          ];
-          description = "The CNI plugins passed to RKE2.";
+        clusterCidrIPv6 = mkOption {
+          type = types.nullOr types.str;
+          default = "fd00::/108";
+          description = "The IPv6 pod CIDR passed to RKE2.";
         };
 
         nodeCidrMaskSize = mkOption {
