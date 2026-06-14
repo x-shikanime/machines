@@ -166,12 +166,17 @@ with lib;
             };
             spec.valuesContent = builtins.toJSON {
               providers.kubernetesGateway.enabled = true;
+              service = {
+                type = "LoadBalancer";
+                spec.loadBalancerClass = "tailscale";
+              };
             };
           };
         };
         extraFlags = [
           (optionalString (clusterCidr != [ ]) "--cluster-cidr=${concatStringsSep "," clusterCidr}")
           "--cni=multus,canal"
+          "--ingress-controller=traefik"
           "--kube-controller-manager-arg=node-cidr-mask-size-ipv4=${toString cfg.nodeCidrMaskSize}"
           "--kube-controller-manager-arg=node-cidr-mask-size-ipv6=${toString cfg.nodeCidrMaskSizeIPv6}"
           (optionalString (cfg.serviceCidr != null) "--service-cidr=${cfg.serviceCidr}")
