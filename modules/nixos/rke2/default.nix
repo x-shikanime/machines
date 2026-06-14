@@ -121,10 +121,7 @@ in
                 enabled = true;
                 type = "wireguard";
               };
-              gatewayAPI = {
-                enabled = true;
-                gatewayClass.create = true;
-              };
+              gatewayAPI.enabled = true;
               hubble = {
                 enabled = true;
                 relay.enabled = true;
