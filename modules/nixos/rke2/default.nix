@@ -120,7 +120,7 @@ in
               };
               gatewayAPI = {
                 enabled = true;
-                gatewayClass.create = true;
+                gatewayClass.create = "true";
               };
               hubble = {
                 enabled = true;
