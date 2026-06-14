@@ -77,6 +77,16 @@ with lib;
           description = "The WAN interface used for firewall policy.";
         };
 
+        ingressController = mkOption {
+          type = types.enum [
+            "none"
+            "ingress-nginx"
+            "traefik"
+          ];
+          default = "traefik";
+          description = "The ingress-controller to deploy with RKE2.";
+        };
+
         extraConfig = mkOption {
           type = types.attrsOf types.raw;
           default = { };
@@ -94,6 +104,7 @@ with lib;
         enable = true;
         role = "server";
         cisHardening = true;
+        configPath = "/etc/rancher/rke2/config.yaml";
         manifests = {
           rke2-canal-config.content = {
             apiVersion = "helm.cattle.io/v1";
@@ -154,6 +165,18 @@ with lib;
             };
             spec.valuesContent = builtins.toJSON {
               manifests.dhcpDaemonSet = true;
+            };
+          };
+
+          rke2-traefic-config.content = {
+            apiVersion = "helm.cattle.io/v1";
+            kind = "HelmChartConfig";
+            metadata = {
+              name = "rke2-traefik";
+              namespace = "kube-system";
+            };
+            spec.valuesContent = builtins.toJSON {
+              providers.kubernetesGateway.enabled = true;
             };
           };
         };
