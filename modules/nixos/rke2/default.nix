@@ -112,10 +112,7 @@ in
             };
             spec.valuesContent = builtins.toJSON {
               bpf.masquerade = true;
-              cni = {
-                chainingMode = "multus";
-                exclusive = false;
-              };
+              cni.exclusive = false;
               encryption = {
                 enabled = true;
                 type = "wireguard";
