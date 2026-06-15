@@ -28,6 +28,7 @@ with lib;
       qpdf
       qwen-code
       rclone
+      rtk
       wget
       zip
     ];
