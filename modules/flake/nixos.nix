@@ -58,6 +58,57 @@
           }
         ];
       };
+      fushi = inputs.nixpkgs.lib.nixosSystem {
+        pkgs = import inputs.nixpkgs {
+          system = "aarch64-linux";
+          config.allowUnfree = true;
+        };
+        modules = [
+          ../../hosts/fushi/configuration.nix
+          inputs.home-manager.nixosModules.home-manager
+          inputs.sops-nix.nixosModules.sops
+          {
+            home-manager.sharedModules = [
+              inputs.devlib.homeModules.default
+              inputs.sops-nix.homeModules.default
+            ];
+          }
+        ];
+      };
+      minish = inputs.nixpkgs.lib.nixosSystem {
+        pkgs = import inputs.nixpkgs {
+          system = "aarch64-linux";
+          config.allowUnfree = true;
+        };
+        modules = [
+          ../../hosts/minish/configuration.nix
+          inputs.home-manager.nixosModules.home-manager
+          inputs.sops-nix.nixosModules.sops
+          {
+            home-manager.sharedModules = [
+              inputs.devlib.homeModules.default
+              inputs.sops-nix.homeModules.default
+            ];
+          }
+        ];
+      };
+      nemishi = inputs.nixpkgs.lib.nixosSystem {
+        pkgs = import inputs.nixpkgs {
+          system = "aarch64-linux";
+          config.allowUnfree = true;
+        };
+        modules = [
+          ../../hosts/nemishi/configuration.nix
+          inputs.home-manager.nixosModules.home-manager
+          inputs.sops-nix.nixosModules.sops
+          {
+            home-manager.sharedModules = [
+              inputs.devlib.homeModules.default
+              inputs.sops-nix.homeModules.default
+            ];
+          }
+        ];
+      };
       nixtar = inputs.nixpkgs.lib.nixosSystem {
         pkgs = import inputs.nixpkgs {
           system = "x86_64-linux";
@@ -130,6 +181,9 @@
             };
           in
           catbox.config.system.build.buildLayeredImage;
+        fushi = self.nixosConfigurations.fushi.config.system.build.toplevel;
+        minish = self.nixosConfigurations.minish.config.system.build.toplevel;
+        nemishi = self.nixosConfigurations.nemishi.config.system.build.toplevel;
       };
     };
   };
