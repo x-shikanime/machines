@@ -184,9 +184,6 @@
             };
           in
           catbox.config.system.build.buildLayeredImage;
-        fushi = self.nixosConfigurations.fushi.config.system.build.toplevel;
-        minish = self.nixosConfigurations.minish.config.system.build.toplevel;
-        nemishi = self.nixosConfigurations.nemishi.config.system.build.toplevel;
       };
     };
   };
