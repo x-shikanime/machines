@@ -109,15 +109,20 @@
     };
   };
 
-  fileSystems."/mnt/flandre" = {
-    label = "flandre";
-    fsType = "xfs";
-    options = [
-      "nofail"
-      "x-systemd.automount"
-      "x-systemd.device-timeout=10s"
-      "x-systemd.mount-timeout=30s"
-    ];
+  disko.devices.disk.flandre = {
+    type = "disk";
+    device = "/dev/disk/by-label/flandre";
+    content = {
+      type = "filesystem";
+      format = "xfs";
+      mountpoint = "/mnt/flandre";
+      mountOptions = [
+        "nofail"
+        "x-systemd.automount"
+        "x-systemd.device-timeout=10s"
+        "x-systemd.mount-timeout=30s"
+      ];
+    };
   };
 
   hardware = {
