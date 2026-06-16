@@ -100,6 +100,10 @@
                 ];
               }
               {
+                path_regex = "secrets/fushi.enc.yaml";
+                key_groups = [ { age = age; } ];
+              }
+              {
                 path_regex = "secrets/manash.enc.yaml";
                 key_groups = [
                   {
@@ -110,6 +114,10 @@
                 ];
               }
               {
+                path_regex = "secrets/minish.enc.yaml";
+                key_groups = [ { age = age; } ];
+              }
+              {
                 path_regex = "secrets/nalsha.enc.yaml";
                 key_groups = [
                   {
@@ -118,6 +126,10 @@
                     ];
                   }
                 ];
+              }
+              {
+                path_regex = "secrets/nemishi.enc.yaml";
+                key_groups = [ { age = age; } ];
               }
               {
                 path_regex = "secrets/nixtar.enc.yaml";
