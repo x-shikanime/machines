@@ -13,6 +13,7 @@
           ../../hosts/ashira/configuration.nix
           inputs.disko.nixosModules.disko
           inputs.home-manager.nixosModules.home-manager
+          inputs.kix.nixosModules.default
           inputs.sops-nix.nixosModules.sops
           {
             home-manager.sharedModules = [
@@ -31,6 +32,7 @@
           ../../hosts/manash/configuration.nix
           inputs.disko.nixosModules.disko
           inputs.home-manager.nixosModules.home-manager
+          inputs.kix.nixosModules.default
           inputs.sops-nix.nixosModules.sops
           {
             home-manager.sharedModules = [
@@ -49,6 +51,7 @@
           ../../hosts/nalsha/configuration.nix
           inputs.disko.nixosModules.disko
           inputs.home-manager.nixosModules.home-manager
+          inputs.kix.nixosModules.default
           inputs.sops-nix.nixosModules.sops
           {
             home-manager.sharedModules = [
@@ -93,6 +96,7 @@
               modules = [
                 ../../hosts/catbox/configuration.nix
                 inputs.home-manager.nixosModules.home-manager
+                inputs.kix.nixosModules.default
                 {
                   home-manager.sharedModules = [
                     inputs.catppuccin.homeModules.default
@@ -119,6 +123,7 @@
               modules = [
                 ../../hosts/catbox/configuration.nix
                 inputs.home-manager.nixosModules.home-manager
+                inputs.kix.nixosModules.default
                 {
                   home-manager.sharedModules = [
                     inputs.catppuccin.homeModules.default
