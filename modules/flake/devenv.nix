@@ -101,7 +101,13 @@
               }
               {
                 path_regex = "secrets/fushi.enc.yaml";
-                key_groups = [ { age = age; } ];
+                key_groups = [
+                  {
+                    age = age ++ [
+                      "age18zmkeyxun4gflllelsmdhwjh5xpfwrqshdxrednv7zljphepxc6strhysn"
+                    ];
+                  }
+                ];
               }
               {
                 path_regex = "secrets/manash.enc.yaml";
@@ -115,7 +121,13 @@
               }
               {
                 path_regex = "secrets/minish.enc.yaml";
-                key_groups = [ { age = age; } ];
+                key_groups = [
+                  {
+                    age = age ++ [
+                      "age18zmkeyxun4gflllelsmdhwjh5xpfwrqshdxrednv7zljphepxc6strhysn"
+                    ];
+                  }
+                ];
               }
               {
                 path_regex = "secrets/nalsha.enc.yaml";
@@ -129,7 +141,13 @@
               }
               {
                 path_regex = "secrets/nemishi.enc.yaml";
-                key_groups = [ { age = age; } ];
+                key_groups = [
+                  {
+                    age = age ++ [
+                      "age18zmkeyxun4gflllelsmdhwjh5xpfwrqshdxrednv7zljphepxc6strhysn"
+                    ];
+                  }
+                ];
               }
               {
                 path_regex = "secrets/nixtar.enc.yaml";
