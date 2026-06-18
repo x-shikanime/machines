@@ -239,7 +239,7 @@
         enable = true;
         name = "ashira";
         tokenFile = config.sops.secrets.forgejo-runner-token.path;
-        url = "https://git.taila659a.ts.net";
+        url = "https://ashira.taila659a.ts.net";
         labels = [
           "docker:docker://node:22-bookworm"
           "nixos-latest:docker://nixos/nix"
