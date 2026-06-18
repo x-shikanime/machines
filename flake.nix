@@ -44,6 +44,16 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    identities = {
+      url = "github:x-shikanime/identities";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    kix = {
+      url = "github:x-shikanime/kix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     flake-parts = {
       url = "github:hercules-ci/flake-parts";
       inputs.nixpkgs-lib.follows = "nixpkgs";

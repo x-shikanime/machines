@@ -13,10 +13,12 @@
           ../../hosts/ashira/configuration.nix
           inputs.disko.nixosModules.disko
           inputs.home-manager.nixosModules.home-manager
+          inputs.kix.nixosModules.default
           inputs.sops-nix.nixosModules.sops
           {
             home-manager.sharedModules = [
               inputs.devlib.homeModules.default
+              inputs.identities.homeModules.default
               inputs.sops-nix.homeModules.default
             ];
           }
@@ -31,10 +33,12 @@
           ../../hosts/manash/configuration.nix
           inputs.disko.nixosModules.disko
           inputs.home-manager.nixosModules.home-manager
+          inputs.kix.nixosModules.default
           inputs.sops-nix.nixosModules.sops
           {
             home-manager.sharedModules = [
               inputs.devlib.homeModules.default
+              inputs.identities.homeModules.default
               inputs.sops-nix.homeModules.default
             ];
           }
@@ -49,10 +53,12 @@
           ../../hosts/nalsha/configuration.nix
           inputs.disko.nixosModules.disko
           inputs.home-manager.nixosModules.home-manager
+          inputs.kix.nixosModules.default
           inputs.sops-nix.nixosModules.sops
           {
             home-manager.sharedModules = [
               inputs.devlib.homeModules.default
+              inputs.identities.homeModules.default
               inputs.sops-nix.homeModules.default
             ];
           }
@@ -73,6 +79,7 @@
               inputs.catppuccin.homeModules.default
               inputs.colemak.homeModules.default
               inputs.devlib.homeModules.default
+              inputs.identities.homeModules.default
               inputs.sops-nix.homeModules.default
             ];
           }
@@ -93,11 +100,13 @@
               modules = [
                 ../../hosts/catbox/configuration.nix
                 inputs.home-manager.nixosModules.home-manager
+                inputs.kix.nixosModules.default
                 {
                   home-manager.sharedModules = [
                     inputs.catppuccin.homeModules.default
                     inputs.colemak.homeModules.default
                     inputs.devlib.homeModules.default
+                    inputs.identities.homeModules.default
                   ];
                 }
               ];
@@ -119,11 +128,13 @@
               modules = [
                 ../../hosts/catbox/configuration.nix
                 inputs.home-manager.nixosModules.home-manager
+                inputs.kix.nixosModules.default
                 {
                   home-manager.sharedModules = [
                     inputs.catppuccin.homeModules.default
                     inputs.colemak.homeModules.default
                     inputs.devlib.homeModules.default
+                    inputs.identities.homeModules.default
                   ];
                 }
               ];
