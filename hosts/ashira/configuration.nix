@@ -232,7 +232,24 @@
         "--ssh"
       ];
     };
+
+    gitea-actions-runner = {
+      package = pkgs.forgejo-runner;
+      instances.ashira = {
+        enable = true;
+        name = "ashira";
+        tokenFile = config.sops.secrets.forgejo-runner-token.path;
+        url = "http://forgejo.shikanime.svc.cluster.local:80";
+        labels = [
+          "docker:docker://node:22-bookworm"
+          "nixos-latest:docker://nixos/nix"
+          "native:host"
+        ];
+      };
+    };
   };
+
+  virtualisation.docker.enable = true;
 
   nix.extraOptions = ''
     !include ${config.sops.templates.nix-config.path}
@@ -246,6 +263,7 @@
       nix-access-token = { };
       rke2-token = { };
       tailscale-authkey = { };
+      forgejo-runner-token = { };
     };
     templates.nix-config.content = ''
       extra-access-tokens = "github.com=${config.sops.placeholder.nix-access-token}";
