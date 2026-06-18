@@ -337,6 +337,41 @@
         "type": "github"
       }
     },
+    "identities": {
+      "inputs": {
+        "devenv": [
+          "devenv"
+        ],
+        "devlib": [
+          "devlib"
+        ],
+        "flake-parts": [
+          "flake-parts"
+        ],
+        "git-hooks": [
+          "git-hooks"
+        ],
+        "nixpkgs": [
+          "nixpkgs"
+        ],
+        "treefmt-nix": [
+          "treefmt-nix"
+        ]
+      },
+      "locked": {
+        "lastModified": 1781822810,
+        "narHash": "sha256-BZcKzWKG6uf1sF6gj8FL9147ykAtIftQmzqFUIVsrLI=",
+        "owner": "shikanime",
+        "repo": "identities",
+        "rev": "9e91867ccf62335bd6ab7723d2af70472044351a",
+        "type": "github"
+      },
+      "original": {
+        "owner": "shikanime",
+        "repo": "identities",
+        "type": "github"
+      }
+    },
     "nix": {
       "inputs": {
         "flake-compat": [
@@ -470,6 +505,7 @@
         "flake-parts": "flake-parts",
         "git-hooks": "git-hooks",
         "home-manager": "home-manager",
+        "identities": "identities",
         "nix-darwin": "nix-darwin",
         "nixos-wsl": "nixos-wsl",
         "nixpkgs": "nixpkgs",

@@ -17,6 +17,7 @@
           {
             home-manager.sharedModules = [
               inputs.devlib.homeModules.default
+              inputs.identities.homeModules.default
               inputs.sops-nix.homeModules.default
             ];
           }
@@ -35,6 +36,7 @@
           {
             home-manager.sharedModules = [
               inputs.devlib.homeModules.default
+              inputs.identities.homeModules.default
               inputs.sops-nix.homeModules.default
             ];
           }
@@ -53,6 +55,7 @@
           {
             home-manager.sharedModules = [
               inputs.devlib.homeModules.default
+              inputs.identities.homeModules.default
               inputs.sops-nix.homeModules.default
             ];
           }
@@ -71,6 +74,7 @@
           {
             home-manager.sharedModules = [
               inputs.devlib.homeModules.default
+              inputs.identities.homeModules.default
               inputs.sops-nix.homeModules.default
             ];
           }
@@ -89,6 +93,7 @@
           {
             home-manager.sharedModules = [
               inputs.devlib.homeModules.default
+              inputs.identities.homeModules.default
               inputs.sops-nix.homeModules.default
             ];
           }
@@ -107,6 +112,7 @@
           {
             home-manager.sharedModules = [
               inputs.devlib.homeModules.default
+              inputs.identities.homeModules.default
               inputs.sops-nix.homeModules.default
             ];
           }
@@ -127,6 +133,7 @@
               inputs.catppuccin.homeModules.default
               inputs.colemak.homeModules.default
               inputs.devlib.homeModules.default
+              inputs.identities.homeModules.default
               inputs.sops-nix.homeModules.default
             ];
           }
@@ -152,6 +159,7 @@
                     inputs.catppuccin.homeModules.default
                     inputs.colemak.homeModules.default
                     inputs.devlib.homeModules.default
+                    inputs.identities.homeModules.default
                   ];
                 }
               ];
@@ -178,6 +186,7 @@
                     inputs.catppuccin.homeModules.default
                     inputs.colemak.homeModules.default
                     inputs.devlib.homeModules.default
+                    inputs.identities.homeModules.default
                   ];
                 }
               ];

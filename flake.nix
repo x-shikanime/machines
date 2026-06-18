@@ -28,6 +28,18 @@
       };
     };
 
+    identities = {
+      url = "github:shikanime/identities";
+      inputs = {
+        devenv.follows = "devenv";
+        devlib.follows = "devlib";
+        flake-parts.follows = "flake-parts";
+        git-hooks.follows = "git-hooks";
+        nixpkgs.follows = "nixpkgs";
+        treefmt-nix.follows = "treefmt-nix";
+      };
+    };
+
     devlib = {
       url = "github:shikanime-studio/devlib";
       inputs = {
