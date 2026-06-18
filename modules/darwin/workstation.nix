@@ -4,6 +4,7 @@
     enableZshIntegration = true;
     brews = [
       "mas"
+      "mpv"
       "openssl"
       "pinentry-mac"
       "pinentry"
@@ -27,7 +28,6 @@
       "rancher"
       "slack"
       "spotify"
-      "stolendata-mpv"
       "syncthing-app"
       "tailscale-app"
       "trae"
