@@ -8,7 +8,7 @@
     };
 
     colemak = {
-      url = "github:shikanime/colemak";
+      url = "github:x-shikanime/colemak";
       inputs = {
         devenv.follows = "devenv";
         devlib.follows = "devlib";
