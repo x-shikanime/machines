@@ -230,7 +230,24 @@
         "--ssh"
       ];
     };
+
+    gitea-actions-runner = {
+      package = pkgs.forgejo-runner;
+      instances.manash = {
+        enable = true;
+        name = "manash";
+        tokenFile = config.sops.secrets.forgejo-runner-token.path;
+        url = "https://git.taila659a.ts.net";
+        labels = [
+          "docker:docker://node:22-bookworm"
+          "nixos-latest:docker://nixos/nix"
+          "native:host"
+        ];
+      };
+    };
   };
+
+  virtualisation.docker.enable = true;
 
   nix.extraOptions = ''
     !include ${config.sops.templates.nix-config.path}
@@ -243,6 +260,7 @@
     secrets = {
       nix-access-token = { };
       tailscale-authkey = { };
+      forgejo-runner-token = { };
     };
     templates.nix-config.content = ''
       extra-access-tokens = "github.com=${config.sops.placeholder.nix-access-token}";
