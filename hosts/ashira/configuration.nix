@@ -273,7 +273,7 @@
       rke2-token = { };
       tailscale-authkey = { };
       forgejo-runner-token = {
-        user = "gitea-runner";
+        owner = "gitea-runner";
         mode = "0440";
       };
     };
