@@ -1,4 +1,4 @@
-{ config, modulesPath, ... }:
+{ modulesPath, ... }:
 
 {
   imports = [
@@ -30,12 +30,7 @@
 
   networking.hostName = "nemishi";
 
-  knix = {
-    enable = true;
-    nodeIP = "192.168.1.27";
-    serverAddr = "https://192.168.1.28:9345";
-    tokenFile = config.sops.secrets.rke2-token.path;
-  };
+  knix.nodeIP = "192.168.1.27";
 
   sops = {
     defaultSopsFile = ../../secrets/nemishi.enc.yaml;

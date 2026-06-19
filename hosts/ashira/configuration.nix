@@ -31,7 +31,6 @@
   networking.hostName = "ashira";
 
   knix = {
-    enable = true;
     nodeIP = "192.168.1.60,2a02:8424:7899:f201:94eb:8d1:325a:812b";
     serverAddr = "https://192.168.1.28:9345";
     tokenFile = config.sops.secrets.rke2-token.path;
@@ -40,7 +39,6 @@
   services = {
     tailscale.extraUpFlags = [
       "--advertise-routes=10.244.2.0/24,fd00::2:0/112"
-      "--ssh"
     ];
 
     gitea-actions-runner.instances.ashira = {

@@ -31,7 +31,6 @@
   networking.hostName = "nalsha";
 
   knix = {
-    enable = true;
     nodeIP = "192.168.1.64,2a02:8424:7899:f201:94eb:8d1:325a:7234";
     serverAddr = "https://192.168.1.28:9345";
     tokenFile = config.sops.secrets.rke2-token.path;
@@ -40,7 +39,6 @@
   services = {
     tailscale.extraUpFlags = [
       "--advertise-routes=10.244.1.0/24,fd00::1:0/112"
-      "--ssh"
     ];
 
     gitea-actions-runner.instances.nalsha = {
