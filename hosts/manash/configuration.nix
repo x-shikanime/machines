@@ -267,9 +267,9 @@
     defaultSopsFile = ../../secrets/manash.enc.yaml;
     defaultSopsFormat = "yaml";
     secrets = {
-      nix-access-token = { };
-      tailscale-authkey = { };
-      forgejo-runner-token = { };
+      nix-access-token.reloadUnits = [ "nix-daemon.service" ];
+      tailscale-authkey.restartUnits = [ "tailscaled.service" ];
+      forgejo-runner-token.restartUnits = [ "gitea-actions-runner-manash.service" ];
     };
     templates = {
       nix-config.content = ''

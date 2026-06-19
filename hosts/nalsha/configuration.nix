@@ -269,10 +269,10 @@
     defaultSopsFile = ../../secrets/nalsha.enc.yaml;
     defaultSopsFormat = "yaml";
     secrets = {
-      nix-access-token = { };
-      rke2-token = { };
-      tailscale-authkey = { };
-      forgejo-runner-token = { };
+      nix-access-token.reloadUnits = [ "nix-daemon.service" ];
+      rke2-token.restartUnits = [ "rke2-server.service" ];
+      tailscale-authkey.restartUnits = [ "tailscaled.service" ];
+      forgejo-runner-token.restartUnits = [ "gitea-actions-runner-nalsha.service" ];
     };
     templates = {
       nix-config.content = ''

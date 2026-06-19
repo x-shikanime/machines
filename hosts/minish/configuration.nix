@@ -158,9 +158,9 @@
     defaultSopsFile = ../../secrets/minish.enc.yaml;
     defaultSopsFormat = "yaml";
     secrets = {
-      nix-config = { };
-      rke2-token = { };
-      tailscale-authkey = { };
+      nix-config.reloadUnits = [ "nix-daemon.service" ];
+      rke2-token.restartUnits = [ "rke2-server.service" ];
+      tailscale-authkey.restartUnits = [ "tailscaled.service" ];
     };
   };
 
