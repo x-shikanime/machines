@@ -204,7 +204,6 @@ with lib;
             repo = "oci://ghcr.io/controlplaneio-fluxcd/charts/flux-operator";
             targetNamespace = "flux-system";
             values = {
-              healthcheck.enabled = true;
               web.config.authentication = {
                 anonymous = {
                   groups = [ "system:masters" ];
@@ -235,7 +234,7 @@ with lib;
             targetNamespace = "flux-system";
             values = {
               awsPackage.install = false;
-              runner.allowedNamespaces = [
+              runner.serviceAccount.allowedNamespaces = [
                 "flux-system"
                 "shikanime"
               ];

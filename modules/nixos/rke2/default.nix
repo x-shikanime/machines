@@ -107,29 +107,6 @@ with lib;
                 backend = "wireguard";
                 iface = cfg.interface;
               };
-              encryption = {
-                enabled = true;
-                type = "wireguard";
-              };
-              gatewayAPI = {
-                enabled = true;
-                gatewayClass.create = true;
-              };
-              hubble = {
-                enabled = true;
-                relay.enabled = true;
-                ui.enabled = true;
-              };
-              ipam.mode = "kubernetes";
-              k8s = {
-                requireIPv4PodCIDR = cfg.clusterCidrIPv4 != null;
-                requireIPv6PodCIDR = cfg.clusterCidrIPv6 != null;
-              };
-              k8sServiceHost = "localhost";
-              k8sServicePort = "6443";
-              kubeProxyReplacement = true;
-              operator.prometheus.enabled = true;
-              prometheus.enabled = true;
             };
           };
 

@@ -151,8 +151,19 @@
   ];
 
   networking = {
-    # Allow Docker runners to connect to cache actions.
-    firewall.trustedInterfaces = [ "br-+" ];
+    # Trust Docker bridge traffic for runner job containers.
+    firewall.extraCommands = ''
+      iptables -I INPUT -i br+ -j ACCEPT
+      iptables -I FORWARD -i br+ -j ACCEPT
+      ip6tables -I INPUT -i br+ -j ACCEPT
+      ip6tables -I FORWARD -i br+ -j ACCEPT
+    '';
+    firewall.extraStopCommands = ''
+      iptables -D INPUT -i br+ -j ACCEPT 2>/dev/null || true
+      iptables -D FORWARD -i br+ -j ACCEPT 2>/dev/null || true
+      ip6tables -D INPUT -i br+ -j ACCEPT 2>/dev/null || true
+      ip6tables -D FORWARD -i br+ -j ACCEPT 2>/dev/null || true
+    '';
 
     getaddrinfo.precedence = {
       "::1/128" = 50;
@@ -274,7 +285,7 @@
       nix-access-token.reloadUnits = [ "nix-daemon.service" ];
       rke2-token.restartUnits = [ "rke2-server.service" ];
       tailscale-authkey.restartUnits = [ "tailscaled.service" ];
-      forgejo-runner-token.restartUnits = [ "gitea-actions-runner-nalsha.service" ];
+      forgejo-runner-token.restartUnits = [ "gitea-runner-nalsha.service" ];
     };
     templates = {
       nix-config.content = ''
