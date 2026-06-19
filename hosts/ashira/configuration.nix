@@ -42,18 +42,16 @@
       "--advertise-routes=10.244.2.0/24,fd00::2:0/112"
     ];
 
-    gitea-actions-runner = {
-      instances.ashira = {
-        enable = true;
-        name = "ashira";
-        tokenFile = config.sops.templates.forgejo-runner-token.path;
-        url = "https://forgejo.taila659a.ts.net";
-        labels = [
-          "docker:docker://node:22-bookworm"
-          "nixos-latest:docker://nixos/nix"
-          "native:host"
-        ];
-      };
+    gitea-actions-runner.instances.ashira = {
+      enable = true;
+      name = "ashira";
+      tokenFile = config.sops.templates.forgejo-runner-token.path;
+      url = "https://forgejo.taila659a.ts.net";
+      labels = [
+        "docker:docker://node:22-bookworm"
+        "nixos-latest:docker://nixos/nix"
+        "native:host"
+      ];
     };
   };
 

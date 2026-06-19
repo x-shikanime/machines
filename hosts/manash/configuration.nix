@@ -38,18 +38,16 @@
       "--advertise-routes=10.244.0.0/24,fd00::/112"
     ];
 
-    gitea-actions-runner = {
-      instances.manash = {
-        enable = true;
-        name = "manash";
-        tokenFile = config.sops.templates.forgejo-runner-token.path;
-        url = "https://forgejo.taila659a.ts.net";
-        labels = [
-          "docker:docker://node:22-bookworm"
-          "nixos-latest:docker://nixos/nix"
-          "native:host"
-        ];
-      };
+    gitea-actions-runner.instances.manash = {
+      enable = true;
+      name = "manash";
+      tokenFile = config.sops.templates.forgejo-runner-token.path;
+      url = "https://forgejo.taila659a.ts.net";
+      labels = [
+        "docker:docker://node:22-bookworm"
+        "nixos-latest:docker://nixos/nix"
+        "native:host"
+      ];
     };
   };
 
