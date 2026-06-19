@@ -247,7 +247,13 @@
     };
   };
 
-  virtualisation.docker.enable = true;
+  virtualisation.docker = {
+    enable = true;
+    daemon.settings = {
+      fixed-cidr-v6 = "fd00::/80";
+      ipv6 = true;
+    };
+  };
 
   nix.extraOptions = ''
     !include ${config.sops.templates.nix-config.path}
