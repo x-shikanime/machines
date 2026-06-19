@@ -151,6 +151,9 @@
   ];
 
   networking = {
+    # Allow Docker runners to connect to cache actions.
+    firewall.trustedInterfaces = [ "br-+" ];
+
     getaddrinfo.precedence = {
       "::1/128" = 50;
       "::/0" = 40;
