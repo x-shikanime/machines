@@ -28,9 +28,7 @@
     ./users/nishir/home-configuration.nix
   ];
 
-  networking = {
-    hostName = "fushi";
-  };
+  networking.hostName = "fushi";
 
   shikanime.rke2.extraConfig = {
     nodeIP = "192.168.1.30";
