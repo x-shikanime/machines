@@ -40,11 +40,11 @@
   };
 
   systemd.tmpfiles.rules = [
-    "L+ /var/lib/rancher/rke2 - - - - /mnt/nishir/rke2"
-    "L+ /var/lib/longhorn - - - - /mnt/nishir/longhorn"
-    "L+ /var/log/calico - - - - /mnt/nishir/log/calico"
-    "L+ /var/log/containers - - - - /mnt/nishir/log/containers"
-    "L+ /var/log/pods - - - - /mnt/nishir/log/pods"
-    "L+ /var/swap - - - - /mnt/nishir/swap"
+    "L+ /var/lib/rancher/rke2 - - - - /mnt/data/rke2"
+    "L+ /var/lib/longhorn - - - - /mnt/data/longhorn"
+    "L+ /var/log/calico - - - - /mnt/data/log/calico"
+    "L+ /var/log/containers - - - - /mnt/data/log/containers"
+    "L+ /var/log/pods - - - - /mnt/data/log/pods"
+    "L+ /var/swap - - - - /mnt/data/swap"
   ];
 }
