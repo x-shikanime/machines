@@ -272,10 +272,7 @@
       nix-access-token = { };
       rke2-token = { };
       tailscale-authkey = { };
-      forgejo-runner-token = {
-        owner = "gitea-runner";
-        mode = "0440";
-      };
+      forgejo-runner-token = { };
     };
     templates = {
       nix-config.content = ''
