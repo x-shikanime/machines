@@ -13,7 +13,7 @@
           ../../hosts/ashira/configuration.nix
           inputs.disko.nixosModules.disko
           inputs.home-manager.nixosModules.home-manager
-          inputs.knix.nixosModules.default
+          ../../modules/nixos/rke2
           inputs.sops-nix.nixosModules.sops
           {
             home-manager.sharedModules = [
@@ -33,7 +33,7 @@
           ../../hosts/manash/configuration.nix
           inputs.disko.nixosModules.disko
           inputs.home-manager.nixosModules.home-manager
-          inputs.knix.nixosModules.default
+          ../../modules/nixos/rke2
           inputs.sops-nix.nixosModules.sops
           {
             home-manager.sharedModules = [
@@ -53,7 +53,7 @@
           ../../hosts/nalsha/configuration.nix
           inputs.disko.nixosModules.disko
           inputs.home-manager.nixosModules.home-manager
-          inputs.knix.nixosModules.default
+          ../../modules/nixos/rke2
           inputs.sops-nix.nixosModules.sops
           {
             home-manager.sharedModules = [
@@ -73,7 +73,7 @@
           ../../hosts/fushi/configuration.nix
           inputs.disko.nixosModules.disko
           inputs.home-manager.nixosModules.home-manager
-          inputs.knix.nixosModules.default
+          ../../modules/nixos/rke2
           inputs.sops-nix.nixosModules.sops
           {
             home-manager.sharedModules = [
@@ -93,7 +93,7 @@
           ../../hosts/minish/configuration.nix
           inputs.disko.nixosModules.disko
           inputs.home-manager.nixosModules.home-manager
-          inputs.knix.nixosModules.default
+          ../../modules/nixos/rke2
           inputs.sops-nix.nixosModules.sops
           {
             home-manager.sharedModules = [
@@ -113,7 +113,7 @@
           ../../hosts/nemishi/configuration.nix
           inputs.disko.nixosModules.disko
           inputs.home-manager.nixosModules.home-manager
-          inputs.knix.nixosModules.default
+          ../../modules/nixos/rke2
           inputs.sops-nix.nixosModules.sops
           {
             home-manager.sharedModules = [
