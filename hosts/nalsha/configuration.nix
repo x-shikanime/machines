@@ -38,6 +38,10 @@
   };
 
   services = {
+    tailscale.extraUpFlags = [
+      "--advertise-routes=10.244.1.0/24,fd00::1:0/112"
+    ];
+
     gitea-actions-runner.instances.nalsha = {
       enable = true;
       name = "nalsha";
