@@ -73,6 +73,7 @@
           ../../hosts/fushi/configuration.nix
           inputs.disko.nixosModules.disko
           inputs.home-manager.nixosModules.home-manager
+          inputs.knix.nixosModules.default
           inputs.sops-nix.nixosModules.sops
           {
             home-manager.sharedModules = [
@@ -92,6 +93,7 @@
           ../../hosts/minish/configuration.nix
           inputs.disko.nixosModules.disko
           inputs.home-manager.nixosModules.home-manager
+          inputs.knix.nixosModules.default
           inputs.sops-nix.nixosModules.sops
           {
             home-manager.sharedModules = [
@@ -111,6 +113,7 @@
           ../../hosts/nemishi/configuration.nix
           inputs.disko.nixosModules.disko
           inputs.home-manager.nixosModules.home-manager
+          inputs.knix.nixosModules.default
           inputs.sops-nix.nixosModules.sops
           {
             home-manager.sharedModules = [
