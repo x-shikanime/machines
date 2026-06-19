@@ -13,7 +13,11 @@ with lib;
   options.shikanime.rke2.longhorn = mkOption {
     type = types.submodule {
       options = {
-        enable = mkEnableOption "Longhorn integration for RKE2";
+        enable = mkOption {
+          type = types.bool;
+          default = true;
+          description = "Longhorn integration for RKE2";
+        };
 
         mountRoot = mkOption {
           type = types.str;

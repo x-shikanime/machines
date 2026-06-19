@@ -13,7 +13,11 @@ with lib;
   options.shikanime.rke2.flux = mkOption {
     type = types.submodule {
       options = {
-        enable = mkEnableOption "Flux bootstrap and management for RKE2";
+        enable = mkOption {
+          type = types.bool;
+          default = true;
+          description = "Flux bootstrap and management for RKE2";
+        };
 
         instance = mkOption {
           type = types.submodule {

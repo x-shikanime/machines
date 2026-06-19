@@ -128,28 +128,24 @@
 
   shikanime.rke2 = {
     enable = true;
-    longhorn.enable = true;
-    flux = {
-      enable = true;
-      operator.extraConfig.web.ingress = {
-        enabled = true;
-        className = "tailscale";
-        annotations."tailscale.com/tags" = "tag:web";
-        hosts = [
-          {
-            host = "nishir-flux";
-            paths = [
-              {
-                path = "/";
-                pathType = "ImplementationSpecific";
-              }
-            ];
-          }
-        ];
-        tls = [
-          { hosts = [ "nishir-flux" ]; }
-        ];
-      };
+    flux.operator.extraConfig.web.ingress = {
+      enabled = true;
+      className = "tailscale";
+      annotations."tailscale.com/tags" = "tag:web";
+      hosts = [
+        {
+          host = "nishir-flux";
+          paths = [
+            {
+              path = "/";
+              pathType = "ImplementationSpecific";
+            }
+          ];
+        }
+      ];
+      tls = [
+        { hosts = [ "nishir-flux" ]; }
+      ];
     };
   };
 
