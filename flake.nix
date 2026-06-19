@@ -56,8 +56,8 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    kix = {
-      url = "github:x-shikanime/kix";
+    knix = {
+      url = "github:x-shikanime/knix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 

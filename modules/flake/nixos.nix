@@ -13,7 +13,7 @@
           ../../hosts/ashira/configuration.nix
           inputs.disko.nixosModules.disko
           inputs.home-manager.nixosModules.home-manager
-          inputs.kix.nixosModules.default
+          inputs.knix.nixosModules.default
           inputs.sops-nix.nixosModules.sops
           {
             home-manager.sharedModules = [
@@ -33,7 +33,7 @@
           ../../hosts/manash/configuration.nix
           inputs.disko.nixosModules.disko
           inputs.home-manager.nixosModules.home-manager
-          inputs.kix.nixosModules.default
+          inputs.knix.nixosModules.default
           inputs.sops-nix.nixosModules.sops
           {
             home-manager.sharedModules = [
@@ -53,7 +53,7 @@
           ../../hosts/nalsha/configuration.nix
           inputs.disko.nixosModules.disko
           inputs.home-manager.nixosModules.home-manager
-          inputs.kix.nixosModules.default
+          inputs.knix.nixosModules.default
           inputs.sops-nix.nixosModules.sops
           {
             home-manager.sharedModules = [
@@ -167,7 +167,8 @@
                     inputs.sops-nix.homeModules.default
                   ];
                 }
-              };
+              ];
+            };
             in
           catbox.config.system.build.buildLayeredImage;
         manash = self.nixosConfigurations.manash.config.system.build.toplevel;
@@ -195,7 +196,8 @@
                     inputs.sops-nix.homeModules.default
                   ];
                 }
-              };
+              ];
+            };
             in
           catbox.config.system.build.buildLayeredImage;
         fushi = self.nixosConfigurations.fushi.config.system.build.toplevel;
