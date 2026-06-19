@@ -1,8 +1,6 @@
 { config, ... }:
 
 {
-  hardware.enableRedistributableFirmware = true;
-
   boot = {
     # Kubernetes and Longhorn rely on bridge netfilter and overlayfs; BBR
     # improves WAN/Tailnet flows on the smaller ARM hosts too.
@@ -123,11 +121,8 @@
     };
   };
 
-  users.groups.nishir = { };
-
   users.users.nishir = {
     extraGroups = [ "wheel" ];
-    group = "nishir";
     home = "/home/nishir";
     initialHashedPassword = "$y$j9T$HB1msXB0DEq00J48zRpB20$/3rhVrTzGrv1j/cPvZ0clOM2gEe1TeylUG39wgD0C42";
     isNormalUser = true;
