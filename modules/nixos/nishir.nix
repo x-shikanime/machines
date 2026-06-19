@@ -1,7 +1,19 @@
-{ config, ... }:
+{ config, pkgs, ... }:
 
 {
+  # Intel N150 needs firmware plus userspace graphics/QSV libraries so the
+  # Jellyfin pod can use VAAPI/QSV via /dev/dri/renderD128.
   hardware.enableRedistributableFirmware = true;
+
+  hardware.graphics = {
+    enable = true;
+    enable32Bit = true;
+    extraPackages = with pkgs; [
+      intel-compute-runtime
+      intel-media-driver
+      vpl-gpu-rt
+    ];
+  };
 
   boot = {
     # Kubernetes and Longhorn rely on bridge netfilter and overlayfs; BBR
@@ -107,6 +119,27 @@
       useRoutingFeatures = "server";
       authKeyFile = config.sops.secrets.tailscale-authkey.path;
     };
+
+    fstrim.enable = true;
+
+    nix-serve.enable = true;
+
+    gitea-actions-runner.package = pkgs.forgejo-runner;
+  };
+
+  networking.firewall = {
+    extraCommands = ''
+      iptables -I INPUT -i br+ -j ACCEPT
+      iptables -I FORWARD -i br+ -j ACCEPT
+      ip6tables -I INPUT -i br+ -j ACCEPT
+      ip6tables -I FORWARD -i br+ -j ACCEPT
+    '';
+    extraStopCommands = ''
+      iptables -D INPUT -i br+ -j ACCEPT 2>/dev/null || true
+      iptables -D FORWARD -i br+ -j ACCEPT 2>/dev/null || true
+      ip6tables -D INPUT -i br+ -j ACCEPT 2>/dev/null || true
+      ip6tables -D FORWARD -i br+ -j ACCEPT 2>/dev/null || true
+    '';
   };
 
   nix.extraOptions = ''

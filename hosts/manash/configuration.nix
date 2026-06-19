@@ -54,45 +54,14 @@
   };
 
   hardware = {
-    # Intel N150 needs firmware plus userspace graphics/QSV libraries so the
-    # Jellyfin pod can use VAAPI/QSV via /dev/dri/renderD128.
     facter.reportPath = ./facter.json;
-
-    graphics = {
-      enable = true;
-      enable32Bit = true;
-      extraPackages = with pkgs; [
-        intel-compute-runtime
-        intel-media-driver
-        vpl-gpu-rt
-      ];
-    };
   };
-
-  # Vital for NVMe health and sustained performance
-  services.fstrim.enable = true;
 
   home-manager.users.nishir.imports = [
     ./users/nishir/home-configuration.nix
   ];
 
   networking = {
-    # Trust Docker bridge traffic for runner job containers.
-    firewall = {
-      extraCommands = ''
-        iptables -I INPUT -i br+ -j ACCEPT
-        iptables -I FORWARD -i br+ -j ACCEPT
-        ip6tables -I INPUT -i br+ -j ACCEPT
-        ip6tables -I FORWARD -i br+ -j ACCEPT
-      '';
-      extraStopCommands = ''
-        iptables -D INPUT -i br+ -j ACCEPT 2>/dev/null || true
-        iptables -D FORWARD -i br+ -j ACCEPT 2>/dev/null || true
-        ip6tables -D INPUT -i br+ -j ACCEPT 2>/dev/null || true
-        ip6tables -D FORWARD -i br+ -j ACCEPT 2>/dev/null || true
-      '';
-    };
-
     hostName = "manash";
   };
 
@@ -138,21 +107,16 @@
   };
 
   services = {
-    nix-serve.enable = true;
-
-    gitea-actions-runner = {
-      package = pkgs.forgejo-runner;
-      instances.manash = {
-        enable = true;
-        name = "manash";
-        tokenFile = config.sops.templates.forgejo-runner-token.path;
-        url = "https://forgejo.taila659a.ts.net";
-        labels = [
-          "docker:docker://node:22-bookworm"
-          "nixos-latest:docker://nixos/nix"
-          "native:host"
-        ];
-      };
+    gitea-actions-runner.instances.manash = {
+      enable = true;
+      name = "manash";
+      tokenFile = config.sops.templates.forgejo-runner-token.path;
+      url = "https://forgejo.taila659a.ts.net";
+      labels = [
+        "docker:docker://node:22-bookworm"
+        "nixos-latest:docker://nixos/nix"
+        "native:host"
+      ];
     };
   };
 

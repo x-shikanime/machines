@@ -54,8 +54,6 @@
   };
 
   hardware = {
-    # Intel N150 needs firmware plus userspace graphics/QSV libraries so the
-    # Jellyfin pod can use VAAPI/QSV via /dev/dri/renderD128.
     facter.reportPath = ./facter.json;
 
     graphics = {
@@ -77,22 +75,6 @@
   ];
 
   networking = {
-    # Trust Docker bridge traffic for runner job containers.
-    firewall = {
-      extraCommands = ''
-        iptables -I INPUT -i br+ -j ACCEPT
-        iptables -I FORWARD -i br+ -j ACCEPT
-        ip6tables -I INPUT -i br+ -j ACCEPT
-        ip6tables -I FORWARD -i br+ -j ACCEPT
-      '';
-      extraStopCommands = ''
-        iptables -D INPUT -i br+ -j ACCEPT 2>/dev/null || true
-        iptables -D FORWARD -i br+ -j ACCEPT 2>/dev/null || true
-        ip6tables -D INPUT -i br+ -j ACCEPT 2>/dev/null || true
-        ip6tables -D FORWARD -i br+ -j ACCEPT 2>/dev/null || true
-      '';
-    };
-
     hostName = "ashira";
   };
 
@@ -140,10 +122,7 @@
   };
 
   services = {
-    nix-serve.enable = true;
-
     gitea-actions-runner = {
-      package = pkgs.forgejo-runner;
       instances.ashira = {
         enable = true;
         name = "ashira";
