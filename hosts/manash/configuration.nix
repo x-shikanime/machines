@@ -218,6 +218,12 @@
       };
     };
 
+    nix-serve = {
+      enable = true;
+      openFirewall = true;
+      secretKeyFile = config.sops.secrets.nix-serve-key.path;
+    };
+
     openssh = {
       enable = true;
       openFirewall = true;
@@ -268,6 +274,7 @@
     defaultSopsFormat = "yaml";
     secrets = {
       nix-access-token = { };
+      nix-serve-key = { };
       tailscale-authkey = { };
       forgejo-runner-token = { };
     };
