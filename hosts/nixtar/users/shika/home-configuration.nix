@@ -9,15 +9,8 @@ with lib;
 
 let
   toDhall = generators.toDhall { };
-
-  gitIni = pkgs.formats.gitIni { };
   ini = pkgs.formats.ini { };
-  toml = pkgs.formats.toml { };
   yaml = pkgs.formats.yaml { };
-
-  name = "William Phetsinorath";
-  gpgSigningKey = "721388256B3D78FA";
-  sshSigningKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPFC5VCX4U04t82TizoUmXxZ064cOqNtswe0zPDqWWRj";
 in
 {
   imports = [
@@ -31,6 +24,26 @@ in
     ../../../../modules/home/zed-editor.nix
   ];
 
+  identities = {
+    shikanime.enable = true;
+
+    gouv = {
+      enable = true;
+      git.condition = "gitpath:${config.home.homeDirectory}/Source/Repos/github.com/cloud-pi-native";
+      jj.extraConfig."--when.repositories" = [
+        "${config.home.homeDirectory}/Source/Repos/github.com/cloud-pi-native"
+      ];
+    };
+
+    operator-6o = {
+      enable = true;
+      git.condition = "gitpath:${config.home.homeDirectory}/Source/Repos/github.com/operator6o";
+      jj.extraConfig."--when.repositories" = [
+        "${config.home.homeDirectory}/Source/Repos/github.com/operator6o"
+      ];
+    };
+  };
+
   home.sessionVariables.GHSTACKRC_PATH = config.lib.file.mkOutOfStoreSymlink config.sops.templates.ghstack-config.path;
 
   nix.extraOptions = ''
@@ -41,21 +54,6 @@ in
     bash.enable = true;
 
     docker-cli.settings.credsStore = "pass";
-
-    git = {
-      includes = [
-        { path = config.lib.file.mkOutOfStoreSymlink config.sops.templates.git-config.path; }
-        {
-          condition = "gitdir:${config.home.homeDirectory}/Source/Repos/github.com/cloud-pi-native";
-          path = config.lib.file.mkOutOfStoreSymlink config.sops.templates.git-config-gouv.path;
-        }
-        {
-          condition = "gitdir:${config.home.homeDirectory}/Source/Repos/github.com/operator6o";
-          path = config.lib.file.mkOutOfStoreSymlink config.sops.templates.git-config-operator6o.path;
-        }
-      ];
-      signing.signByDefault = true;
-    };
   };
 
   sops = {
@@ -66,11 +64,6 @@ in
       cachix-token = { };
       github-token = { };
       gitlab-token = { };
-      gouv-email = { };
-      gouv-signing-key = { };
-      operator6o-email = { };
-      operator6o-signing-key = { };
-      shikanime-studio-email = { };
       nix-access-token = { };
     };
     templates = {
@@ -96,96 +89,9 @@ in
           token = config.sops.placeholder.gitlab-token;
         };
       };
-      git-config.file = gitIni.generate "config" {
-        gpg.format = "ssh";
-        user = {
-          inherit name;
-          signingkey =
-            let
-              signingKey = pkgs.writeText "id_ed25519.pub" ''
-                ${sshSigningKey}
-              '';
-            in
-            "${signingKey}";
-          email = config.sops.placeholder.shikanime-studio-email;
-        };
-      };
-      jujutsu-config.file = toml.generate "config.toml" {
-        signing = {
-          backend = "ssh";
-          behavior = "own";
-          key = sshSigningKey;
-        };
-        user = {
-          inherit name;
-          email = config.sops.placeholder.shikanime-studio-email;
-        };
-      };
-      jujutsu-gouv-config.file = toml.generate "config.toml" {
-        "--when.repositories" = [ "${config.home.homeDirectory}/Source/Repos/github.com/cloud-pi-native" ];
-        signing.key = config.sops.placeholder.gouv-signing-key;
-        user = {
-          email = config.sops.placeholder.gouv-email;
-          inherit name;
-        };
-      };
-      git-config-gouv.file = gitIni.generate "config" {
-        gpg.format = "gpg";
-        user = {
-          email = config.sops.placeholder.gouv-email;
-          inherit name;
-          signingkey = config.sops.placeholder.gouv-signing-key;
-        };
-      };
-      jujutsu-operator6o-config.file = toml.generate "config.toml" {
-        "--when.repositories" = [ "${config.home.homeDirectory}/Source/Repos/github.com/operator6o" ];
-        signing.key = config.sops.placeholder.operator6o-signing-key;
-        user = {
-          email = config.sops.placeholder.operator6o-email;
-          inherit name;
-        };
-      };
-      git-config-operator6o.file = gitIni.generate "config" {
-        gpg.format = "gpg";
-        user = {
-          email = config.sops.placeholder.operator6o-email;
-          inherit name;
-          signingkey = config.sops.placeholder.operator6o-signing-key;
-        };
-      };
       nix-config.content = ''
         extra-access-tokens = "github.com=${config.sops.placeholder.nix-access-token}";
       '';
-      sapling-config.file = ini.generate "sapling.conf" {
-        alias = {
-          ci = "ci --message-field Signed-off-by=\"${name} <${config.sops.placeholder.shikanime-studio-email}>\"";
-          commit = "commit --message-field Signed-off-by=\"${name} <${config.sops.placeholder.shikanime-studio-email}>\"";
-          push = "push --force";
-        };
-        committemplate = {
-          commit-message-fields = "Summary,Fixes,Signed-off-by";
-          emptymsg = "{if(title, title, defaulttitle)}\\n\\nSummary: {summary}\\n\\nFixes: {fixes}\\n\\nSigned-off-by: {author}";
-        };
-        diff-tools = {
-          "zed.args" = "--wait --diff $local $other";
-          "zed.gui" = true;
-          "zed.priority" = 20;
-        };
-        gpg.key = gpgSigningKey;
-        hooks = {
-          "precommit.git-hooks" = "test -f .git/hooks/pre-commit && .git/hooks/pre-commit || true";
-          "preoutgoing.git-hooks" = "test -f .git/hooks/pre-push && .git/hooks/pre-push || true";
-          "update.git-hooks" = "test -f .git/hooks/post-rewrite && .git/hooks/post-rewrite || true";
-        };
-        merge-tools = {
-          "mergiraf.args" = "merge --git $base $local $other -o $output";
-          "mergiraf.priority" = 30;
-        };
-        ui = {
-          editor = "hx";
-          username = "${name} <${config.sops.placeholder.shikanime-studio-email}>";
-        };
-      };
     };
   };
 
@@ -196,13 +102,5 @@ in
       force = true;
       source = config.lib.file.mkOutOfStoreSymlink config.sops.templates.glab-cli-config.path;
     };
-    "jj/conf.d/default.toml".source =
-      config.lib.file.mkOutOfStoreSymlink config.sops.templates.jujutsu-config.path;
-    "jj/conf.d/gouv.conf".source =
-      config.lib.file.mkOutOfStoreSymlink config.sops.templates.jujutsu-gouv-config.path;
-    "jj/conf.d/operator6o.conf".source =
-      config.lib.file.mkOutOfStoreSymlink config.sops.templates.jujutsu-operator6o-config.path;
-    "sapling/sapling.conf".source =
-      config.lib.file.mkOutOfStoreSymlink config.sops.templates.sapling-config.path;
   };
 }

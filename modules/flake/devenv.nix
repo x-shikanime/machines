@@ -100,6 +100,16 @@
                 ];
               }
               {
+                path_regex = "secrets/fushi.enc.yaml";
+                key_groups = [
+                  {
+                    age = age ++ [
+                      "age18zmkeyxun4gflllelsmdhwjh5xpfwrqshdxrednv7zljphepxc6strhysn"
+                    ];
+                  }
+                ];
+              }
+              {
                 path_regex = "secrets/manash.enc.yaml";
                 key_groups = [
                   {
@@ -110,11 +120,31 @@
                 ];
               }
               {
+                path_regex = "secrets/minish.enc.yaml";
+                key_groups = [
+                  {
+                    age = age ++ [
+                      "age18zmkeyxun4gflllelsmdhwjh5xpfwrqshdxrednv7zljphepxc6strhysn"
+                    ];
+                  }
+                ];
+              }
+              {
                 path_regex = "secrets/nalsha.enc.yaml";
                 key_groups = [
                   {
                     age = age ++ [
                       "age1evzl6xw2n96l2xyy7jed3zlv6d4jpmytp47rpp39pjju08tep4mqqa2au5"
+                    ];
+                  }
+                ];
+              }
+              {
+                path_regex = "secrets/nemishi.enc.yaml";
+                key_groups = [
+                  {
+                    age = age ++ [
+                      "age18zmkeyxun4gflllelsmdhwjh5xpfwrqshdxrednv7zljphepxc6strhysn"
                     ];
                   }
                 ];

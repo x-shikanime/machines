@@ -8,7 +8,7 @@
     };
 
     colemak = {
-      url = "github:shikanime/colemak";
+      url = "github:x-shikanime/colemak";
       inputs = {
         devenv.follows = "devenv";
         devlib.follows = "devlib";
@@ -25,6 +25,18 @@
         flake-parts.follows = "flake-parts";
         git-hooks.follows = "git-hooks";
         nixpkgs.follows = "nixpkgs";
+      };
+    };
+
+    identities = {
+      url = "github:shikanime/identities";
+      inputs = {
+        devenv.follows = "devenv";
+        devlib.follows = "devlib";
+        flake-parts.follows = "flake-parts";
+        git-hooks.follows = "git-hooks";
+        nixpkgs.follows = "nixpkgs";
+        treefmt-nix.follows = "treefmt-nix";
       };
     };
 
