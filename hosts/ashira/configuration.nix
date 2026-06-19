@@ -37,8 +37,12 @@
     tokenFile = config.sops.secrets.rke2-token.path;
   };
 
-  services.gitea-actions-runner = {
-    instances.ashira = {
+  services = {
+    tailscale.extraUpFlags = [
+      "--advertise-routes=10.244.2.0/24,fd00::2:0/112"
+    ];
+
+    gitea-actions-runner.instances.ashira = {
       enable = true;
       name = "ashira";
       tokenFile = config.sops.templates.forgejo-runner-token.path;

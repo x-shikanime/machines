@@ -33,16 +33,22 @@
 
   shikanime.rke2.extraConfig.nodeIP = "192.168.1.28,2a02:8424:7899:f201:94eb:8d1:325a:7181";
 
-  services.gitea-actions-runner.instances.manash = {
-    enable = true;
-    name = "manash";
-    tokenFile = config.sops.templates.forgejo-runner-token.path;
-    url = "https://forgejo.taila659a.ts.net";
-    labels = [
-      "docker:docker://node:22-bookworm"
-      "nixos-latest:docker://nixos/nix"
-      "native:host"
+  services = {
+    tailscale.extraUpFlags = [
+      "--advertise-routes=10.244.0.0/24,fd00::/112"
     ];
+
+    gitea-actions-runner.instances.manash = {
+      enable = true;
+      name = "manash";
+      tokenFile = config.sops.templates.forgejo-runner-token.path;
+      url = "https://forgejo.taila659a.ts.net";
+      labels = [
+        "docker:docker://node:22-bookworm"
+        "nixos-latest:docker://nixos/nix"
+        "native:host"
+      ];
+    };
   };
 
   sops = {
