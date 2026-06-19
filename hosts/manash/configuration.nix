@@ -270,7 +270,7 @@
       nix-access-token = { };
       tailscale-authkey = { };
       forgejo-runner-token = {
-        group = "gitea-runner";
+        user = "gitea-runner";
         mode = "0440";
       };
     };
