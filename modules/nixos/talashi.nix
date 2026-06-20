@@ -29,10 +29,6 @@
           url = "https://github.com/shikanime/manifests.git";
         };
 
-        instance.extraConfig.instance.cluster.networkPolicy = true;
-
-        operator.extraConfig.web.networkPolicy.create = true;
-
         operator.extraConfig.web.ingress = {
           enabled = true;
           className = "tailscale";
