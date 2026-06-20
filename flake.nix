@@ -29,7 +29,7 @@
     };
 
     identities = {
-      url = "github:shikanime/identities";
+      url = "github:x-shikanime/identities";
       inputs = {
         devenv.follows = "devenv";
         devlib.follows = "devlib";
