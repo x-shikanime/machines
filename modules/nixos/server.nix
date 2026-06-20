@@ -34,10 +34,7 @@
 
   sops = {
     age.sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
-    secrets = {
-      rke2-token.restartUnits = [ "rke2-server.service" ];
-      tailscale-authkey.restartUnits = [ "tailscaled.service" ];
-    };
+    secrets.tailscale-authkey.restartUnits = [ "tailscaled.service" ];
   };
 
   services = {
@@ -51,8 +48,6 @@
         workstation = true;
       };
     };
-
-    fstrim.enable = true;
 
     gitea-actions-runner.package = pkgs.forgejo-runner;
 
@@ -72,20 +67,6 @@
     };
   };
 
-  # Expose RKE2 API (9345) and Kubernetes API (6443) as a single Tailscale Service.
-  services.tailscale.serve = {
-    enable = true;
-    services.nishir = {
-      advertised = true;
-      endpoints = {
-        # Kubernetes API
-        "tcp:6443" = "tcp://127.0.0.1:6443";
-        # RKE2 API
-        "tcp:9345" = "tcp://127.0.0.1:9345";
-      };
-    };
-  };
-
   systemd.services.tailscale-udp-gro-forwarding = {
     after = [ "network-online.target" ];
     description = "Enable Tailscale UDP GRO forwarding on enp1s0";
@@ -95,16 +76,6 @@
     serviceConfig.Type = "oneshot";
     wantedBy = [ "multi-user.target" ];
     wants = [ "network-online.target" ];
-  };
-
-  users.users.nishir = {
-    extraGroups = [ "wheel" ];
-    home = "/home/nishir";
-    initialHashedPassword = "$y$j9T$HB1msXB0DEq00J48zRpB20$/3rhVrTzGrv1j/cPvZ0clOM2gEe1TeylUG39wgD0C42";
-    isNormalUser = true;
-    openssh.authorizedKeys.keys = [
-      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIH+tp1Xfz7NomHCZuDPlfj3XW5hm9t0TiCyEeudRraoe"
-    ];
   };
 
   virtualisation.docker = {

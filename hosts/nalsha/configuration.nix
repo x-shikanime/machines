@@ -33,6 +33,7 @@
   knix = {
     nodeIP = "192.168.1.64,2a02:8424:7899:f201:94eb:8d1:325a:7234";
     serverAddr = "https://nishir.taila659a.ts.net:9345";
+    tokenFile = config.sops.secrets.rke2-token.path;
   };
 
   services = {
@@ -56,7 +57,10 @@
   sops = {
     defaultSopsFile = ../../secrets/nalsha.enc.yaml;
     defaultSopsFormat = "yaml";
-    secrets.forgejo-runner-nalsha-token.restartUnits = [ "forgejo-runner-nalsha.service" ];
+    secrets = {
+      forgejo-runner-nalsha-token.restartUnits = [ "forgejo-runner-nalsha.service" ];
+      rke2-token.restartUnits = [ "rke2-server.service" ];
+    };
     templates.forgejo-runner-nalsha-token.content = ''
       TOKEN=${config.sops.placeholder.forgejo-runner-nalsha-token}
     '';

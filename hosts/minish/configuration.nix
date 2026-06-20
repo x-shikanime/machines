@@ -43,10 +43,12 @@
   knix = {
     nodeIP = "192.168.1.29";
     serverAddr = "https://nishir.taila659a.ts.net:9345";
+    tokenFile = config.sops.secrets.rke2-token.path;
   };
 
   sops = {
     defaultSopsFile = ../../secrets/minish.enc.yaml;
     defaultSopsFormat = "yaml";
+    secret.rke2-token.restartUnits = [ "rke2-server.service" ];
   };
 }
