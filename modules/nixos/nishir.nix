@@ -80,6 +80,7 @@
       openFirewall = true;
       useRoutingFeatures = "server";
       authKeyFile = config.sops.secrets.tailscale-authkey.path;
+      extraUpFlags = [ "--ssh" ];
     };
 
     fstrim.enable = true;
