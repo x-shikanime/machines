@@ -4,6 +4,7 @@
   imports = [
     ../../modules/nixos/base.nix
     ../../modules/nixos/telashi.nix
+    ../../modules/nixos/distributed.nix
   ];
 
   disko.devices.disk.main = {
@@ -34,8 +35,8 @@
     };
   };
 
-  home-manager.users.nishir.imports = [
-    ./users/nishir/home-configuration.nix
+  home-manager.users.telashi.imports = [
+    ./users/telashi/home-configuration.nix
   ];
 
   networking.hostName = "nemishi";
@@ -46,5 +47,4 @@
     defaultSopsFile = ../../secrets/nemishi.enc.yaml;
     defaultSopsFormat = "yaml";
   };
-
 }
