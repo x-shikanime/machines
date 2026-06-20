@@ -72,23 +72,26 @@
     ];
   };
 
-  knix.addons.flux.operator.extraConfig.web.ingress = {
-    enabled = true;
-    className = "tailscale";
-    annotations."tailscale.com/tags" = "tag:web";
-    hosts = [
-      {
-        host = "nishir-flux";
-        paths = [
-          {
-            path = "/";
-            pathType = "ImplementationSpecific";
-          }
-        ];
-      }
-    ];
-    tls = [
-      { hosts = [ "nishir-flux" ]; }
-    ];
+  knix = {
+    enable = true;
+    addons.flux.operator.extraConfig.web.ingress = {
+      enabled = true;
+      className = "tailscale";
+      annotations."tailscale.com/tags" = "tag:web";
+      hosts = [
+        {
+          host = "nishir-flux";
+          paths = [
+            {
+              path = "/";
+              pathType = "ImplementationSpecific";
+            }
+          ];
+        }
+      ];
+      tls = [
+        { hosts = [ "nishir-flux" ]; }
+      ];
+    };
   };
 }

@@ -1,6 +1,5 @@
 {
   config,
-  lib,
   pkgs,
   ...
 }:
@@ -141,35 +140,38 @@
     };
   };
 
-  knix.addons.flux = {
-    enable = lib.mkDefault true;
-    instance.extraConfig.instance.sync = lib.mkDefault {
-      interval = "1m";
-      kind = "GitRepository";
-      path = "clusters/nishir/overlays/tailnet";
-      pullSecret = "";
-      ref = "refs/heads/main";
-      url = "https://github.com/shikanime/manifests.git";
-    };
+  knix = {
+    enable = true;
+    addons.flux = {
+      enable = true;
+      instance.extraConfig.instance.sync = {
+        interval = "1m";
+        kind = "GitRepository";
+        path = "clusters/nishir/overlays/tailnet";
+        pullSecret = "";
+        ref = "refs/heads/main";
+        url = "https://github.com/shikanime/manifests.git";
+      };
 
-    operator.extraConfig.web.ingress = {
-      enabled = true;
-      className = "tailscale";
-      annotations."tailscale.com/tags" = "tag:web";
-      hosts = [
-        {
-          host = "nishir-flux";
-          paths = [
-            {
-              path = "/";
-              pathType = "ImplementationSpecific";
-            }
-          ];
-        }
-      ];
-      tls = [
-        { hosts = [ "nishir-flux" ]; }
-      ];
+      operator.extraConfig.web.ingress = {
+        enabled = true;
+        className = "tailscale";
+        annotations."tailscale.com/tags" = "tag:web";
+        hosts = [
+          {
+            host = "nishir-flux";
+            paths = [
+              {
+                path = "/";
+                pathType = "ImplementationSpecific";
+              }
+            ];
+          }
+        ];
+        tls = [
+          { hosts = [ "nishir-flux" ]; }
+        ];
+      };
     };
   };
 
