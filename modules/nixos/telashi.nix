@@ -8,6 +8,11 @@
     "cgroup_memory=1"
   ];
 
+  boot.loader = {
+    grub.enable = false;
+    generic-extlinux-compatible.enable = true;
+  };
+
   networking.getaddrinfo.precedence = {
     "::1/128" = 50;
     "::/0" = 40;
