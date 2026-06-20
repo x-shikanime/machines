@@ -1,7 +1,7 @@
 { config, ... }:
 
 {
-  import = [
+  imports = [
     ./minimal.nix
   ];
 

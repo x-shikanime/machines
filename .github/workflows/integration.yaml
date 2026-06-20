@@ -3,9 +3,7 @@ permissions:
   contents: read
 jobs:
   nix:
-    if:
-      ${{ github.event_name == 'workflow_call' || github.event_name ==
-      'workflow_dispatch' || github.event.pull_request.draft == false }}
+    if: ${{ github.event_name == 'workflow_call' || github.event_name == 'workflow_dispatch' || github.event.pull_request.draft == false }}
     permissions:
       contents: read
       packages: write
@@ -16,9 +14,7 @@ jobs:
     with:
       cachix-name: shikanime
   skaffold:
-    if:
-      ${{ github.event_name == 'workflow_call' || github.event_name ==
-      'workflow_dispatch' || github.event.pull_request.draft == false }}
+    if: ${{ github.event_name == 'workflow_call' || github.event_name == 'workflow_dispatch' || github.event.pull_request.draft == false }}
     needs:
       - nix
     permissions:
@@ -28,7 +24,7 @@ jobs:
       CACHIX_AUTH_TOKEN: ${{ secrets.CACHIX_AUTH_TOKEN }}
       OPERATOR_PRIVATE_KEY: ${{ secrets.OPERATOR_PRIVATE_KEY }}
     uses: ./.github/workflows/skaffold.yaml
-"on":
+'on':
   pull_request:
     branches:
       - main
