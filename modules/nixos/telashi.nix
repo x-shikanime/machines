@@ -131,7 +131,7 @@
     ];
   };
 
-  knix.flux.operator.extraConfig.web.ingress = {
+  knix.addons.flux.operator.extraConfig.web.ingress = {
     enabled = true;
     className = "tailscale";
     annotations."tailscale.com/tags" = "tag:web";

@@ -209,7 +209,7 @@
     };
   };
 
-  knix.flux = {
+  knix.addons.flux = {
     enable = lib.mkDefault true;
     instance.extraConfig.instance.sync = lib.mkDefault {
       interval = "1m";
