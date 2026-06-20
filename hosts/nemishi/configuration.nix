@@ -35,7 +35,6 @@
   sops = {
     defaultSopsFile = ../../secrets/nemishi.enc.yaml;
     defaultSopsFormat = "yaml";
-    secrets.rke2-token.restartUnits = [ "rke2-server.service" ];
   };
 
   systemd.tmpfiles.rules = [
