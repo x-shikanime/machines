@@ -1,7 +1,7 @@
 name: Triage
 permissions:
   pull-requests: write
-'on':
+"on":
   pull_request:
     types:
       - opened
@@ -20,15 +20,31 @@ jobs:
           private-key: ${{ secrets.OPERATOR_PRIVATE_KEY }}
       - uses: shikanime-studio/actions/nix/setup@v9
         with:
-          github-token: ${{ steps.createGithubAppToken.outputs.token || secrets.GITHUB_TOKEN }}
+          github-token:
+            ${{ steps.createGithubAppToken.outputs.token || secrets.GITHUB_TOKEN
+            }}
       - uses: shikanime-studio/actions/checkout@v9
         with:
-          github-token: ${{ steps.createGithubAppToken.outputs.token || secrets.GITHUB_TOKEN }}
+          github-token:
+            ${{ steps.createGithubAppToken.outputs.token || secrets.GITHUB_TOKEN
+            }}
       - env:
-          GH_TOKEN: ${{ steps.createGithubAppToken.outputs.token || secrets.GITHUB_TOKEN }}
-        if: github.event.pull_request.user.login == 'dependabot[bot]' || github.event.pull_request.user.login == 'yorha-operator-6o[bot]'
-        run: gh pr edit "${{ github.event.pull_request.number }}" --add-label dependencies
+          GH_TOKEN:
+            ${{ steps.createGithubAppToken.outputs.token || secrets.GITHUB_TOKEN
+            }}
+        if:
+          github.event.pull_request.user.login == 'dependabot[bot]' ||
+          github.event.pull_request.user.login == 'yorha-operator-6o[bot]'
+        run:
+          gh pr edit "${{ github.event.pull_request.number }}" --add-label
+          dependencies
       - env:
-          GH_TOKEN: ${{ steps.createGithubAppToken.outputs.token || secrets.GITHUB_TOKEN }}
-        if: startsWith(github.head_ref, 'gh/') && endsWith(github.head_ref, '/head')
-        run: gh pr edit "${{ github.event.pull_request.number }}" --add-label ghstack
+          GH_TOKEN:
+            ${{ steps.createGithubAppToken.outputs.token || secrets.GITHUB_TOKEN
+            }}
+        if:
+          startsWith(github.head_ref, 'gh/') && endsWith(github.head_ref,
+          '/head')
+        run:
+          gh pr edit "${{ github.event.pull_request.number }}" --add-label
+          ghstack

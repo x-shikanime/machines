@@ -1,7 +1,7 @@
 name: Cleanup
 permissions:
   contents: read
-'on':
+"on":
   pull_request:
     types:
       - closed
