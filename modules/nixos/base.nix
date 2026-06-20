@@ -33,11 +33,12 @@
     '';
   };
 
-  sops.secrets.nix-access-token = { };
-
-  sops.templates.nix-config.content = ''
-    extra-access-tokens = "github.com=${config.sops.placeholder.nix-access-token}"
-  '';
+  sops = {
+    secrets.nix-access-token = { };
+    templates.nix-config.content = ''
+      extra-access-tokens = "github.com=${config.sops.placeholder.nix-access-token}"
+    '';
+  };
 
   # Automatically upgrade NixOS
   system.autoUpgrade = {

@@ -30,11 +30,12 @@
     '';
   };
 
-  sops.secrets.nix-access-token = { };
-
-  sops.templates.nix-config.content = ''
-    extra-access-tokens = "github.com=${config.sops.placeholder.nix-access-token}"
-  '';
+  sops = {
+    secrets.nix-access-token = { };
+    templates.nix-config.content = ''
+      extra-access-tokens = "github.com=${config.sops.placeholder.nix-access-token}"
+    '';
+  };
 
   # This value determines the Darwin release from which the default
   # settings for stateful data, like file locations and database versions
