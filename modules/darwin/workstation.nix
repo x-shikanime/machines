@@ -1,16 +1,7 @@
-{ config, ... }:
-
 {
-  nix.extraOptions = ''
-    !include ${config.sops.templates.nix-config.path}
-  '';
-
-  sops = {
-    secrets.nix-access-token = { };
-    templates.nix-config.content = ''
-      extra-access-tokens = "github.com=${config.sops.placeholder.nix-access-token}"
-    '';
-  };
+  imports = [
+    ./base.nix
+  ];
 
   homebrew = {
     enable = true;
@@ -55,16 +46,6 @@
       Velja = 1607635845;
       Xcode = 497799835;
     };
-  };
-
-  nix.linux-builder = {
-    enable = true;
-    config.boot.binfmt.emulatedSystems = [ "x86_64-linux" ];
-    ephemeral = true;
-    systems = [
-      "x86_64-linux"
-      "aarch64-linux"
-    ];
   };
 
   programs.zsh.enable = true;

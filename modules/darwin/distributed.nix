@@ -77,7 +77,9 @@
         mandatoryFeatures = [ ];
       }
     ];
+
     distributedBuilds = true;
+
     linux-builder = {
       enable = true;
       config.boot.binfmt.emulatedSystems = [ "x86_64-linux" ];
@@ -87,6 +89,7 @@
         "aarch64-linux"
       ];
     };
+
     settings = {
       builders-use-substitutes = true;
       substituters = [

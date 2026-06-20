@@ -3,6 +3,7 @@
 {
   imports = [
     ../../modules/nixos/base.nix
+    ../../modules/nixos/machine.nix
     ../../modules/nixos/nishir.nix
     ../../modules/nixos/distributed.nix
   ];

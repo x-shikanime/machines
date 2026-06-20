@@ -5,6 +5,10 @@
 }:
 
 {
+  imports = [
+    ./base.nix
+  ];
+
   boot = {
     binfmt.emulatedSystems = [ "aarch64-linux" ];
     loader = {
