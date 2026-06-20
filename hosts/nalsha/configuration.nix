@@ -4,6 +4,7 @@
   imports = [
     ../../modules/nixos/base.nix
     ../../modules/nixos/nishir.nix
+    ../../modules/nixos/distributed.nix
   ];
 
   disko.devices.disk.remilia = {
