@@ -1,133 +1,12 @@
-jobs:
-  checks:
-    if: ${{ needs['setup-checks-jobs'].outputs.continue == 'true' }}
-    name: Checks
-    needs:
-    - setup-checks-jobs
-    runs-on: ${{ matrix.runner }}
-    steps:
-    - continue-on-error: true
-      id: createGithubAppToken
-      uses: actions/create-github-app-token@v3
-      with:
-        app-id: ${{ vars.OPERATOR_APP_ID }}
-        permission-contents: read
-        private-key: ${{ secrets.OPERATOR_PRIVATE_KEY }}
-    - uses: shikanime-studio/actions/nix/setup@v9
-      with:
-        cachix-auth-token: ${{ secrets.CACHIX_AUTH_TOKEN }}
-        cachix-name: ${{ inputs['cachix-name'] }}
-        github-token: ${{ steps.createGithubAppToken.outputs.token || secrets.GITHUB_TOKEN
-          }}
-    - uses: shikanime-studio/actions/checkout@v9
-      with:
-        github-token: ${{ steps.createGithubAppToken.outputs.token || secrets.GITHUB_TOKEN
-          }}
-    - id: direnv
-      uses: shikanime-studio/actions/direnv@v9
-    - env: ${{ fromJSON(steps.direnv.outputs.env) }}
-      run: nix flake check --accept-flake-config --no-pure-eval --system "${{ matrix.system
-        }}"
-      shell: bash
-    strategy:
-      fail-fast: false
-      matrix:
-        include: ${{ fromJSON(needs['setup-checks-jobs'].outputs.matrix) }}
-  packages:
-    if: ${{ needs['setup-packages-jobs'].outputs.continue == 'true' }}
-    name: Packages
-    needs:
-    - setup-packages-jobs
-    permissions:
-      contents: read
-      packages: write
-    runs-on: ${{ matrix.runner }}
-    steps:
-    - continue-on-error: true
-      id: createGithubAppToken
-      uses: actions/create-github-app-token@v3
-      with:
-        app-id: ${{ vars.OPERATOR_APP_ID }}
-        permission-contents: read
-        private-key: ${{ secrets.OPERATOR_PRIVATE_KEY }}
-    - uses: shikanime-studio/actions/nix/setup@v9
-      with:
-        cachix-auth-token: ${{ secrets.CACHIX_AUTH_TOKEN }}
-        cachix-name: ${{ inputs['cachix-name'] }}
-        github-token: ${{ steps.createGithubAppToken.outputs.token || secrets.GITHUB_TOKEN
-          }}
-    - uses: shikanime-studio/actions/checkout@v9
-      with:
-        github-token: ${{ steps.createGithubAppToken.outputs.token || secrets.GITHUB_TOKEN
-          }}
-    - id: direnv
-      uses: shikanime-studio/actions/direnv@v9
-    - env: ${{ fromJSON(steps.direnv.outputs.env) }}
-      uses: shikanime-studio/actions/nix/integration@v9
-      with:
-        name: ${{ matrix.name }}
-        system: ${{ matrix.system }}
-    strategy:
-      fail-fast: false
-      matrix:
-        include: ${{ fromJSON(needs['setup-packages-jobs'].outputs.matrix) }}
-  setup-checks-jobs:
-    name: Setup Checks Jobs
-    outputs:
-      continue: ${{ steps.setup-checks-jobs.outputs.continue }}
-      matrix: ${{ steps.setup-checks-jobs.outputs.matrix }}
-    runs-on: ubuntu-latest
-    steps:
-    - continue-on-error: true
-      id: createGithubAppToken
-      uses: actions/create-github-app-token@v3
-      with:
-        app-id: ${{ vars.OPERATOR_APP_ID }}
-        permission-contents: read
-        private-key: ${{ secrets.OPERATOR_PRIVATE_KEY }}
-    - uses: shikanime-studio/actions/nix/setup@v9
-      with:
-        github-token: ${{ steps.createGithubAppToken.outputs.token || secrets.GITHUB_TOKEN
-          }}
-    - uses: shikanime-studio/actions/checkout@v9
-      with:
-        github-token: ${{ steps.createGithubAppToken.outputs.token || secrets.GITHUB_TOKEN
-          }}
-    - id: setup-checks-jobs
-      uses: shikanime-studio/actions/nix/setup-checks-jobs@v9
-  setup-packages-jobs:
-    name: Setup Packages Jobs
-    needs:
-    - checks
-    outputs:
-      continue: ${{ steps.setup-packages-jobs.outputs.continue }}
-      matrix: ${{ steps.setup-packages-jobs.outputs.matrix }}
-    runs-on: ubuntu-latest
-    steps:
-    - continue-on-error: true
-      id: createGithubAppToken
-      uses: actions/create-github-app-token@v3
-      with:
-        app-id: ${{ vars.OPERATOR_APP_ID }}
-        permission-contents: read
-        private-key: ${{ secrets.OPERATOR_PRIVATE_KEY }}
-    - uses: shikanime-studio/actions/nix/setup@v9
-      with:
-        github-token: ${{ steps.createGithubAppToken.outputs.token || secrets.GITHUB_TOKEN
-          }}
-    - uses: shikanime-studio/actions/checkout@v9
-      with:
-        github-token: ${{ steps.createGithubAppToken.outputs.token || secrets.GITHUB_TOKEN
-          }}
-    - id: setup-packages-jobs
-      uses: shikanime-studio/actions/nix/setup-packages-jobs@v9
 name: Nix
-'on':
+permissions:
+  contents: read
+"on":
   workflow_call:
     inputs:
       cachix-name:
-        default: ''
         type: string
+        default: ""
     secrets:
       CACHIX_AUTH_TOKEN:
         required: false
@@ -136,8 +15,138 @@ name: Nix
   workflow_dispatch:
     inputs:
       cachix-name:
-        default: ''
-        description: Cachix cache name
         type: string
-permissions:
-  contents: read
+        default: ""
+        description: Cachix cache name
+jobs:
+  checks:
+    name: Checks
+    if: ${{ needs['setup-checks-jobs'].outputs.continue == 'true' }}
+    runs-on: ${{ matrix.runner }}
+    needs:
+      - setup-checks-jobs
+    strategy:
+      fail-fast: false
+      matrix:
+        include: ${{ fromJSON(needs['setup-checks-jobs'].outputs.matrix) }}
+    steps:
+      - id: createGithubAppToken
+        continue-on-error: true
+        uses: actions/create-github-app-token@v3
+        with:
+          app-id: ${{ vars.OPERATOR_APP_ID }}
+          permission-contents: read
+          private-key: ${{ secrets.OPERATOR_PRIVATE_KEY }}
+      - uses: shikanime-studio/actions/nix/setup@v9
+        with:
+          cachix-auth-token: ${{ secrets.CACHIX_AUTH_TOKEN }}
+          cachix-name: ${{ inputs['cachix-name'] }}
+          github-token:
+            ${{ steps.createGithubAppToken.outputs.token || secrets.GITHUB_TOKEN
+            }}
+      - uses: shikanime-studio/actions/checkout@v9
+        with:
+          github-token:
+            ${{ steps.createGithubAppToken.outputs.token || secrets.GITHUB_TOKEN
+            }}
+      - id: direnv
+        uses: shikanime-studio/actions/direnv@v9
+      - env: ${{ fromJSON(steps.direnv.outputs.env) }}
+        run:
+          nix flake check --accept-flake-config --no-pure-eval --system "${{
+          matrix.system }}"
+        shell: bash
+  packages:
+    name: Packages
+    if: ${{ needs['setup-packages-jobs'].outputs.continue == 'true' }}
+    runs-on: ${{ matrix.runner }}
+    needs:
+      - setup-packages-jobs
+    permissions:
+      contents: read
+      packages: write
+    strategy:
+      fail-fast: false
+      matrix:
+        include: ${{ fromJSON(needs['setup-packages-jobs'].outputs.matrix) }}
+    steps:
+      - id: createGithubAppToken
+        continue-on-error: true
+        uses: actions/create-github-app-token@v3
+        with:
+          app-id: ${{ vars.OPERATOR_APP_ID }}
+          permission-contents: read
+          private-key: ${{ secrets.OPERATOR_PRIVATE_KEY }}
+      - uses: shikanime-studio/actions/nix/setup@v9
+        with:
+          cachix-auth-token: ${{ secrets.CACHIX_AUTH_TOKEN }}
+          cachix-name: ${{ inputs['cachix-name'] }}
+          github-token:
+            ${{ steps.createGithubAppToken.outputs.token || secrets.GITHUB_TOKEN
+            }}
+      - uses: shikanime-studio/actions/checkout@v9
+        with:
+          github-token:
+            ${{ steps.createGithubAppToken.outputs.token || secrets.GITHUB_TOKEN
+            }}
+      - id: direnv
+        uses: shikanime-studio/actions/direnv@v9
+      - env: ${{ fromJSON(steps.direnv.outputs.env) }}
+        uses: shikanime-studio/actions/nix/integration@v9
+        with:
+          name: ${{ matrix.name }}
+          system: ${{ matrix.system }}
+  setup-checks-jobs:
+    name: Setup Checks Jobs
+    runs-on: ubuntu-latest
+    outputs:
+      continue: ${{ steps.setup-checks-jobs.outputs.continue }}
+      matrix: ${{ steps.setup-checks-jobs.outputs.matrix }}
+    steps:
+      - id: createGithubAppToken
+        continue-on-error: true
+        uses: actions/create-github-app-token@v3
+        with:
+          app-id: ${{ vars.OPERATOR_APP_ID }}
+          permission-contents: read
+          private-key: ${{ secrets.OPERATOR_PRIVATE_KEY }}
+      - uses: shikanime-studio/actions/nix/setup@v9
+        with:
+          github-token:
+            ${{ steps.createGithubAppToken.outputs.token || secrets.GITHUB_TOKEN
+            }}
+      - uses: shikanime-studio/actions/checkout@v9
+        with:
+          github-token:
+            ${{ steps.createGithubAppToken.outputs.token || secrets.GITHUB_TOKEN
+            }}
+      - id: setup-checks-jobs
+        uses: shikanime-studio/actions/nix/setup-checks-jobs@v9
+  setup-packages-jobs:
+    name: Setup Packages Jobs
+    runs-on: ubuntu-latest
+    needs:
+      - checks
+    outputs:
+      continue: ${{ steps.setup-packages-jobs.outputs.continue }}
+      matrix: ${{ steps.setup-packages-jobs.outputs.matrix }}
+    steps:
+      - id: createGithubAppToken
+        continue-on-error: true
+        uses: actions/create-github-app-token@v3
+        with:
+          app-id: ${{ vars.OPERATOR_APP_ID }}
+          permission-contents: read
+          private-key: ${{ secrets.OPERATOR_PRIVATE_KEY }}
+      - uses: shikanime-studio/actions/nix/setup@v9
+        with:
+          github-token:
+            ${{ steps.createGithubAppToken.outputs.token || secrets.GITHUB_TOKEN
+            }}
+      - uses: shikanime-studio/actions/checkout@v9
+        with:
+          github-token:
+            ${{ steps.createGithubAppToken.outputs.token || secrets.GITHUB_TOKEN
+            }}
+      - id: setup-packages-jobs
+        uses: shikanime-studio/actions/nix/setup-packages-jobs@v9

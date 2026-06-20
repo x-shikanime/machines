@@ -74,24 +74,35 @@
 
   knix = {
     enable = true;
-    addons.flux.operator.extraConfig.web.ingress = {
-      enabled = true;
-      className = "tailscale";
-      annotations."tailscale.com/tags" = "tag:web";
-      hosts = [
-        {
-          host = "nishir-flux";
-          paths = [
-            {
-              path = "/";
-              pathType = "ImplementationSpecific";
-            }
-          ];
-        }
-      ];
-      tls = [
-        { hosts = [ "nishir-flux" ]; }
-      ];
+    addons = {
+      flux.operator.extraConfig.web.ingress = {
+        enabled = true;
+        className = "tailscale";
+        annotations."tailscale.com/tags" = "tag:web";
+        hosts = [
+          {
+            host = "nishir-flux";
+            paths = [
+              {
+                path = "/";
+                pathType = "ImplementationSpecific";
+              }
+            ];
+          }
+        ];
+        tls = [
+          { hosts = [ "nishir-flux" ]; }
+        ];
+      };
+      longhorn.extraConfig.recurringJobSelector = {
+        enable = true;
+        jobList = [
+          {
+            name = "standard";
+            isGroup = true;
+          }
+        ];
+      };
     };
   };
 }

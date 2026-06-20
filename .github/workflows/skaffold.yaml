@@ -1,107 +1,7 @@
-jobs:
-  build-render:
-    name: Build & Render
-    permissions:
-      contents: read
-      packages: write
-    runs-on: ubuntu-latest
-    steps:
-    - continue-on-error: true
-      id: createGithubAppToken
-      uses: actions/create-github-app-token@v3
-      with:
-        app-id: ${{ vars.OPERATOR_APP_ID }}
-        permission-contents: read
-        private-key: ${{ secrets.OPERATOR_PRIVATE_KEY }}
-    - uses: shikanime-studio/actions/checkout@v9
-      with:
-        github-token: ${{ steps.createGithubAppToken.outputs.token || secrets.GITHUB_TOKEN
-          }}
-    - uses: docker/login-action@v4
-      with:
-        password: ${{ secrets.GITHUB_TOKEN }}
-        registry: ghcr.io
-        username: ${{ github.actor }}
-    - uses: shikanime-studio/actions/nix/setup@v9
-      with:
-        cachix-auth-token: ${{ secrets.CACHIX_AUTH_TOKEN }}
-        extra-platforms: arm64
-        github-token: ${{ steps.createGithubAppToken.outputs.token || secrets.GITHUB_TOKEN
-          }}
-    - id: direnv
-      uses: shikanime-studio/actions/direnv@v9
-    - env: ${{ fromJSON(steps.direnv.outputs.env) }}
-      uses: shikanime-studio/actions/skaffold/integration@v9
-  build-render-profile:
-    if: ${{ needs['setup-profiles-jobs'].outputs.continue == 'true' }}
-    name: Build & Render (Profile)
-    needs:
-    - setup-profiles-jobs
-    permissions:
-      contents: read
-      packages: write
-    runs-on: ubuntu-latest
-    steps:
-    - continue-on-error: true
-      id: createGithubAppToken
-      uses: actions/create-github-app-token@v3
-      with:
-        app-id: ${{ vars.OPERATOR_APP_ID }}
-        permission-contents: read
-        private-key: ${{ secrets.OPERATOR_PRIVATE_KEY }}
-    - uses: shikanime-studio/actions/checkout@v9
-      with:
-        github-token: ${{ steps.createGithubAppToken.outputs.token || secrets.GITHUB_TOKEN
-          }}
-    - uses: docker/login-action@v4
-      with:
-        password: ${{ secrets.GITHUB_TOKEN }}
-        registry: ghcr.io
-        username: ${{ github.actor }}
-    - uses: shikanime-studio/actions/nix/setup@v9
-      with:
-        cachix-auth-token: ${{ secrets.CACHIX_AUTH_TOKEN }}
-        extra-platforms: arm64
-        github-token: ${{ steps.createGithubAppToken.outputs.token || secrets.GITHUB_TOKEN
-          }}
-    - id: direnv
-      uses: shikanime-studio/actions/direnv@v9
-    - env: ${{ fromJSON(steps.direnv.outputs.env) }}
-      uses: shikanime-studio/actions/skaffold/integration@v9
-      with:
-        profile: ${{ matrix.name }}
-    strategy:
-      fail-fast: false
-      matrix:
-        include: ${{ fromJSON(needs['setup-profiles-jobs'].outputs.matrix) }}
-  setup-profiles-jobs:
-    name: Setup Profiles Jobs
-    outputs:
-      continue: ${{ steps.setup-profiles-jobs.outputs.continue }}
-      matrix: ${{ steps.setup-profiles-jobs.outputs.matrix }}
-    runs-on: ubuntu-latest
-    steps:
-    - continue-on-error: true
-      id: createGithubAppToken
-      uses: actions/create-github-app-token@v3
-      with:
-        app-id: ${{ vars.OPERATOR_APP_ID }}
-        permission-contents: read
-        private-key: ${{ secrets.OPERATOR_PRIVATE_KEY }}
-    - uses: shikanime-studio/actions/checkout@v9
-      with:
-        github-token: ${{ steps.createGithubAppToken.outputs.token || secrets.GITHUB_TOKEN
-          }}
-    - uses: shikanime-studio/actions/nix/setup@v9
-      with:
-        cachix-auth-token: ${{ secrets.CACHIX_AUTH_TOKEN }}
-        extra-platforms: arm64
-        github-token: ${{ steps.createGithubAppToken.outputs.token || secrets.GITHUB_TOKEN
-          }}
-    - id: setup-profiles-jobs
-      uses: shikanime-studio/actions/skaffold/setup-profiles-jobs@v9
 name: Skaffold
-'on':
+permissions:
+  contents: read
+"on":
   workflow_call:
     secrets:
       CACHIX_AUTH_TOKEN:
@@ -109,5 +9,111 @@ name: Skaffold
       OPERATOR_PRIVATE_KEY:
         required: true
   workflow_dispatch: {}
-permissions:
-  contents: read
+jobs:
+  build-render:
+    name: Build & Render
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - id: createGithubAppToken
+        continue-on-error: true
+        uses: actions/create-github-app-token@v3
+        with:
+          app-id: ${{ vars.OPERATOR_APP_ID }}
+          permission-contents: read
+          private-key: ${{ secrets.OPERATOR_PRIVATE_KEY }}
+      - uses: shikanime-studio/actions/checkout@v9
+        with:
+          github-token:
+            ${{ steps.createGithubAppToken.outputs.token || secrets.GITHUB_TOKEN
+            }}
+      - uses: docker/login-action@v4
+        with:
+          password: ${{ secrets.GITHUB_TOKEN }}
+          registry: ghcr.io
+          username: ${{ github.actor }}
+      - uses: shikanime-studio/actions/nix/setup@v9
+        with:
+          cachix-auth-token: ${{ secrets.CACHIX_AUTH_TOKEN }}
+          extra-platforms: arm64
+          github-token:
+            ${{ steps.createGithubAppToken.outputs.token || secrets.GITHUB_TOKEN
+            }}
+      - id: direnv
+        uses: shikanime-studio/actions/direnv@v9
+      - env: ${{ fromJSON(steps.direnv.outputs.env) }}
+        uses: shikanime-studio/actions/skaffold/integration@v9
+  build-render-profile:
+    name: Build & Render (Profile)
+    if: ${{ needs['setup-profiles-jobs'].outputs.continue == 'true' }}
+    runs-on: ubuntu-latest
+    needs:
+      - setup-profiles-jobs
+    permissions:
+      contents: read
+      packages: write
+    strategy:
+      fail-fast: false
+      matrix:
+        include: ${{ fromJSON(needs['setup-profiles-jobs'].outputs.matrix) }}
+    steps:
+      - id: createGithubAppToken
+        continue-on-error: true
+        uses: actions/create-github-app-token@v3
+        with:
+          app-id: ${{ vars.OPERATOR_APP_ID }}
+          permission-contents: read
+          private-key: ${{ secrets.OPERATOR_PRIVATE_KEY }}
+      - uses: shikanime-studio/actions/checkout@v9
+        with:
+          github-token:
+            ${{ steps.createGithubAppToken.outputs.token || secrets.GITHUB_TOKEN
+            }}
+      - uses: docker/login-action@v4
+        with:
+          password: ${{ secrets.GITHUB_TOKEN }}
+          registry: ghcr.io
+          username: ${{ github.actor }}
+      - uses: shikanime-studio/actions/nix/setup@v9
+        with:
+          cachix-auth-token: ${{ secrets.CACHIX_AUTH_TOKEN }}
+          extra-platforms: arm64
+          github-token:
+            ${{ steps.createGithubAppToken.outputs.token || secrets.GITHUB_TOKEN
+            }}
+      - id: direnv
+        uses: shikanime-studio/actions/direnv@v9
+      - env: ${{ fromJSON(steps.direnv.outputs.env) }}
+        uses: shikanime-studio/actions/skaffold/integration@v9
+        with:
+          profile: ${{ matrix.name }}
+  setup-profiles-jobs:
+    name: Setup Profiles Jobs
+    runs-on: ubuntu-latest
+    outputs:
+      continue: ${{ steps.setup-profiles-jobs.outputs.continue }}
+      matrix: ${{ steps.setup-profiles-jobs.outputs.matrix }}
+    steps:
+      - id: createGithubAppToken
+        continue-on-error: true
+        uses: actions/create-github-app-token@v3
+        with:
+          app-id: ${{ vars.OPERATOR_APP_ID }}
+          permission-contents: read
+          private-key: ${{ secrets.OPERATOR_PRIVATE_KEY }}
+      - uses: shikanime-studio/actions/checkout@v9
+        with:
+          github-token:
+            ${{ steps.createGithubAppToken.outputs.token || secrets.GITHUB_TOKEN
+            }}
+      - uses: shikanime-studio/actions/nix/setup@v9
+        with:
+          cachix-auth-token: ${{ secrets.CACHIX_AUTH_TOKEN }}
+          extra-platforms: arm64
+          github-token:
+            ${{ steps.createGithubAppToken.outputs.token || secrets.GITHUB_TOKEN
+            }}
+      - id: setup-profiles-jobs
+        uses: shikanime-studio/actions/skaffold/setup-profiles-jobs@v9

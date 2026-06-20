@@ -1,123 +1,129 @@
-jobs:
-  backport:
-    if: github.event.issue.pull_request != null && contains(github.event.comment.body,
-      '.backport')
-    runs-on: ubuntu-slim
-    steps:
-    - id: createGithubAppToken
-      uses: actions/create-github-app-token@v3
-      with:
-        app-id: ${{ vars.OPERATOR_APP_ID }}
-        permission-contents: write
-        permission-issues: write
-        permission-pull-requests: write
-        permission-workflows: write
-        private-key: ${{ secrets.OPERATOR_PRIVATE_KEY }}
-    - uses: shikanime-studio/actions/nix/setup@v9
-      with:
-        github-token: ${{ steps.createGithubAppToken.outputs.token }}
-    - uses: shikanime-studio/actions/command/backport@v9
-      with:
-        github-token: ${{ steps.createGithubAppToken.outputs.token }}
-        gpg-passphrase: ${{ secrets.GPG_PASSPHRASE }}
-        gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
-        sign-commits: true
-  close:
-    if: github.event.issue.pull_request != null && contains(github.event.comment.body,
-      '.close')
-    runs-on: ubuntu-slim
-    steps:
-    - id: createGithubAppToken
-      uses: actions/create-github-app-token@v3
-      with:
-        app-id: ${{ vars.OPERATOR_APP_ID }}
-        permission-contents: write
-        permission-issues: write
-        permission-pull-requests: write
-        private-key: ${{ secrets.OPERATOR_PRIVATE_KEY }}
-    - uses: shikanime-studio/actions/nix/setup@v9
-      with:
-        github-token: ${{ steps.createGithubAppToken.outputs.token }}
-    - uses: shikanime-studio/actions/command/close@v9
-      with:
-        github-token: ${{ steps.createGithubAppToken.outputs.token }}
-        username: operator6o
-  land:
-    if: github.event.issue.pull_request != null && (contains(github.event.comment.body,
-      '.land') || contains(github.event.comment.body, '.force-land'))
-    runs-on: ubuntu-slim
-    steps:
-    - id: createGithubAppToken
-      uses: actions/create-github-app-token@v3
-      with:
-        app-id: ${{ vars.OPERATOR_APP_ID }}
-        permission-administration: read
-        permission-contents: write
-        permission-issues: write
-        permission-pull-requests: write
-        permission-workflows: write
-        private-key: ${{ secrets.OPERATOR_PRIVATE_KEY }}
-    - uses: shikanime-studio/actions/nix/setup@v9
-      with:
-        github-token: ${{ steps.createGithubAppToken.outputs.token }}
-    - uses: shikanime-studio/actions/command/land@v9
-      with:
-        email: operator6o@shikanime.studio
-        fullname: Operator 6O
-        github-token: ${{ steps.createGithubAppToken.outputs.token }}
-        gpg-passphrase: ${{ secrets.GPG_PASSPHRASE }}
-        gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
-        sign-commits: true
-        username: operator6o
-  rebase:
-    if: github.event.issue.pull_request != null && contains(github.event.comment.body,
-      '.rebase')
-    runs-on: ubuntu-slim
-    steps:
-    - id: createGithubAppToken
-      uses: actions/create-github-app-token@v3
-      with:
-        app-id: ${{ vars.OPERATOR_APP_ID }}
-        permission-contents: write
-        permission-issues: write
-        permission-pull-requests: write
-        permission-workflows: write
-        private-key: ${{ secrets.OPERATOR_PRIVATE_KEY }}
-    - uses: shikanime-studio/actions/nix/setup@v9
-      with:
-        github-token: ${{ steps.createGithubAppToken.outputs.token }}
-    - uses: shikanime-studio/actions/command/rebase@v9
-      with:
-        email: operator6o@shikanime.studio
-        fullname: Operator 6O
-        github-token: ${{ steps.createGithubAppToken.outputs.token }}
-        gpg-passphrase: ${{ secrets.GPG_PASSPHRASE }}
-        gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
-        sign-commits: true
-        username: operator6o
-  run:
-    if: github.event.issue.pull_request != null && contains(github.event.comment.body,
-      '.run')
-    runs-on: ubuntu-slim
-    steps:
-    - id: createGithubAppToken
-      uses: actions/create-github-app-token@v3
-      with:
-        app-id: ${{ vars.OPERATOR_APP_ID }}
-        permission-contents: write
-        permission-issues: write
-        permission-pull-requests: write
-        private-key: ${{ secrets.OPERATOR_PRIVATE_KEY }}
-    - uses: shikanime-studio/actions/nix/setup@v9
-      with:
-        github-token: ${{ steps.createGithubAppToken.outputs.token }}
-    - uses: shikanime-studio/actions/command/run@v9
-      with:
-        github-token: ${{ steps.createGithubAppToken.outputs.token }}
 name: Commands
-'on':
-  issue_comment:
-    types:
-    - created
 permissions:
   contents: read
+"on":
+  issue_comment:
+    types:
+      - created
+jobs:
+  backport:
+    if:
+      github.event.issue.pull_request != null &&
+      contains(github.event.comment.body, '.backport')
+    runs-on: ubuntu-slim
+    steps:
+      - id: createGithubAppToken
+        uses: actions/create-github-app-token@v3
+        with:
+          app-id: ${{ vars.OPERATOR_APP_ID }}
+          permission-contents: write
+          permission-issues: write
+          permission-pull-requests: write
+          permission-workflows: write
+          private-key: ${{ secrets.OPERATOR_PRIVATE_KEY }}
+      - uses: shikanime-studio/actions/nix/setup@v9
+        with:
+          github-token: ${{ steps.createGithubAppToken.outputs.token }}
+      - uses: shikanime-studio/actions/command/backport@v9
+        with:
+          github-token: ${{ steps.createGithubAppToken.outputs.token }}
+          gpg-passphrase: ${{ secrets.GPG_PASSPHRASE }}
+          gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
+          sign-commits: true
+  close:
+    if:
+      github.event.issue.pull_request != null &&
+      contains(github.event.comment.body, '.close')
+    runs-on: ubuntu-slim
+    steps:
+      - id: createGithubAppToken
+        uses: actions/create-github-app-token@v3
+        with:
+          app-id: ${{ vars.OPERATOR_APP_ID }}
+          permission-contents: write
+          permission-issues: write
+          permission-pull-requests: write
+          private-key: ${{ secrets.OPERATOR_PRIVATE_KEY }}
+      - uses: shikanime-studio/actions/nix/setup@v9
+        with:
+          github-token: ${{ steps.createGithubAppToken.outputs.token }}
+      - uses: shikanime-studio/actions/command/close@v9
+        with:
+          github-token: ${{ steps.createGithubAppToken.outputs.token }}
+          username: operator6o
+  land:
+    if:
+      github.event.issue.pull_request != null &&
+      (contains(github.event.comment.body, '.land') ||
+      contains(github.event.comment.body, '.force-land'))
+    runs-on: ubuntu-slim
+    steps:
+      - id: createGithubAppToken
+        uses: actions/create-github-app-token@v3
+        with:
+          app-id: ${{ vars.OPERATOR_APP_ID }}
+          permission-administration: read
+          permission-contents: write
+          permission-issues: write
+          permission-pull-requests: write
+          permission-workflows: write
+          private-key: ${{ secrets.OPERATOR_PRIVATE_KEY }}
+      - uses: shikanime-studio/actions/nix/setup@v9
+        with:
+          github-token: ${{ steps.createGithubAppToken.outputs.token }}
+      - uses: shikanime-studio/actions/command/land@v9
+        with:
+          email: operator6o@shikanime.studio
+          fullname: Operator 6O
+          github-token: ${{ steps.createGithubAppToken.outputs.token }}
+          gpg-passphrase: ${{ secrets.GPG_PASSPHRASE }}
+          gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
+          sign-commits: true
+          username: operator6o
+  rebase:
+    if:
+      github.event.issue.pull_request != null &&
+      contains(github.event.comment.body, '.rebase')
+    runs-on: ubuntu-slim
+    steps:
+      - id: createGithubAppToken
+        uses: actions/create-github-app-token@v3
+        with:
+          app-id: ${{ vars.OPERATOR_APP_ID }}
+          permission-contents: write
+          permission-issues: write
+          permission-pull-requests: write
+          permission-workflows: write
+          private-key: ${{ secrets.OPERATOR_PRIVATE_KEY }}
+      - uses: shikanime-studio/actions/nix/setup@v9
+        with:
+          github-token: ${{ steps.createGithubAppToken.outputs.token }}
+      - uses: shikanime-studio/actions/command/rebase@v9
+        with:
+          email: operator6o@shikanime.studio
+          fullname: Operator 6O
+          github-token: ${{ steps.createGithubAppToken.outputs.token }}
+          gpg-passphrase: ${{ secrets.GPG_PASSPHRASE }}
+          gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
+          sign-commits: true
+          username: operator6o
+  run:
+    if:
+      github.event.issue.pull_request != null &&
+      contains(github.event.comment.body, '.run')
+    runs-on: ubuntu-slim
+    steps:
+      - id: createGithubAppToken
+        uses: actions/create-github-app-token@v3
+        with:
+          app-id: ${{ vars.OPERATOR_APP_ID }}
+          permission-contents: write
+          permission-issues: write
+          permission-pull-requests: write
+          private-key: ${{ secrets.OPERATOR_PRIVATE_KEY }}
+      - uses: shikanime-studio/actions/nix/setup@v9
+        with:
+          github-token: ${{ steps.createGithubAppToken.outputs.token }}
+      - uses: shikanime-studio/actions/command/run@v9
+        with:
+          github-token: ${{ steps.createGithubAppToken.outputs.token }}
