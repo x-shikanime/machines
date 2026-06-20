@@ -6,6 +6,11 @@
 }:
 
 {
+  boot.loader = {
+    efi.canTouchEfiVariables = true;
+    systemd-boot.enable = true;
+  };
+
   # Intel N150 needs firmware plus userspace graphics/QSV libraries so the
   # Jellyfin pod can use VAAPI/QSV via /dev/dri/renderD128.
   hardware.enableRedistributableFirmware = true;
