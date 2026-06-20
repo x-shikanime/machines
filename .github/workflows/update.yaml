@@ -1,50 +1,50 @@
-name: Update
-permissions:
-  contents: read
-"on":
-  schedule:
-    - cron: 0 4 * * 0
-  workflow_dispatch: {}
 jobs:
   dependencies:
     runs-on: ubuntu-slim
     steps:
-      - id: createGithubAppToken
-        uses: actions/create-github-app-token@v3
-        with:
-          app-id: ${{ vars.OPERATOR_APP_ID }}
-          permission-contents: write
-          permission-pull-requests: write
-          permission-workflows: write
-          private-key: ${{ secrets.OPERATOR_PRIVATE_KEY }}
-      - uses: shikanime-studio/actions/nix/setup@v9
-        with:
-          github-token: ${{ steps.createGithubAppToken.outputs.token }}
-      - uses: shikanime-studio/actions/checkout@v9
-        with:
-          github-token: ${{ steps.createGithubAppToken.outputs.token }}
-          gpg-passphrase: ${{ secrets.GPG_PASSPHRASE }}
-          gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
-          sign-commits: true
-          username: operator6o
-      - uses: shikanime-studio/actions/update@v9
-        with:
-          github-token: ${{ steps.createGithubAppToken.outputs.token }}
-          username: operator6o
+    - id: createGithubAppToken
+      uses: actions/create-github-app-token@v3
+      with:
+        app-id: ${{ vars.OPERATOR_APP_ID }}
+        permission-contents: write
+        permission-pull-requests: write
+        permission-workflows: write
+        private-key: ${{ secrets.OPERATOR_PRIVATE_KEY }}
+    - uses: shikanime-studio/actions/nix/setup@v9
+      with:
+        github-token: ${{ steps.createGithubAppToken.outputs.token }}
+    - uses: shikanime-studio/actions/checkout@v9
+      with:
+        github-token: ${{ steps.createGithubAppToken.outputs.token }}
+        gpg-passphrase: ${{ secrets.GPG_PASSPHRASE }}
+        gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
+        sign-commits: true
+        username: operator6o
+    - uses: shikanime-studio/actions/update@v9
+      with:
+        github-token: ${{ steps.createGithubAppToken.outputs.token }}
+        username: operator6o
   stale:
     runs-on: ubuntu-slim
     steps:
-      - id: createGithubAppToken
-        uses: actions/create-github-app-token@v3
-        with:
-          app-id: ${{ vars.OPERATOR_APP_ID }}
-          permission-issues: write
-          permission-pull-requests: write
-          private-key: ${{ secrets.OPERATOR_PRIVATE_KEY }}
-      - uses: actions/stale@v10
-        with:
-          days-before-close: 14
-          days-before-stale: 30
-          repo-token: ${{ steps.createGithubAppToken.outputs.token }}
-          stale-issue-label: stale
-          stale-pr-label: stale
+    - id: createGithubAppToken
+      uses: actions/create-github-app-token@v3
+      with:
+        app-id: ${{ vars.OPERATOR_APP_ID }}
+        permission-issues: write
+        permission-pull-requests: write
+        private-key: ${{ secrets.OPERATOR_PRIVATE_KEY }}
+    - uses: actions/stale@v10
+      with:
+        days-before-close: 14
+        days-before-stale: 30
+        repo-token: ${{ steps.createGithubAppToken.outputs.token }}
+        stale-issue-label: stale
+        stale-pr-label: stale
+name: Update
+'on':
+  schedule:
+  - cron: 0 4 * * 0
+  workflow_dispatch: {}
+permissions:
+  contents: read

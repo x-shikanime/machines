@@ -1,11 +1,7 @@
-name: Integration
-permissions:
-  contents: read
 jobs:
   nix:
-    if:
-      ${{ github.event_name == 'workflow_call' || github.event_name ==
-      'workflow_dispatch' || github.event.pull_request.draft == false }}
+    if: ${{ github.event_name == 'workflow_call' || github.event_name == 'workflow_dispatch'
+      || github.event.pull_request.draft == false }}
     permissions:
       contents: read
       packages: write
@@ -16,11 +12,10 @@ jobs:
     with:
       cachix-name: shikanime
   skaffold:
-    if:
-      ${{ github.event_name == 'workflow_call' || github.event_name ==
-      'workflow_dispatch' || github.event.pull_request.draft == false }}
+    if: ${{ github.event_name == 'workflow_call' || github.event_name == 'workflow_dispatch'
+      || github.event.pull_request.draft == false }}
     needs:
-      - nix
+    - nix
     permissions:
       contents: read
       packages: write
@@ -28,16 +23,17 @@ jobs:
       CACHIX_AUTH_TOKEN: ${{ secrets.CACHIX_AUTH_TOKEN }}
       OPERATOR_PRIVATE_KEY: ${{ secrets.OPERATOR_PRIVATE_KEY }}
     uses: ./.github/workflows/skaffold.yaml
-"on":
+name: Integration
+'on':
   pull_request:
     branches:
-      - main
-      - gh/*/*/base
+    - main
+    - gh/*/*/base
     types:
-      - opened
-      - reopened
-      - synchronize
-      - ready_for_review
+    - opened
+    - reopened
+    - synchronize
+    - ready_for_review
   workflow_call:
     secrets:
       CACHIX_AUTH_TOKEN:
@@ -45,3 +41,5 @@ jobs:
       OPERATOR_PRIVATE_KEY:
         required: true
   workflow_dispatch: {}
+permissions:
+  contents: read
