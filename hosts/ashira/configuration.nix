@@ -2,7 +2,6 @@
 
 {
   imports = [
-    ../../modules/nixos/base.nix
     ../../modules/nixos/nishir.nix
     ../../modules/nixos/distributed.nix
   ];
@@ -25,10 +24,6 @@
 
   hardware.facter.reportPath = ./facter.json;
 
-  home-manager.users.nishir.imports = [
-    ./users/nishir/home-configuration.nix
-  ];
-
   networking.hostName = "ashira";
 
   knix = {
@@ -45,7 +40,7 @@
     gitea-actions-runner.instances.ashira = {
       enable = true;
       name = "ashira";
-      tokenFile = config.sops.templates.forgejo-runner-token.path;
+      tokenFile = config.sops.templates.forgejo-runner-ashira-token.path;
       url = "https://forgejo.taila659a.ts.net";
       labels = [
         "docker:docker://node:22-bookworm"
@@ -59,11 +54,11 @@
     defaultSopsFile = ../../secrets/ashira.enc.yaml;
     defaultSopsFormat = "yaml";
     secrets = {
+      forgejo-runner-ashira-token.restartUnits = [ "forgejo-runner-ashira.service" ];
       rke2-token.restartUnits = [ "rke2-server.service" ];
-      forgejo-runner-token.restartUnits = [ "gitea-runner-ashira.service" ];
     };
-    templates.forgejo-runner-token.content = ''
-      TOKEN=${config.sops.placeholder.forgejo-runner-token}
+    templates.forgejo-runner-ashira-token.content = ''
+      TOKEN=${config.sops.placeholder.forgejo-runner-ashira-token}
     '';
   };
 }

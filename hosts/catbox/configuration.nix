@@ -9,8 +9,7 @@
   imports = [
     "${modulesPath}/profiles/headless.nix"
     "${modulesPath}/virtualisation/docker-image.nix"
-    ../../modules/nixos/base.nix
-    ../../modules/nixos/workstation.nix
+    ../../modules/nixos/minimal.nix
   ];
 
   home-manager.users = {

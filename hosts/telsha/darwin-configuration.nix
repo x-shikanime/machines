@@ -1,8 +1,7 @@
-{ config, ... }:
-
 {
   imports = [
     ../../modules/darwin/base.nix
+    ../../modules/darwin/distributed.nix
     ../../modules/darwin/workstation.nix
   ];
 
@@ -12,18 +11,10 @@
 
   networking.hostName = "telsha";
 
-  nix.extraOptions = ''
-    !include ${config.sops.templates.nix-config.path}
-  '';
-
   sops = {
     age.sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
     defaultSopsFile = ../../secrets/telsha.enc.yaml;
     defaultSopsFormat = "yaml";
-    secrets.nix-access-token = { };
-    templates.nix-config.content = ''
-      extra-access-tokens = "github.com=${config.sops.placeholder.nix-access-token}";
-    '';
   };
 
   system.primaryUser = "shikanimedeva";

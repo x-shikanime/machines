@@ -31,7 +31,6 @@ in
 {
   imports = [
     "${modulesPath}/profiles/headless.nix"
-    ../../modules/nixos/base.nix
     ../../modules/nixos/workstation.nix
   ];
 

@@ -21,7 +21,6 @@ in
     ../../../../modules/home/starship.nix
     ../../../../modules/home/vcs.nix
     ../../../../modules/home/workstation.nix
-    ../../../../modules/home/zed-editor.nix
   ];
 
   identities = {
@@ -46,10 +45,6 @@ in
 
   home.sessionVariables.GHSTACKRC_PATH = config.lib.file.mkOutOfStoreSymlink config.sops.templates.ghstack-config.path;
 
-  nix.extraOptions = ''
-    !include ${config.sops.templates.nix-config.path}
-  '';
-
   programs = {
     bash.enable = true;
 
@@ -64,7 +59,6 @@ in
       cachix-token = { };
       github-token = { };
       gitlab-token = { };
-      nix-access-token = { };
     };
     templates = {
       cachix-config.content = toDhall {
@@ -89,9 +83,6 @@ in
           token = config.sops.placeholder.gitlab-token;
         };
       };
-      nix-config.content = ''
-        extra-access-tokens = "github.com=${config.sops.placeholder.nix-access-token}";
-      '';
     };
   };
 

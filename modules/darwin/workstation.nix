@@ -1,4 +1,8 @@
 {
+  imports = [
+    ./base.nix
+  ];
+
   homebrew = {
     enable = true;
     enableZshIntegration = true;
@@ -42,16 +46,6 @@
       Velja = 1607635845;
       Xcode = 497799835;
     };
-  };
-
-  nix.linux-builder = {
-    enable = true;
-    config.boot.binfmt.emulatedSystems = [ "x86_64-linux" ];
-    ephemeral = true;
-    systems = [
-      "x86_64-linux"
-      "aarch64-linux"
-    ];
   };
 
   programs.zsh.enable = true;

@@ -1,6 +1,10 @@
 { pkgs, ... }:
 
 {
+  imports = [
+    ./base.nix
+  ];
+
   programs.gnupg.agent = {
     enable = true;
     enableExtraSocket = true;

@@ -82,7 +82,7 @@ with lib;
       enable = true;
       settings = {
         "ashira.taila659a.ts.net" = {
-          User = "shika";
+          User = "nishir";
           SetEnv.TERM = "xterm-256color";
         };
         "catbox.taila659a.ts.net" = {
@@ -90,19 +90,23 @@ with lib;
           SetEnv.TERM = "xterm-256color";
         };
         "fushi.taila659a.ts.net" = {
-          User = "shika";
+          User = "telashi";
           SetEnv.TERM = "xterm-256color";
         };
         "manash.taila659a.ts.net" = {
-          User = "shika";
+          User = "nishir";
+          SetEnv.TERM = "xterm-256color";
+        };
+        "minish.taila659a.ts.net" = {
+          User = "telashi";
           SetEnv.TERM = "xterm-256color";
         };
         "nalsha.taila659a.ts.net" = {
-          User = "shika";
+          User = "nishir";
           SetEnv.TERM = "xterm-256color";
         };
-        "nishir.taila659a.ts.net" = {
-          User = "shika";
+        "nemishi.taila659a.ts.net" = {
+          User = "telashi";
           SetEnv.TERM = "xterm-256color";
         };
         "thinkcentre-m710t.tailfb4bb2.ts.net" = {

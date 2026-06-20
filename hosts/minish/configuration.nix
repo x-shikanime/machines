@@ -2,7 +2,6 @@
 
 {
   imports = [
-    ../../modules/nixos/base.nix
     ../../modules/nixos/telashi.nix
     ../../modules/nixos/distributed.nix
   ];
@@ -34,10 +33,6 @@
       };
     };
   };
-
-  home-manager.users.telashi.imports = [
-    ./users/telashi/home-configuration.nix
-  ];
 
   networking.hostName = "minish";
 

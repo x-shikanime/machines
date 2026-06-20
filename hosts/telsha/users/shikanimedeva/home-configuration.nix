@@ -52,10 +52,6 @@ in
     };
   };
 
-  nix.extraOptions = ''
-    !include ${config.sops.templates.nix-config.path}
-  '';
-
   programs = {
     bash.enable = true;
 
@@ -86,7 +82,6 @@ in
       cachix-token = { };
       github-token = { };
       gitlab-token = { };
-      nix-access-token = { };
     };
     templates = {
       cachix-config.content = toDhall {
@@ -111,9 +106,6 @@ in
           token = config.sops.placeholder.gitlab-token;
         };
       };
-      nix-config.content = ''
-        extra-access-tokens = "github.com=${config.sops.placeholder.nix-access-token}";
-      '';
     };
   };
 
