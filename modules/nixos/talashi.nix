@@ -23,11 +23,15 @@
         instance.extraConfig.instance.sync = {
           interval = "1m";
           kind = "GitRepository";
-          path = "clusters/telashi/overlays/tailnet";
+          path = "clusters/talashi/overlays/tailnet";
           pullSecret = "";
           ref = "refs/heads/main";
           url = "https://github.com/shikanime/manifests.git";
         };
+
+        instance.extraConfig.instance.cluster.networkPolicy = true;
+
+        operator.extraConfig.web.networkPolicy.create = true;
 
         operator.extraConfig.web.ingress = {
           enabled = true;
@@ -35,7 +39,7 @@
           annotations."tailscale.com/tags" = "tag:web";
           hosts = [
             {
-              host = "telashi-flux";
+              host = "talashi-flux";
               paths = [
                 {
                   path = "/";
@@ -45,7 +49,7 @@
             }
           ];
           tls = [
-            { hosts = [ "telashi-flux" ]; }
+            { hosts = [ "talashi-flux" ]; }
           ];
         };
       };
@@ -63,7 +67,7 @@
       "fushi.taila659a.ts.net"
       "minish.taila659a.ts.net"
       "nemishi.taila659a.ts.net"
-      "telashi.taila659a.ts.net"
+      "talashi.taila659a.ts.net"
     ];
   };
 
@@ -75,7 +79,7 @@
     # Expose RKE2 API (9345) and Kubernetes API (6443)
     tailscale.serve = {
       enable = true;
-      services.telashi = {
+      services.talashi = {
         endpoints = {
           # RKE2 API
           "tcp:9345" = "tcp://127.0.0.1:9345";
@@ -87,11 +91,11 @@
     };
   };
 
-  users.users.telashi = {
+  users.users.talashi = {
     extraGroups = [ "wheel" ];
     initialHashedPassword = "$y$j9T$HB1msXB0DEq00J48zRpB20$/3rhVrTzGrv1j/cPvZ0clOM2gEe1TeylUG39wgD0C42";
     isNormalUser = true;
-    home = "/home/telashi";
+    home = "/home/talashi";
     openssh.authorizedKeys.keys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIH+tp1Xfz7NomHCZuDPlfj3XW5hm9t0TiCyEeudRraoe"
     ];
