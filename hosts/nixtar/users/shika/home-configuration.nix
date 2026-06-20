@@ -50,9 +50,7 @@ in
     age.keyFile = "${config.xdg.configHome}/sops/age/keys.txt";
     defaultSopsFile = ../../../../secrets/nixtar.enc.yaml;
     defaultSopsFormat = "yaml";
-    secrets = {
-      cachix-token = { };
-    };
+    secrets.cachix-token = { };
     templates = {
       cachix-config.content = toDhall {
         authToken = config.sops.placeholder.cachix-token;
@@ -61,8 +59,6 @@ in
     };
   };
 
-  xdg.configFile = {
-    "cachix/cachix.dhall".source =
-      config.lib.file.mkOutOfStoreSymlink config.sops.templates.cachix-config.path;
-  };
+  xdg.configFile."cachix/cachix.dhall".source =
+    config.lib.file.mkOutOfStoreSymlink config.sops.templates.cachix-config.path;
 }
