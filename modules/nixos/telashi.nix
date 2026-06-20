@@ -1,4 +1,9 @@
-{ config, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
 {
   boot = {
@@ -42,6 +47,10 @@
       authKeyFile = config.sops.secrets.tailscale-authkey.path;
       extraUpFlags = [ "--ssh" ];
     };
+
+    fstrim.enable = true;
+
+    nix-serve.enable = true;
   };
 
   nix.extraOptions = ''
@@ -70,6 +79,21 @@
     openssh.authorizedKeys.keys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIH+tp1Xfz7NomHCZuDPlfj3XW5hm9t0TiCyEeudRraoe"
     ];
+  };
+
+  networking.firewall = {
+    extraCommands = ''
+      iptables -I INPUT -i br+ -j ACCEPT
+      iptables -I FORWARD -i br+ -j ACCEPT
+      ip6tables -I INPUT -i br+ -j ACCEPT
+      ip6tables -I FORWARD -i br+ -j ACCEPT
+    '';
+    extraStopCommands = ''
+      iptables -D INPUT -i br+ -j ACCEPT 2>/dev/null || true
+      iptables -D FORWARD -i br+ -j ACCEPT 2>/dev/null || true
+      ip6tables -D INPUT -i br+ -j ACCEPT 2>/dev/null || true
+      ip6tables -D FORWARD -i br+ -j ACCEPT 2>/dev/null || true
+    '';
   };
 
   knix = {
@@ -103,6 +127,24 @@
           }
         ];
       };
+    };
+  };
+
+  # Expose RKE2 API (9345), Kubernetes API (6443) and nix-serve (5000)
+  # as a single Tailscale Service. All 3 aarch64 nodes run the RKE2 API
+  # server (HA control plane), so all 3 advertise the service.
+  services.tailscale.serve = {
+    enable = true;
+    services.telashi = {
+      endpoints = {
+        # RKE2 API
+        "tcp:9345" = "tcp://127.0.0.1:9345";
+        # Kubernetes API
+        "tcp:6443" = "tcp://127.0.0.1:6443";
+        # Nix caching server
+        "tcp:5000" = "tcp://127.0.0.1:5000";
+      };
+      advertised = true;
     };
   };
 }

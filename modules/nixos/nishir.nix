@@ -91,6 +91,22 @@
     gitea-actions-runner.package = pkgs.forgejo-runner;
   };
 
+  # Expose RKE2 API (9345), Kubernetes API (6443) and nix-serve (5000) as a single Tailscale Service.
+  services.tailscale.serve = {
+    enable = true;
+    services.nishir = {
+      endpoints = {
+        # RKE2 API
+        "tcp:9345" = "tcp://127.0.0.1:9345";
+        # Kubernetes API
+        "tcp:6443" = "tcp://127.0.0.1:6443";
+        # Nix caching server
+        "tcp:5000" = "tcp://127.0.0.1:5000";
+      };
+      advertised = true;
+    };
+  };
+
   systemd.services.tailscale-udp-gro-forwarding = {
     description = "Enable Tailscale UDP GRO forwarding on enp1s0";
     after = [ "network-online.target" ];
