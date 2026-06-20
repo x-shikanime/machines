@@ -41,8 +41,8 @@
     gitea-actions-runner.instances.manash = {
       enable = true;
       name = "manash";
-      url = "https://forgejo.taila659a.ts.net";
       tokenFile = config.sops.templates.gitea-runner-manash-token.path;
+      url = "https://forgejo.taila659a.ts.net";
       labels = [
         "docker:docker://node:22-bookworm"
         "nixos-latest:docker://nixos/nix"

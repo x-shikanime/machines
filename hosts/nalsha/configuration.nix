@@ -45,8 +45,8 @@
     gitea-actions-runner.instances.nalsha = {
       enable = true;
       name = "nalsha";
-      url = "https://forgejo.taila659a.ts.net";
       tokenFile = config.sops.templates.gitea-runner-nalsha-token.path;
+      url = "https://forgejo.taila659a.ts.net";
       labels = [
         "docker:docker://node:22-bookworm"
         "nixos-latest:docker://nixos/nix"

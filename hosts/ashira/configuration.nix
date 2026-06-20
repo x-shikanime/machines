@@ -44,8 +44,8 @@
     gitea-actions-runner.instances.ashira = {
       enable = true;
       name = "ashira";
-      url = "https://forgejo.taila659a.ts.net";
       tokenFile = config.sops.templates.gitea-runner-ashira-token.path;
+      url = "https://forgejo.taila659a.ts.net";
       labels = [
         "docker:docker://node:22-bookworm"
         "nixos-latest:docker://nixos/nix"
