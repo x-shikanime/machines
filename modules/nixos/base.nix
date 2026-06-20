@@ -33,6 +33,8 @@
     '';
   };
 
+  sops.secrets.nix-access-token = { };
+
   sops.templates.nix-config.content = ''
     extra-access-tokens = "github.com=${config.sops.placeholder.nix-access-token}"
   '';

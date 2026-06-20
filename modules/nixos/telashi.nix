@@ -140,6 +140,8 @@
     ];
   };
 
+  sops.secrets.rke2-token.restartUnits = [ "rke2-server.service" ];
+
   # Expose RKE2 API (9345), Kubernetes API (6443) and nix-serve (5000)
   # as a single Tailscale Service. All 3 aarch64 nodes run the RKE2 API
   # server (HA control plane), so all 3 advertise the service.

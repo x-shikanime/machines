@@ -51,6 +51,7 @@
   };
 
   knix = {
+    enable = true;
     addons = {
       flux = {
         instance.extraConfig.instance.sync = {
@@ -92,13 +93,13 @@
         ];
       };
     };
-    enable = true;
     tlsSan = [
       "ashira.taila659a.ts.net"
       "manash.taila659a.ts.net"
       "nalsha.taila659a.ts.net"
       "nishir.taila659a.ts.net"
     ];
+    tokenFile = config.sops.secrets.rke2-token.path;
   };
 
   networking.firewall = {
@@ -128,6 +129,7 @@
     age.sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
     secrets = {
       nix-access-token.reloadUnits = [ "nix-daemon.service" ];
+      rke2-token.restartUnits = [ "rke2-server.service" ];
       tailscale-authkey.restartUnits = [ "tailscaled.service" ];
     };
   };
@@ -145,8 +147,6 @@
     };
 
     fstrim.enable = true;
-
-    gitea-actions-runner.package = pkgs.forgejo-runner;
 
     nix-serve.enable = true;
 
