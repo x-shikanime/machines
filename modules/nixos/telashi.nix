@@ -132,6 +132,12 @@
         ];
       };
     };
+    tlsSan = [
+      "fushi.taila659a.ts.net"
+      "minish.taila659a.ts.net"
+      "nemishi.taila659a.ts.net"
+      "telashi.taila659a.ts.net"
+    ];
   };
 
   # Expose RKE2 API (9345), Kubernetes API (6443) and nix-serve (5000)

@@ -198,6 +198,12 @@
         ];
       };
     };
+    tlsSan = [
+      "ashira.taila659a.ts.net"
+      "nalsha.taila659a.ts.net"
+      "nishir.taila659a.ts.net"
+      "manash.taila659a.ts.net"
+    ];
   };
 
   users.users.nishir = {
