@@ -6,19 +6,31 @@
     ../../modules/nixos/telashi.nix
   ];
 
-  disko.devices.disk.marisa = {
+  disko.devices.disk.main = {
     type = "disk";
     device = "/dev/disk/by-label/marisa";
     content = {
-      type = "filesystem";
-      format = "xfs";
-      mountpoint = "/mnt/marisa";
-      mountOptions = [
-        "nofail"
-        "x-systemd.automount"
-        "x-systemd.device-timeout=10s"
-        "x-systemd.mount-timeout=30s"
-      ];
+      type = "gpt";
+      partitions = {
+        ESP = {
+          size = "1G";
+          type = "EF00";
+          content = {
+            type = "filesystem";
+            format = "vfat";
+            mountpoint = "/boot";
+            mountOptions = [ "umask=0077" ];
+          };
+        };
+        root = {
+          size = "100%";
+          content = {
+            type = "filesystem";
+            format = "xfs";
+            mountpoint = "/";
+          };
+        };
+      };
     };
   };
 
@@ -40,12 +52,4 @@
     secrets.rke2-token.restartUnits = [ "rke2-server.service" ];
   };
 
-  systemd.tmpfiles.rules = [
-    "L+ /var/lib/rancher/rke2 - - - - /mnt/marisa/rke2"
-    "L+ /var/lib/longhorn - - - - /mnt/marisa/longhorn"
-    "L+ /var/log/calico - - - - /mnt/marisa/log/calico"
-    "L+ /var/log/containers - - - - /mnt/marisa/log/containers"
-    "L+ /var/log/pods - - - - /mnt/marisa/log/pods"
-    "L+ /var/swap - - - - /mnt/marisa/swap"
-  ];
 }

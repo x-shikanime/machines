@@ -6,19 +6,31 @@
     ../../modules/nixos/telashi.nix
   ];
 
-  disko.devices.disk.data = {
+  disko.devices.disk.main = {
     type = "disk";
     device = "/dev/nvme0n1";
     content = {
-      type = "filesystem";
-      format = "xfs";
-      mountpoint = "/mnt/data";
-      mountOptions = [
-        "nofail"
-        "x-systemd.automount"
-        "x-systemd.device-timeout=10s"
-        "x-systemd.mount-timeout=30s"
-      ];
+      type = "gpt";
+      partitions = {
+        ESP = {
+          size = "1G";
+          type = "EF00";
+          content = {
+            type = "filesystem";
+            format = "vfat";
+            mountpoint = "/boot";
+            mountOptions = [ "umask=0077" ];
+          };
+        };
+        root = {
+          size = "100%";
+          content = {
+            type = "filesystem";
+            format = "xfs";
+            mountpoint = "/";
+          };
+        };
+      };
     };
   };
 
@@ -35,12 +47,4 @@
     defaultSopsFormat = "yaml";
   };
 
-  systemd.tmpfiles.rules = [
-    "L+ /var/lib/rancher/rke2 - - - - /mnt/data/rke2"
-    "L+ /var/lib/longhorn - - - - /mnt/data/longhorn"
-    "L+ /var/log/calico - - - - /mnt/data/log/calico"
-    "L+ /var/log/containers - - - - /mnt/data/log/containers"
-    "L+ /var/log/pods - - - - /mnt/data/log/pods"
-    "L+ /var/swap - - - - /mnt/data/swap"
-  ];
 }
