@@ -6,19 +6,31 @@
     ../../modules/nixos/telashi.nix
   ];
 
-  disko.devices.disk.reimu = {
+  disko.devices.disk.main = {
     type = "disk";
     device = "/dev/disk/by-label/reimu";
     content = {
-      type = "filesystem";
-      format = "xfs";
-      mountpoint = "/mnt/reimu";
-      mountOptions = [
-        "nofail"
-        "x-systemd.automount"
-        "x-systemd.device-timeout=10s"
-        "x-systemd.mount-timeout=30s"
-      ];
+      type = "gpt";
+      partitions = {
+        ESP = {
+          size = "1G";
+          type = "EF00";
+          content = {
+            type = "filesystem";
+            format = "vfat";
+            mountpoint = "/boot";
+            mountOptions = [ "umask=0077" ];
+          };
+        };
+        root = {
+          size = "100%";
+          content = {
+            type = "filesystem";
+            format = "xfs";
+            mountpoint = "/";
+          };
+        };
+      };
     };
   };
 
@@ -40,9 +52,4 @@
     secrets.rke2-token.restartUnits = [ "rke2-server.service" ];
   };
 
-  systemd.tmpfiles.rules = [
-    "L+ /var/log/containers - - - - /mnt/reimu/log/containers"
-    "L+ /var/log/pods - - - - /mnt/reimu/log/pods"
-    "L+ /var/swap - - - - /mnt/reimu/swap"
-  ];
 }
