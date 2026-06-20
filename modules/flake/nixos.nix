@@ -11,12 +11,12 @@
         };
         modules = [
           ../../hosts/ashira/configuration.nix
-          inputs.disko.nixosModules.disko
-          inputs.home-manager.nixosModules.home-manager
+          inputs.disko.nixosModules.default
+          inputs.home-manager.nixosModules.default
           inputs.knix.nixosModules.default
           inputs.nixos-hardware.nixosModules.common-cpu-intel
           inputs.nixos-hardware.nixosModules.common-pc-ssd
-          inputs.sops-nix.nixosModules.sops
+          inputs.sops-nix.nixosModules.default
           {
             home-manager.sharedModules = [
               inputs.devlib.homeModules.default
@@ -33,12 +33,12 @@
         };
         modules = [
           ../../hosts/manash/configuration.nix
-          inputs.disko.nixosModules.disko
-          inputs.home-manager.nixosModules.home-manager
+          inputs.disko.nixosModules.default
+          inputs.home-manager.nixosModules.default
           inputs.knix.nixosModules.default
           inputs.nixos-hardware.nixosModules.common-cpu-intel
           inputs.nixos-hardware.nixosModules.common-pc-ssd
-          inputs.sops-nix.nixosModules.sops
+          inputs.sops-nix.nixosModules.default
           {
             home-manager.sharedModules = [
               inputs.devlib.homeModules.default
@@ -55,12 +55,12 @@
         };
         modules = [
           ../../hosts/nalsha/configuration.nix
-          inputs.disko.nixosModules.disko
-          inputs.home-manager.nixosModules.home-manager
+          inputs.disko.nixosModules.default
+          inputs.home-manager.nixosModules.default
           inputs.knix.nixosModules.default
           inputs.nixos-hardware.nixosModules.common-cpu-intel
           inputs.nixos-hardware.nixosModules.common-pc-ssd
-          inputs.sops-nix.nixosModules.sops
+          inputs.sops-nix.nixosModules.default
           {
             home-manager.sharedModules = [
               inputs.devlib.homeModules.default
@@ -77,11 +77,11 @@
         };
         modules = [
           ../../hosts/fushi/configuration.nix
-          inputs.disko.nixosModules.disko
-          inputs.home-manager.nixosModules.home-manager
+          inputs.disko.nixosModules.default
+          inputs.home-manager.nixosModules.default
           inputs.knix.nixosModules.default
           inputs.nixos-hardware.nixosModules.raspberry-pi-4
-          inputs.sops-nix.nixosModules.sops
+          inputs.sops-nix.nixosModules.default
           {
             home-manager.sharedModules = [
               inputs.devlib.homeModules.default
@@ -98,11 +98,11 @@
         };
         modules = [
           ../../hosts/minish/configuration.nix
-          inputs.disko.nixosModules.disko
-          inputs.home-manager.nixosModules.home-manager
+          inputs.disko.nixosModules.default
+          inputs.home-manager.nixosModules.default
           inputs.knix.nixosModules.default
           inputs.nixos-hardware.nixosModules.raspberry-pi-4
-          inputs.sops-nix.nixosModules.sops
+          inputs.sops-nix.nixosModules.default
           {
             home-manager.sharedModules = [
               inputs.devlib.homeModules.default
@@ -119,11 +119,11 @@
         };
         modules = [
           ../../hosts/nemishi/configuration.nix
-          inputs.disko.nixosModules.disko
-          inputs.home-manager.nixosModules.home-manager
+          inputs.disko.nixosModules.default
+          inputs.home-manager.nixosModules.default
           inputs.knix.nixosModules.default
           inputs.nixos-hardware.nixosModules.raspberry-pi-5
-          inputs.sops-nix.nixosModules.sops
+          inputs.sops-nix.nixosModules.default
           {
             home-manager.sharedModules = [
               inputs.devlib.homeModules.default
@@ -140,9 +140,9 @@
         };
         modules = [
           ../../hosts/nixtar/configuration.nix
-          inputs.home-manager.nixosModules.home-manager
+          inputs.home-manager.nixosModules.default
           inputs.nixos-wsl.nixosModules.default
-          inputs.sops-nix.nixosModules.sops
+          inputs.sops-nix.nixosModules.default
           {
             home-manager.sharedModules = [
               inputs.catppuccin.homeModules.default
@@ -168,8 +168,8 @@
               };
               modules = [
                 ../../hosts/catbox/configuration.nix
-                inputs.home-manager.nixosModules.home-manager
-                inputs.sops-nix.nixosModules.sops
+                inputs.home-manager.nixosModules.default
+                inputs.sops-nix.nixosModules.default
                 {
                   home-manager.sharedModules = [
                     inputs.catppuccin.homeModules.default
@@ -197,8 +197,8 @@
               };
               modules = [
                 ../../hosts/catbox/configuration.nix
-                inputs.home-manager.nixosModules.home-manager
-                inputs.sops-nix.nixosModules.sops
+                inputs.home-manager.nixosModules.default
+                inputs.sops-nix.nixosModules.default
                 {
                   home-manager.sharedModules = [
                     inputs.catppuccin.homeModules.default
