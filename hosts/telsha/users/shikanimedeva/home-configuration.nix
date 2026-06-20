@@ -82,7 +82,6 @@ in
       cachix-token = { };
       github-token = { };
       gitlab-token = { };
-      nix-access-token = { };
     };
     templates = {
       cachix-config.content = toDhall {

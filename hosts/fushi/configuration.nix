@@ -2,7 +2,6 @@
 
 {
   imports = [
-    ../../modules/nixos/base.nix
     ../../modules/nixos/telashi.nix
     ../../modules/nixos/distributed.nix
   ];

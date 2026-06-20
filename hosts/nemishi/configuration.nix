@@ -1,7 +1,5 @@
 {
   imports = [
-    ../../modules/nixos/base.nix
-    ../../modules/nixos/machine.nix
     ../../modules/nixos/telashi.nix
     ../../modules/nixos/distributed.nix
   ];

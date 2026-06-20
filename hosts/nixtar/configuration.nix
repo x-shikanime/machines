@@ -31,8 +31,6 @@ in
 {
   imports = [
     "${modulesPath}/profiles/headless.nix"
-    ../../modules/nixos/base.nix
-    ../../modules/nixos/machine.nix
     ../../modules/nixos/workstation.nix
   ];
 
@@ -117,7 +115,6 @@ in
     };
     defaultSopsFile = ../../secrets/nixtar.enc.yaml;
     defaultSopsFormat = "yaml";
-    secrets.nix-access-token = { };
   };
 
   users.users.shika = {
