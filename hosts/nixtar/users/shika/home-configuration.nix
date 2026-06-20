@@ -21,7 +21,9 @@ in
   ];
 
   identities = {
-    shikanime.enable = true;
+    ghstack.enable = true;
+
+    glab.enable = true;
 
     gouv = {
       enable = true;
@@ -38,6 +40,8 @@ in
         "${config.home.homeDirectory}/Source/Repos/github.com/operator6o"
       ];
     };
+
+    shikanime.enable = true;
   };
 
   programs = {
