@@ -93,13 +93,13 @@
     settings = {
       builders-use-substitutes = true;
       substituters = [
-        "https://ashira.taila659a.ts.net:5000"
-        "https://manash.taila659a.ts.net:5000"
-        "https://nalsha.taila659a.ts.net:5000"
+        "http://ashira.taila659a.ts.net:5000"
+        "http://manash.taila659a.ts.net:5000"
+        "http://nalsha.taila659a.ts.net:5000"
         # TODO: enable when deployed
-        # "https://fushi.taila659a.ts.net:5000"
-        # "https://minish.taila659a.ts.net:5000"
-        # "https://nemishi.taila659a.ts.net:5000"
+        # "http://fushi.taila659a.ts.net:5000"
+        # "http://minish.taila659a.ts.net:5000"
+        # "http://nemishi.taila659a.ts.net:5000"
       ];
     };
   };
