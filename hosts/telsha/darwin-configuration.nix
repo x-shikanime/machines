@@ -17,6 +17,15 @@
     defaultSopsFormat = "yaml";
   };
 
+  # GitOps deployment via comin
+  services.comin = {
+    enable = true;
+    remotes = [{
+      name = "origin";
+      url = "https://github.com/shikanime/shikanime.git";
+    }];
+  };
+
   system.primaryUser = "shikanimedeva";
 
   users.users.shikanimedeva = {

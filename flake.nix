@@ -7,6 +7,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    comin = {
+      url = "github:nlewo/comin";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     colemak = {
       url = "github:x-shikanime/colemak";
       inputs = {
@@ -28,6 +33,17 @@
       };
     };
 
+    devlib = {
+      url = "github:shikanime-studio/devlib";
+      inputs = {
+        devenv.follows = "devenv";
+        nixpkgs.follows = "nixpkgs";
+        flake-parts.follows = "flake-parts";
+        git-hooks.follows = "git-hooks";
+        treefmt-nix.follows = "treefmt-nix";
+      };
+    };
+
     identities = {
       url = "github:x-shikanime/identities";
       inputs = {
@@ -36,17 +52,6 @@
         flake-parts.follows = "flake-parts";
         git-hooks.follows = "git-hooks";
         nixpkgs.follows = "nixpkgs";
-        treefmt-nix.follows = "treefmt-nix";
-      };
-    };
-
-    devlib = {
-      url = "github:shikanime-studio/devlib";
-      inputs = {
-        devenv.follows = "devenv";
-        nixpkgs.follows = "nixpkgs";
-        flake-parts.follows = "flake-parts";
-        git-hooks.follows = "git-hooks";
         treefmt-nix.follows = "treefmt-nix";
       };
     };
@@ -128,6 +133,7 @@
 
   outputs =
     inputs@{
+      comin,
       devenv,
       devlib,
       flake-parts,
@@ -145,11 +151,11 @@
       {
         imports = [
           ./modules/flake/devenv.nix
-          darwinFlakeModule
-          nixosFlakeModule
           devenv.flakeModule
           devlib.flakeModule
+          darwinFlakeModule
           git-hooks.flakeModule
+          nixosFlakeModule
           treefmt-nix.flakeModule
         ];
         systems = [
