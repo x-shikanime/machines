@@ -250,6 +250,15 @@
     };
   };
 
+  # Serve Nix store over SSH as a binary cache
+  nix.sshServe = {
+    enable = true;
+    protocol = "ssh-ng";
+    keys = [
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIH+tp1Xfz7NomHCZuDPlfj3XW5hm9t0TiCyEeudRraoe"
+    ];
+  };
+
   virtualisation.docker = {
     enable = true;
     daemon.settings = {
@@ -269,14 +278,17 @@
     secrets = {
       nix-access-token = { };
       tailscale-authkey = { };
-      forgejo-runner-token = { };
+      forgejo-runner-token = {
+        owner = "gitea-runner";
+        mode = "0440";
+      };
     };
     templates = {
       nix-config.content = ''
         extra-access-tokens = "github.com=${config.sops.placeholder.nix-access-token}";
       '';
       forgejo-runner-token.content = ''
-        TOKEN=${config.sops.placeholder.forgejo-runner-token}
+        TOKEN=${conf...n}
       '';
     };
   };

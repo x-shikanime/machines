@@ -88,6 +88,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    comin = {
+      url = "github:nlewo/comin";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     treefmt-nix = {
       url = "github:numtide/treefmt-nix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -111,6 +116,7 @@
 
   outputs =
     inputs@{
+      comin,
       devenv,
       devlib,
       flake-parts,

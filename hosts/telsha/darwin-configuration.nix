@@ -26,6 +26,18 @@
     '';
   };
 
+  # GitOps deployment via comin
+  services.comin = {
+    enable = true;
+    remotes = [{
+      name = "origin";
+      url = "https://forgejo.taila659a.ts.net/shikanime/shikanime.git";
+    }];
+    branch = "main";
+    operation = "switch";
+    interval = 60;
+  };
+
   system.primaryUser = "shikanimedeva";
 
   users.users.shikanimedeva = {
