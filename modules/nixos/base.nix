@@ -33,11 +33,6 @@
     remotes = [{
       name = "origin";
       url = "https://github.com/shikanime/shikanime.git";
-      branches.main = {
-        name = "main";
-        operation = "switch";
-      };
-      poller.period = 60;
     }];
   };
 

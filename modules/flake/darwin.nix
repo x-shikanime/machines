@@ -11,8 +11,8 @@
       modules = [
         ../../hosts/telsha/darwin-configuration.nix
         inputs.home-manager.darwinModules.default
-        inputs.sops-nix.darwinModules.default
         inputs.comin.darwinModules.comin
+        inputs.sops-nix.darwinModules.default
         {
           home-manager.sharedModules = [
             inputs.catppuccin.homeModules.default
