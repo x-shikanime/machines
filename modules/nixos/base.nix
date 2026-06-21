@@ -27,11 +27,18 @@
     };
   };
 
-  # Automatically upgrade NixOS
-  system.autoUpgrade = {
+  # GitOps deployment via comin
+  services.comin = {
     enable = true;
-    flags = [ "--accept-flake-config" ];
-    flake = "github:shikanime/shikanime";
+    remotes = [{
+      name = "origin";
+      url = "https://github.com/shikanime/shikanime.git";
+      branches.main = {
+        name = "main";
+        operation = "switch";
+      };
+      poller.period = 60;
+    }];
   };
 
   # This value determines the NixOS release from which the default

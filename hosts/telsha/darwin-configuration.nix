@@ -26,6 +26,20 @@
     '';
   };
 
+  # GitOps deployment via comin
+  services.comin = {
+    enable = true;
+    remotes = [{
+      name = "origin";
+      url = "https://github.com/shikanime/shikanime.git";
+      branches.main = {
+        name = "main";
+        operation = "switch";
+      };
+      poller.period = 60;
+    }];
+  };
+
   system.primaryUser = "shikanimedeva";
 
   users.users.shikanimedeva = {
