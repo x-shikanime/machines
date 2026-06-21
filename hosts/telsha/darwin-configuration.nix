@@ -32,10 +32,12 @@
     remotes = [{
       name = "origin";
       url = "https://forgejo.taila659a.ts.net/shikanime/shikanime.git";
+      branches.main = {
+        name = "main";
+        operation = "switch";
+      };
+      poller.period = 60;
     }];
-    branch = "main";
-    operation = "switch";
-    interval = 60;
   };
 
   system.primaryUser = "shikanimedeva";
