@@ -101,9 +101,6 @@
 
   nixConfig = {
     extra-substituters = [
-      "ssh://nix-ssh@manash"
-      "ssh://nix-ssh@ashira"
-      "ssh://nix-ssh@nalsha"
       "https://cachix.cachix.org"
       "https://devenv.cachix.org"
       "https://shikanime.cachix.org"
