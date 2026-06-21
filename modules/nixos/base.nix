@@ -16,27 +16,6 @@
     '';
   };
 
-  # Cleanup disk weekly
-  nix.gc = {
-    automatic = true;
-    dates = "weekly";
-    options = "--delete-older-than 30d";
-  };
-
-  nix = {
-    # Optimize nix store weekly
-    optimise = {
-      automatic = true;
-      dates = [ "weekly" ];
-    };
-
-    # Allow wheel users to interact with the daemon
-    settings = {
-      download-buffer-size = 524288000;
-      trusted-users = [ "@wheel" ];
-    };
-  };
-
   services.comin = {
     enable = true;
     remotes = [
