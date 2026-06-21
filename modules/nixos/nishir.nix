@@ -1,3 +1,8 @@
+{ pkgs, ... }:
+
+let
+  json = pkgs.formats.json { };
+in
 {
   imports = [
     ./server.nix
@@ -107,13 +112,16 @@
     # Expose RKE2 API (9345) and Kubernetes API (6443) as a single Tailscale Service.
     tailscale.serve = {
       enable = true;
-      services.nishir = {
-        advertised = true;
-        endpoints = {
-          # Kubernetes API
-          "tcp:6443" = "http://127.0.0.1:6443";
-          # RKE2 API
-          "tcp:9345" = "http://127.0.0.1:9345";
+      configFile = json.generate {
+        Services."svc:nishir" = {
+          TCP = {
+            "6443".HTTPS = true;
+            "9345".HTTPS = true;
+          };
+          Web = {
+            "nishir.taila659a.ts.net:6443".Handlers."/".Proxy = "http://127.0.0.1:6443";
+            "nishir.taila659a.ts.net:9345".Handlers."/".Proxy = "http://127.0.0.1:9345";
+          };
         };
       };
     };
