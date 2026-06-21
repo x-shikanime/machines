@@ -1,8 +1,3 @@
-{ pkgs, ... }:
-
-let
-  json = pkgs.formats.json { };
-in
 {
   imports = [
     ./server.nix
@@ -80,22 +75,15 @@ in
     # Expose RKE2 API (9345) and Kubernetes API (6443)
     tailscale.serve = {
       enable = true;
-      configFile =
-        let
-          config = json.generate "config.json" {
-            Services."svc:nishir" = {
-              TCP = {
-                "6443".HTTPS = true;
-                "9345".HTTPS = true;
-              };
-              Web = {
-                "nishir.taila659a.ts.net:6443".Handlers."/".Proxy = "http://127.0.0.1:6443";
-                "nishir.taila659a.ts.net:9345".Handlers."/".Proxy = "http://127.0.0.1:9345";
-              };
-            };
-          };
-        in
-        toString config;
+      services.talashi-k8s = {
+        endpoints = {
+          # RKE2 API
+          "tcp:9345" = "http://127.0.0.1:9345";
+          # Kubernetes API
+          "tcp:6443" = "http://127.0.0.1:6443";
+        };
+        advertised = true;
+      };
     };
   };
 
