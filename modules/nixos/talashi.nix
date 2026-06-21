@@ -82,7 +82,7 @@ in
       enable = true;
       configFile =
         let
-          config = json.generate {
+          config = json.generate "config.json" {
             Services."svc:nishir" = {
               TCP = {
                 "6443".HTTPS = true;
