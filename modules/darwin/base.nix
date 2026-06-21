@@ -9,6 +9,16 @@
     !include ${config.sops.templates.nix-config.path}
   '';
 
+  services.comin = {
+    enable = true;
+    remotes = [
+      {
+        name = "origin";
+        url = "https://github.com/shikanime/shikanime.git";
+      }
+    ];
+  };
+
   sops = {
     secrets.nix-access-token = { };
     templates.nix-config.content = ''
