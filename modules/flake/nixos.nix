@@ -16,6 +16,7 @@
           inputs.knix.nixosModules.default
           inputs.nixos-hardware.nixosModules.common-cpu-intel
           inputs.nixos-hardware.nixosModules.common-pc-ssd
+          inputs.comin.nixosModules.comin
           inputs.sops-nix.nixosModules.default
           {
             home-manager.sharedModules = [
@@ -38,6 +39,7 @@
           inputs.knix.nixosModules.default
           inputs.nixos-hardware.nixosModules.common-cpu-intel
           inputs.nixos-hardware.nixosModules.common-pc-ssd
+          inputs.comin.nixosModules.comin
           inputs.sops-nix.nixosModules.default
           {
             home-manager.sharedModules = [
@@ -60,6 +62,7 @@
           inputs.knix.nixosModules.default
           inputs.nixos-hardware.nixosModules.common-cpu-intel
           inputs.nixos-hardware.nixosModules.common-pc-ssd
+          inputs.comin.nixosModules.comin
           inputs.sops-nix.nixosModules.default
           {
             home-manager.sharedModules = [
@@ -81,6 +84,7 @@
           inputs.home-manager.nixosModules.default
           inputs.knix.nixosModules.default
           inputs.nixos-hardware.nixosModules.raspberry-pi-4
+          inputs.comin.nixosModules.comin
           inputs.sops-nix.nixosModules.default
           {
             home-manager.sharedModules = [
@@ -102,6 +106,7 @@
           inputs.home-manager.nixosModules.default
           inputs.knix.nixosModules.default
           inputs.nixos-hardware.nixosModules.raspberry-pi-4
+          inputs.comin.nixosModules.comin
           inputs.sops-nix.nixosModules.default
           {
             home-manager.sharedModules = [
@@ -123,6 +128,7 @@
           inputs.home-manager.nixosModules.default
           inputs.knix.nixosModules.default
           inputs.nixos-hardware.nixosModules.raspberry-pi-5
+          inputs.comin.nixosModules.comin
           inputs.sops-nix.nixosModules.default
           {
             home-manager.sharedModules = [
@@ -142,6 +148,7 @@
           ../../hosts/nixtar/configuration.nix
           inputs.home-manager.nixosModules.default
           inputs.nixos-wsl.nixosModules.default
+          inputs.comin.nixosModules.comin
           inputs.sops-nix.nixosModules.default
           {
             home-manager.sharedModules = [
@@ -169,6 +176,7 @@
               modules = [
                 ../../hosts/catbox/configuration.nix
                 inputs.home-manager.nixosModules.default
+                inputs.comin.nixosModules.comin
                 inputs.sops-nix.nixosModules.default
                 {
                   home-manager.sharedModules = [
@@ -198,6 +206,7 @@
               modules = [
                 ../../hosts/catbox/configuration.nix
                 inputs.home-manager.nixosModules.default
+                inputs.comin.nixosModules.comin
                 inputs.sops-nix.nixosModules.default
                 {
                   home-manager.sharedModules = [
