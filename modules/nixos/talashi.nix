@@ -78,9 +78,9 @@
       services.talashi = {
         endpoints = {
           # RKE2 API
-          "tcp:9345" = "tcp://127.0.0.1:9345";
+          "tcp:9345" = "http://127.0.0.1:9345";
           # Kubernetes API
-          "tcp:6443" = "tcp://127.0.0.1:6443";
+          "tcp:6443" = "http://127.0.0.1:6443";
         };
         advertised = true;
       };
