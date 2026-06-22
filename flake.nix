@@ -133,7 +133,6 @@
 
   outputs =
     inputs@{
-      comin,
       devenv,
       devlib,
       flake-parts,
