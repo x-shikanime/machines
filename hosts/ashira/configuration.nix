@@ -67,16 +67,16 @@
     defaultSopsFile = ../../secrets/ashira.enc.yaml;
     defaultSopsFormat = "yaml";
     secrets = {
-      codeberg-runner-ashira-token.restartUnits = [ "codeberg-runner-ashira.service" ];
-      forgejo-runner-ashira-token.restartUnits = [ "forgejo-runner-ashira.service" ];
+      codeberg-runner-token.restartUnits = [ "codeberg-runner-ashira.service" ];
+      forgejo-runner-token.restartUnits = [ "forgejo-runner-ashira.service" ];
       rke2-token.restartUnits = [ "rke2-server.service" ];
     };
     templates = {
-      codeberg-runner-ashira-token.content = ''
-        TOKEN=${config.sops.placeholder.codeberg-runner-ashira-token}
+      codeberg-runner-token.content = ''
+        TOKEN=${config.sops.placeholder.codeberg-runner-token}
       '';
-      forgejo-runner-ashira-token.content = ''
-        TOKEN=${config.sops.placeholder.forgejo-runner-ashira-token}
+      forgejo-runner-token.content = ''
+        TOKEN=${config.sops.placeholder.forgejo-runner-token}
       '';
     };
   };

@@ -63,15 +63,15 @@
     defaultSopsFile = ../../secrets/manash.enc.yaml;
     defaultSopsFormat = "yaml";
     secrets = {
-      codeberg-runner-manash-token.restartUnits = [ "codeberg-runner-manash.service" ];
-      forgejo-runner-manash-token.restartUnits = [ "forgejo-runner-manash.service" ];
+      codeberg-runner-token.restartUnits = [ "codeberg-runner-manash.service" ];
+      forgejo-runner-token.restartUnits = [ "forgejo-runner-manash.service" ];
     };
     templates = {
-      codeberg-runner-manash-token.content = ''
-        TOKEN=${config.sops.placeholder.codeberg-runner-manash-token}
+      codeberg-runner-token.content = ''
+        TOKEN=${config.sops.placeholder.codeberg-runner-token}
       '';
-      forgejo-runner-manash-token.content = ''
-        TOKEN=${config.sops.placeholder.forgejo-runner-manash-token}
+      forgejo-runner-token.content = ''
+        TOKEN=${config.sops.placeholder.forgejo-runner-token}
       '';
     };
   };
