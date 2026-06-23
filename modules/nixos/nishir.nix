@@ -58,7 +58,7 @@
           path = "clusters/nishir/overlays/tailnet";
           pullSecret = "";
           ref = "refs/heads/main";
-          url = "https://github.com/shikanime/manifests.git";
+          url = "https://github.com/x-shikanime/manifests.git";
         };
 
         operator.extraConfig.web.ingress = {
