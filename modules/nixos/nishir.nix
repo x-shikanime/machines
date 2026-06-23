@@ -127,6 +127,8 @@ with lib;
     script = ''
       ${getExe pkgs.tailscale} serve --yes --bg --service=svc:nishir --https=6443 https+insecure://127.0.0.1:6443
       ${getExe pkgs.tailscale} serve --yes --bg --service=svc:nishir --https=9345 https+insecure://127.0.0.1:9345
+      ${getExe pkgs.tailscale} serve --yes --bg --service=svc:syncthing --https=8384 https+insecure://127.0.0.1:443
+      ${getExe pkgs.tailscale} serve --yes --bg --service=svc:syncthing --tcp=22000 tcp://127.0.0.1:22000
     '';
   };
 
