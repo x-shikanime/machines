@@ -32,7 +32,7 @@
   system.autoUpgrade = {
     enable = true;
     flags = [ "--accept-flake-config" ];
-    flake = "github:shikanime/shikanime";
+    flake = "github:x-shikanime/machines";
   };
 
   # This value determines the NixOS release from which the default
