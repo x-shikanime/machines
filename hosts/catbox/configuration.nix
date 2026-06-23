@@ -48,7 +48,7 @@
   };
 
   system.build.buildLayeredImage = pkgs.dockerTools.buildLayeredImage {
-    name = "ghcr.io/shikanime/shikanime/catbox";
+    name = "ghcr.io/x-shikanime/machines/catbox";
     contents = [
       config.system.build.toplevel
       pkgs.bash
@@ -93,7 +93,7 @@
             updateRemoteUserUID = false;
           }
         ];
-        "org.opencontainers.image.source" = "https://github.com/shikanime/shikanime";
+        "org.opencontainers.image.source" = "https://github.com/x-shikanime/machines";
         "org.opencontainers.image.description" = "catbox development environment";
         "org.opencontainers.image.licenses" = "AGPL-3.0-or-later";
       };
