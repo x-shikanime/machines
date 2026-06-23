@@ -69,7 +69,12 @@
     script = ''
       ${pkgs.ethtool}/bin/ethtool -K enp1s0 rx-udp-gro-forwarding on rx-gro-list off
     '';
-    serviceConfig.Type = "oneshot";
+    serviceConfig = {
+      Type = "oneshot";
+      RemainAfterExit = true;
+      Restart = "on-failure";
+      RestartSec = "5s";
+    };
     wantedBy = [ "multi-user.target" ];
     wants = [ "network-online.target" ];
   };
