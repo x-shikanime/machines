@@ -114,7 +114,7 @@ with lib;
   # maps to "HTTP": true — no TLS termination. Use systemd oneshot with the
   # tailscale CLI directly as a workaround. Upstream bug: tailscale#18381,
   # nixpkgs#530174.
-  systemd.services.tailscale-serve-https = {
+  systemd.services.tailscale-serve-k8s-node = {
     description = "Expose RKE2 and Kubernetes APIs via Tailscale serve with HTTPS";
     after = [ "tailscaled.service" ];
     wants = [ "tailscaled.service" ];
