@@ -20,60 +20,62 @@ with lib;
     })
   ];
 
-  knix = {
-    enable = true;
-    addons = {
-      flux = {
-        instance.extraConfig.instance.sync = {
-          interval = "1m";
-          kind = "GitRepository";
-          path = "clusters/talashi/overlays/tailnet";
-          pullSecret = "";
-          ref = "refs/heads/main";
-          url = "https://github.com/x-shikanime/manifests.git";
-        };
-
-        operator.extraConfig.web.ingress = {
-          enabled = true;
-          className = "tailscale";
-          annotations."tailscale.com/tags" = "tag:web";
-          hosts = [
-            {
-              host = "talashi-flux";
-              paths = [
-                {
-                  path = "/";
-                  pathType = "ImplementationSpecific";
-                }
-              ];
-            }
-          ];
-          tls = [
-            { hosts = [ "talashi-flux" ]; }
-          ];
-        };
-      };
-      longhorn.extraConfig.recurringJobSelector = {
-        enable = true;
-        jobList = [
-          {
-            name = "standard";
-            isGroup = true;
-          }
-        ];
-      };
-    };
-    tlsSan = [
-      "fushi.taila659a.ts.net"
-      "minish.taila659a.ts.net"
-      "nemishi.taila659a.ts.net"
-      "talashi.taila659a.ts.net"
-    ];
-  };
-
   sops.age.sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
 
-  services.fstrim.enable = true;
+  services = {
+    fstrim.enable = true;
+
+    knix = {
+      enable = true;
+      addons = {
+        flux = {
+          instance.extraConfig.instance.sync = {
+            interval = "1m";
+            kind = "GitRepository";
+            path = "clusters/talashi/overlays/tailnet";
+            pullSecret = "";
+            ref = "refs/heads/main";
+            url = "https://github.com/x-shikanime/manifests.git";
+          };
+
+          operator.extraConfig.web.ingress = {
+            enabled = true;
+            className = "tailscale";
+            annotations."tailscale.com/tags" = "tag:web";
+            hosts = [
+              {
+                host = "talashi-flux";
+                paths = [
+                  {
+                    path = "/";
+                    pathType = "ImplementationSpecific";
+                  }
+                ];
+              }
+            ];
+            tls = [
+              { hosts = [ "talashi-flux" ]; }
+            ];
+          };
+        };
+        longhorn.extraConfig.recurringJobSelector = {
+          enable = true;
+          jobList = [
+            {
+              name = "standard";
+              isGroup = true;
+            }
+          ];
+        };
+      };
+      tlsSan = [
+        "fushi.taila659a.ts.net"
+        "minish.taila659a.ts.net"
+        "nemishi.taila659a.ts.net"
+        "talashi.taila659a.ts.net"
+      ];
+    };
+  };
 
   # Tailscale serve with TLS termination (HTTPS) for RKE2 and Kubernetes APIs.
   # The NixOS module (services.tailscale.serve) only supports tcp:<port> which

@@ -26,13 +26,7 @@
 
   networking.hostName = "manash";
 
-  knix.nodeIP = "192.168.1.28,2a02:8424:7899:f201:94eb:8d1:325a:7181";
-
   services = {
-    tailscale.extraUpFlags = [
-      "--advertise-routes=10.244.0.0/24,fd00::/112"
-    ];
-
     gitea-actions-runner.instances = {
       codeberg = {
         enable = true;
@@ -57,6 +51,12 @@
         ];
       };
     };
+
+    knix.nodeIP = "192.168.1.28,2a02:8424:7899:f201:94eb:8d1:325a:7181";
+
+    tailscale.extraUpFlags = [
+      "--advertise-routes=10.244.0.0/24,fd00::/112"
+    ];
   };
 
   sops = {
