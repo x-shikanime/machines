@@ -26,17 +26,7 @@
 
   networking.hostName = "ashira";
 
-  knix = {
-    nodeIP = "192.168.1.60,2a02:8424:7899:f201:94eb:8d1:325a:812b";
-    serverAddr = "https://nishir.taila659a.ts.net:9345";
-    tokenFile = config.sops.secrets.rke2-token.path;
-  };
-
   services = {
-    tailscale.extraUpFlags = [
-      "--advertise-routes=10.244.2.0/24,fd00::2:0/112"
-    ];
-
     gitea-actions-runner.instances = {
       codeberg = {
         enable = true;
@@ -61,6 +51,16 @@
         ];
       };
     };
+
+    knix = {
+      nodeIP = "192.168.1.60,2a02:8424:7899:f201:94eb:8d1:325a:812b";
+      serverAddr = "https://nishir.taila659a.ts.net:9345";
+      tokenFile = config.sops.secrets.rke2-token.path;
+    };
+
+    tailscale.extraUpFlags = [
+      "--advertise-routes=10.244.2.0/24,fd00::2:0/112"
+    ];
   };
 
   sops = {

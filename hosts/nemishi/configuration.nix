@@ -34,7 +34,7 @@
 
   networking.hostName = "nemishi";
 
-  knix.nodeIP = "192.168.1.27";
+  services.knix.nodeIP = "192.168.1.27";
 
   sops = {
     defaultSopsFile = ../../secrets/nemishi.enc.yaml;
