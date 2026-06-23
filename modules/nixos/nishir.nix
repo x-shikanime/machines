@@ -1,4 +1,4 @@
-{ lib, ... }:
+{ lib, pkgs, ... }:
 
 with lib;
 
@@ -126,8 +126,8 @@ with lib;
       RestartSec = "5s";
     };
     script = ''
-      ${getExe tailscale} serve --yes --bg --service=svc:nishir --https=6443 http://127.0.0.1:6443
-      ${getExe tailscale} serve --yes --bg --service=svc:nishir --https=9345 http://127.0.0.1:9345
+      ${getExe pkgs.tailscale} serve --yes --bg --service=svc:nishir --https=6443 http://127.0.0.1:6443
+      ${getExe pkgs.tailscale} serve --yes --bg --service=svc:nishir --https=9345 http://127.0.0.1:9345
     '';
   };
 
