@@ -78,6 +78,8 @@ with lib;
       '';
     };
 
+    ripgrep.enable = true;
+
     ssh = {
       enable = true;
       settings = {
