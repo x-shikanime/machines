@@ -100,6 +100,12 @@ with lib;
           ];
         };
       };
+      addons.traefik.extraConfig.ports.syncthing = {
+        port = 22000;
+        expose.default = true;
+        exposedPort = 22000;
+        protocol = "TCP";
+      };
       tlsSan = [
         "ashira.taila659a.ts.net"
         "manash.taila659a.ts.net"
