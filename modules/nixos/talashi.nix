@@ -73,9 +73,7 @@ with lib;
 
   sops.age.sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
 
-  services = {
-    fstrim.enable = true;
-  };
+  services.fstrim.enable = true;
 
   # Tailscale serve with TLS termination (HTTPS) for RKE2 and Kubernetes APIs.
   # The NixOS module (services.tailscale.serve) only supports tcp:<port> which
