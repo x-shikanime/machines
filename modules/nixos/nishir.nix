@@ -107,12 +107,22 @@ with lib;
         "nishir.taila659a.ts.net"
       ];
     };
+
+    # Expose RKE2 API (9345) and Kubernetes API (6443) as a single Tailscale Service.
+    tailscale.serve = {
+      enable = true;
+      services.nishir = {
+        advertised = true;
+        endpoints = {
+          # Kubernetes API
+          "tcp:6443" = "http://127.0.0.1:6443";
+          # RKE2 API
+          "tcp:9345" = "http://127.0.0.1:9345";
+        };
+      };
+    };
   };
-  # Tailscale serve with TLS termination (HTTPS) for RKE2 and Kubernetes APIs.
-  # The NixOS module (services.tailscale.serve) only supports tcp:<port> which
-  # maps to "HTTP": true — no TLS termination. Use systemd oneshot with the
-  # tailscale CLI directly as a workaround. Upstream bug: tailscale#18381,
-  # nixpkgs#530174.
+
   systemd.services.tailscale-serve-nishir = {
     description = "Expose RKE2 and Kubernetes APIs via Tailscale serve with HTTPS";
     after = [ "tailscaled.service" ];
@@ -125,11 +135,6 @@ with lib;
       RestartSec = "5s";
     };
     script = ''
-      ${getExe pkgs.tailscale} reset
-
-      ${getExe pkgs.tailscale} serve --yes --bg --service=svc:nishir --https=6443 https+insecure://127.0.0.1:6443
-      ${getExe pkgs.tailscale} serve --yes --bg --service=svc:nishir --https=9345 https+insecure://127.0.0.1:9345
-
       ${getExe pkgs.tailscale} serve --yes --bg --service=svc:syncthing --https=80 http://127.0.0.1:80
       ${getExe pkgs.tailscale} serve --yes --bg --service=svc:syncthing --https=443 https+insecure://127.0.0.1:443
       ${getExe pkgs.tailscale} serve --yes --bg --service=svc:syncthing --tcp=22000 tcp://127.0.0.1:22000

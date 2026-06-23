@@ -75,28 +75,20 @@ with lib;
         "talashi.taila659a.ts.net"
       ];
     };
-  };
 
-  # Tailscale serve with TLS termination (HTTPS) for RKE2 and Kubernetes APIs.
-  # The NixOS module (services.tailscale.serve) only supports tcp:<port> which
-  # maps to "HTTP": true — no TLS termination. Use systemd oneshot with the
-  # tailscale CLI directly as a workaround. Upstream bug: tailscale#18381,
-  # nixpkgs#530174.
-  systemd.services.tailscale-serve-talashi = {
-    description = "Expose RKE2 and Kubernetes APIs via Tailscale serve with HTTPS";
-    after = [ "tailscaled.service" ];
-    wants = [ "tailscaled.service" ];
-    wantedBy = [ "multi-user.target" ];
-    serviceConfig = {
-      Type = "oneshot";
-      RemainAfterExit = true;
-      Restart = "on-failure";
-      RestartSec = "5s";
+    # Expose RKE2 API (9345) and Kubernetes API (6443) as a single Tailscale Service.
+    tailscale.serve = {
+      enable = true;
+      services.nishir = {
+        advertised = true;
+        endpoints = {
+          # Kubernetes API
+          "tcp:6443" = "http://127.0.0.1:6443";
+          # RKE2 API
+          "tcp:9345" = "http://127.0.0.1:9345";
+        };
+      };
     };
-    script = ''
-      ${getExe pkgs.tailscale} serve --yes --bg --service=svc:talashi --https=6443 https+insecure://127.0.0.1:6443
-      ${getExe pkgs.tailscale} serve --yes --bg --service=svc:talashi --https=9345 https+insecure://127.0.0.1:9345
-    '';
   };
 
   users.users.talashi = {
