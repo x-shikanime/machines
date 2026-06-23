@@ -1,3 +1,9 @@
+<!-- markdownlint-disable first-line-heading MD041 -->
+
+![header.png](https://raw.githubusercontent.com/shikanime/shikanime/main/assets/github-header.png)
+
+<!-- markdownlint-enable first-line-heading MD041 -->
+
 # Machines
 
 Shikanime's machine configuration repository for NixOS, nix-darwin, WSL, and
