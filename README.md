@@ -171,4 +171,3 @@ configuration repos:
 - `shikanime-labs/colemak`
 - `shikanime-labs/manifests`
 - `shikanime-studio/knix`
-
