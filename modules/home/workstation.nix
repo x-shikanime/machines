@@ -29,6 +29,7 @@ with lib;
       qwen-code
       rclone
       rtk
+      secretspec
       wget
       zip
     ];
