@@ -1,4 +1,4 @@
-{ config, ... }:
+{ ... }:
 
 {
   imports = [
@@ -38,17 +38,5 @@
   sops = {
     defaultSopsFile = ../../secrets/manash.enc.yaml;
     defaultSopsFormat = "yaml";
-    secrets = {
-      codeberg-runner-token.restartUnits = [ "codeberg-runner-manash.service" ];
-      forgejo-runner-token.restartUnits = [ "forgejo-runner-manash.service" ];
-    };
-    templates = {
-      codeberg-runner-token.content = ''
-        TOKEN=${config.sops.placeholder.codeberg-runner-token}
-      '';
-      forgejo-runner-token.content = ''
-        TOKEN=${config.sops.placeholder.forgejo-runner-token}
-      '';
-    };
   };
 }

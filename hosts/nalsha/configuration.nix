@@ -28,7 +28,7 @@
   networking.hostName = "nalsha";
 
   services = {
-    knix = {
+    knix.nodeIP = "192.168.1.64,2a02:8424:7899:f201:94eb:8d1:325a:7234";
 
     tailscale.extraUpFlags = [
       "--advertise-routes=10.244.1.0/24,fd00::1:0/112"
@@ -38,17 +38,5 @@
   sops = {
     defaultSopsFile = ../../secrets/nalsha.enc.yaml;
     defaultSopsFormat = "yaml";
-    secrets = {
-      codeberg-runner-token.restartUnits = [ "codeberg-runner-nalsha.service" ];
-      forgejo-runner-token.restartUnits = [ "forgejo-runner-nalsha.service" ];
-    };
-    templates = {
-      codeberg-runner-token.content = ''
-        TOKEN=${config.sops.placeholder.codeberg-runner-token}
-      '';
-      forgejo-runner-token.content = ''
-        TOKEN=${config.sops.placeholder.forgejo-runner-token}
-      '';
-    };
   };
 }
