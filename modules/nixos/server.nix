@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ config, pkgs, ... }:
 
 {
   imports = [
@@ -6,7 +6,33 @@
   ];
 
   services = {
-    gitea-actions-runner.package = pkgs.forgejo-runner;
+    gitea-actions-runner = {
+      package = pkgs.forgejo-runner;
+      instances = {
+        codeberg = {
+          enable = true;
+          name = config.networking.hostName;
+          tokenFile = config.sops.templates.codeberg-runner-token.path;
+          url = "https://codeberg.org";
+          labels = [
+            "docker:docker://node:22-bookworm"
+            "nixos-latest:docker://nixos/nix"
+            "native:host"
+          ];
+        };
+        forgejo = {
+          enable = true;
+          name = config.networking.hostName;
+          tokenFile = config.sops.templates.forgejo-runner-token.path;
+          url = "https://forgejo.taila659a.ts.net";
+          labels = [
+            "docker:docker://node:22-bookworm"
+            "nixos-latest:docker://nixos/nix"
+            "native:host"
+          ];
+        };
+      };
+    };
 
     knix = {
       enable = true;

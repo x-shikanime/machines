@@ -3,8 +3,8 @@
 {
   imports = [
     ../../modules/nixos/beelink.nix
-    ../../modules/nixos/server.nix
     ../../modules/nixos/distributed.nix
+    ../../modules/nixos/follower.nix
   ];
 
   disko.devices.disk.patchouli = {
@@ -28,36 +28,7 @@
   networking.hostName = "ashira";
 
   services = {
-    gitea-actions-runner.instances = {
-      codeberg = {
-        enable = true;
-        name = "ashira";
-        tokenFile = config.sops.templates.codeberg-runner-token.path;
-        url = "https://codeberg.org";
-        labels = [
-          "docker:docker://node:22-bookworm"
-          "nixos-latest:docker://nixos/nix"
-          "native:host"
-        ];
-      };
-      forgejo = {
-        enable = true;
-        name = "ashira";
-        tokenFile = config.sops.templates.forgejo-runner-token.path;
-        url = "https://forgejo.taila659a.ts.net";
-        labels = [
-          "docker:docker://node:22-bookworm"
-          "nixos-latest:docker://nixos/nix"
-          "native:host"
-        ];
-      };
-    };
-
-    knix = {
-      nodeIP = "192.168.1.60,2a02:8424:7899:f201:94eb:8d1:325a:812b";
-      serverAddr = "https://nishir.taila659a.ts.net:9345";
-      tokenFile = config.sops.secrets.rke2-token.path;
-    };
+    knix.nodeIP = "192.168.1.60,2a02:8424:7899:f201:94eb:8d1:325a:812b";
 
     tailscale.extraUpFlags = [
       "--advertise-routes=10.244.2.0/24,fd00::2:0/112"
@@ -70,7 +41,6 @@
     secrets = {
       codeberg-runner-token.restartUnits = [ "codeberg-runner-ashira.service" ];
       forgejo-runner-token.restartUnits = [ "forgejo-runner-ashira.service" ];
-      rke2-token.restartUnits = [ "rke2-server.service" ];
     };
     templates = {
       codeberg-runner-token.content = ''
