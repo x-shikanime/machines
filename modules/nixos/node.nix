@@ -88,46 +88,20 @@
     };
   };
 
-  systemd.services = {
-    tailscale-udp-gro-forwarding = {
-      after = [ "network-online.target" ];
-      description = "Enable Tailscale UDP GRO forwarding on enp1s0";
-      script = ''
-        ${pkgs.ethtool}/bin/ethtool -K enp1s0 rx-udp-gro-forwarding on rx-gro-list off
-      '';
-      serviceConfig = {
-        Type = "oneshot";
-        RemainAfterExit = true;
-        Restart = "on-failure";
-        RestartSec = "5s";
-      };
-      wantedBy = [ "multi-user.target" ];
-      wants = [ "network-online.target" ];
+  systemd.services.tailscale-udp-gro-forwarding = {
+    after = [ "network-online.target" ];
+    description = "Enable Tailscale UDP GRO forwarding on enp1s0";
+    script = ''
+      ${pkgs.ethtool}/bin/ethtool -K enp1s0 rx-udp-gro-forwarding on rx-gro-list off
+    '';
+    serviceConfig = {
+      Type = "oneshot";
+      RemainAfterExit = true;
+      Restart = "on-failure";
+      RestartSec = "5s";
     };
-
-    # WireGuard Kernel module does not handle GSO/GRO/TSO correctly on some
-    # NICs (Intel i226-V). Offloading produces TX drops on flannel-wg due to
-    # oversized skb fragments the tunnel cannot encapsulate within MTU.
-    # Disable all hardware offloading on the WireGuard tunnel interface.
-    flannel-wg-offload-disable = {
-      after = [
-        "network-online.target"
-        "flannel-wg-netdev.service"
-      ];
-      description = "Disable hardware offloading on flannel-wg to prevent TX drops";
-      script = ''
-        ${pkgs.ethtool}/bin/ethtool -K flannel-wg gro off gso off tso off
-      '';
-      serviceConfig = {
-        Type = "oneshot";
-        RemainAfterExit = true;
-        Restart = "on-failure";
-        RestartSec = "10s";
-      };
-      unitConfig.ConditionPathExists = "/sys/class/net/flannel-wg";
-      wantedBy = [ "multi-user.target" ];
-      wants = [ "network-online.target" ];
-    };
+    wantedBy = [ "multi-user.target" ];
+    wants = [ "network-online.target" ];
   };
 
   users.users.nishir = {
