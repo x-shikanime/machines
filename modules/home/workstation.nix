@@ -47,6 +47,8 @@ with lib;
 
     carapace.enable = true;
 
+    command-not-found.enable = true;
+
     dircolors.enable = true;
 
     direnv = {
