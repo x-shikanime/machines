@@ -1,6 +1,7 @@
 {
   imports = [
     ../../modules/nixos/beelink.nix
+    ../../modules/nixos/builder.nix
     ../../modules/nixos/server.nix
     ../../modules/nixos/distributed.nix
   ];
