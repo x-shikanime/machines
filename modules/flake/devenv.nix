@@ -83,90 +83,82 @@
           enable = true;
           settings.creation_rules =
             let
-              age = [
-                "age1pwl9yz4k4255a4h8qz7lafce8wxhsul0cnqwmr8528fqgujlfshshv3z3g" # telsha
-                "age1x9v4ps90txy9mk4392uya93tyzx40te4dvns4chg5s6q8mfy03ns74jpay" # nixtar
+              telsha = "age1pwl9yz4k4255a4h8qz7lafce8wxhsul0cnqwmr8528fqgujlfshshv3z3g";
+              nixtar = "age1x9v4ps90txy9mk4392uya93tyzx40te4dvns4chg5s6q8mfy03ns74jpay";
+              ashira = "age1mel902ydxqv4yh798t5en336am9zwykapy8rtfvq4yprzr79t5wqzxe8ph";
+              fushi = "";
+              manash = "age1f4yuh4j3gqafjduusfpxz3na9xtwth9s6gznq043mfex0zglp5jqkkdm64";
+              minish = "";
+              nalsha = "age1evzl6xw2n96l2xyy7jed3zlv6d4jpmytp47rpp39pjju08tep4mqqa2au5";
+              nemishi = "";
+
+              workstations = [
+                telsha
+                nixtar
+              ];
+
+              nodes = [
+                ashira
+                fushi
+                manash
+                minish
+                nalsha
+                nemishi
               ];
             in
             [
               {
                 path_regex = "secrets/ashira.enc.yaml";
                 key_groups = [
-                  {
-                    age = age ++ [
-                      "age1mel902ydxqv4yh798t5en336am9zwykapy8rtfvq4yprzr79t5wqzxe8ph"
-                    ];
-                  }
+                  { age = workstations ++ nodes ++ [ ashira ]; }
                 ];
               }
               {
                 path_regex = "secrets/fushi.enc.yaml";
                 key_groups = [
-                  {
-                    age = age ++ [
-                      "age18zmkeyxun4gflllelsmdhwjh5xpfwrqshdxrednv7zljphepxc6strhysn"
-                    ];
-                  }
+                  { age = workstations ++ nodes ++ [ fushi ]; }
                 ];
               }
               {
                 path_regex = "secrets/manash.enc.yaml";
                 key_groups = [
-                  {
-                    age = age ++ [
-                      "age1f4yuh4j3gqafjduusfpxz3na9xtwth9s6gznq043mfex0zglp5jqkkdm64"
-                    ];
-                  }
+                  { age = workstations ++ nodes ++ [ manash ]; }
                 ];
               }
               {
                 path_regex = "secrets/minish.enc.yaml";
                 key_groups = [
-                  {
-                    age = age ++ [
-                      "age18zmkeyxun4gflllelsmdhwjh5xpfwrqshdxrednv7zljphepxc6strhysn"
-                    ];
-                  }
+                  { age = workstations ++ nodes ++ [ minish ]; }
                 ];
               }
               {
                 path_regex = "secrets/nalsha.enc.yaml";
                 key_groups = [
-                  {
-                    age = age ++ [
-                      "age1evzl6xw2n96l2xyy7jed3zlv6d4jpmytp47rpp39pjju08tep4mqqa2au5"
-                    ];
-                  }
+                  { age = workstations ++ nodes ++ [ nalsha ]; }
                 ];
               }
               {
                 path_regex = "secrets/nemishi.enc.yaml";
                 key_groups = [
-                  {
-                    age = age ++ [
-                      "age18zmkeyxun4gflllelsmdhwjh5xpfwrqshdxrednv7zljphepxc6strhysn"
-                    ];
-                  }
+                  { age = workstations ++ nodes ++ [ nemishi ]; }
+                ];
+              }
+              {
+                path_regex = "secrets/nishir.enc.yaml";
+                key_groups = [
+                  { age = workstations ++ nodes; }
                 ];
               }
               {
                 path_regex = "secrets/nixtar.enc.yaml";
                 key_groups = [
-                  {
-                    age = age ++ [
-                      "age1um232l0h8wn9mtha2qf4f4mnf7ucjayvf5qxjvynatmasg8qg5mshekvjl"
-                    ];
-                  }
+                  { age = workstations; }
                 ];
               }
               {
                 path_regex = "secrets/telsha.enc.yaml";
                 key_groups = [
-                  {
-                    age = age ++ [
-                      "age1eak84xcr44yfqsg843rfu2xajxsyvjwh67a630htpnd0scy7yu5szjfh8d"
-                    ];
-                  }
+                  { age = workstations; }
                 ];
               }
             ];

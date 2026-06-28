@@ -38,5 +38,12 @@
   sops = {
     defaultSopsFile = ../../secrets/ashira.enc.yaml;
     defaultSopsFormat = "yaml";
+    secrets = {
+      codeberg-runner-token.sopsFile = ../../secrets/nishir.enc.yaml;
+      forgejo-runner-token.sopsFile = ../../secrets/nishir.enc.yaml;
+      wifi-sfr-e368.sopsFile = ../../secrets/nishir.enc.yaml;
+      wifi-sfr-e368-5ghz.sopsFile = ../../secrets/nishir.enc.yaml;
+      wifi-vintage-korean.sopsFile = ../../secrets/nishir.enc.yaml;
+    };
   };
 }
