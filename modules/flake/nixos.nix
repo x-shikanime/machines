@@ -78,9 +78,9 @@
           system = "aarch64-linux";
           config.allowUnfree = true;
         };
-        specialArgs = { inherit inputs; };
         modules = [
           ../../hosts/fushi/configuration.nix
+          inputs.disko.nixosModules.default
           inputs.home-manager.nixosModules.default
           inputs.knix.nixosModules.default
           inputs.nixos-hardware.nixosModules.raspberry-pi-4
@@ -100,9 +100,9 @@
           system = "aarch64-linux";
           config.allowUnfree = true;
         };
-        specialArgs = { inherit inputs; };
         modules = [
           ../../hosts/minish/configuration.nix
+          inputs.disko.nixosModules.default
           inputs.home-manager.nixosModules.default
           inputs.knix.nixosModules.default
           inputs.nixos-hardware.nixosModules.raspberry-pi-4
@@ -122,9 +122,9 @@
           system = "aarch64-linux";
           config.allowUnfree = true;
         };
-        specialArgs = { inherit inputs; };
         modules = [
           ../../hosts/nemishi/configuration.nix
+          inputs.disko.nixosModules.default
           inputs.home-manager.nixosModules.default
           inputs.knix.nixosModules.default
           inputs.nixos-hardware.nixosModules.raspberry-pi-5
@@ -222,11 +222,8 @@
           in
           catbox.config.system.build.buildLayeredImage;
         fushi = self.nixosConfigurations.fushi.config.system.build.toplevel;
-        fushi-sd = self.nixosConfigurations.fushi.config.system.build.sdImage;
         minish = self.nixosConfigurations.minish.config.system.build.toplevel;
-        minish-sd = self.nixosConfigurations.minish.config.system.build.sdImage;
         nemishi = self.nixosConfigurations.nemishi.config.system.build.toplevel;
-        nemishi-sd = self.nixosConfigurations.nemishi.config.system.build.sdImage;
       };
     };
   };
