@@ -104,13 +104,6 @@ with lib;
           preoutgoing.git-hooks = "test -f .git/hooks/pre-push && .git/hooks/pre-push || true";
           update.git-hooks = "test -f .git/hooks/post-rewrite && .git/hooks/post-rewrite || true";
         };
-
-        merge-tools = {
-          code.args = "--wait --merge $local $other $base $output";
-          code.priority = 10;
-          trae.args = "--wait --merge $local $other $base $output";
-          trae.priority = 20;
-        };
       };
     };
   };
