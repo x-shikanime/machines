@@ -91,40 +91,22 @@ with lib;
     };
   };
 
-  systemd.services = {
-    tailscale-udp-gro-forwarding = {
-      after = [ "network-online.target" ];
-      description = "Enable Tailscale UDP GRO forwarding on enp1s0";
-      script = ''
-        ${pkgs.ethtool}/bin/ethtool -K enp1s0 rx-udp-gro-forwarding on rx-gro-list off
-      '';
-      serviceConfig = {
-        Type = "oneshot";
-        RemainAfterExit = true;
-        Restart = "on-failure";
-        RestartSec = "5s";
-      };
-      wantedBy = [ "multi-user.target" ];
-      wants = [ "network-online.target" ];
+  systemd.services.tailscale-serve-syncthing = {
+    description = "Expose RKE2 and Kubernetes APIs via Tailscale serve with HTTPS";
+    after = [ "tailscaled.service" ];
+    wants = [ "tailscaled.service" ];
+    wantedBy = [ "multi-user.target" ];
+    serviceConfig = {
+      Type = "oneshot";
+      RemainAfterExit = true;
+      Restart = "on-failure";
+      RestartSec = "5s";
     };
-
-    tailscale-serve-syncthing = {
-      description = "Expose RKE2 and Kubernetes APIs via Tailscale serve with HTTPS";
-      after = [ "tailscaled.service" ];
-      wants = [ "tailscaled.service" ];
-      wantedBy = [ "multi-user.target" ];
-      serviceConfig = {
-        Type = "oneshot";
-        RemainAfterExit = true;
-        Restart = "on-failure";
-        RestartSec = "5s";
-      };
-      script = ''
-        ${getExe pkgs.tailscale} serve --yes --bg --service=svc:syncthing --https=80 http://127.0.0.1:80
-        ${getExe pkgs.tailscale} serve --yes --bg --service=svc:syncthing --https=443 https+insecure://127.0.0.1:443
-        ${getExe pkgs.tailscale} serve --yes --bg --service=svc:syncthing --tcp=22000 tcp://127.0.0.1:22000
-      '';
-    };
+    script = ''
+      ${getExe pkgs.tailscale} serve --yes --bg --service=svc:syncthing --https=80 http://127.0.0.1:80
+      ${getExe pkgs.tailscale} serve --yes --bg --service=svc:syncthing --https=443 https+insecure://127.0.0.1:443
+      ${getExe pkgs.tailscale} serve --yes --bg --service=svc:syncthing --tcp=22000 tcp://127.0.0.1:22000
+    '';
   };
 
   users.users.nishir = {
