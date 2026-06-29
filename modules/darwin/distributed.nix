@@ -81,7 +81,7 @@
     distributedBuilds = true;
 
     linux-builder = {
-      enable = true;
+      enable = false;
       config.boot.binfmt.emulatedSystems = [ "x86_64-linux" ];
       ephemeral = true;
       systems = [

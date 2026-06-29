@@ -19,11 +19,8 @@ with lib;
     packages = with pkgs; [
       bws
       cachix
-      claude-code
-      codex
       devenv
       docker-credential-helpers
-      gemini-cli
       pass
       qpdf
       qwen-code
@@ -43,9 +40,15 @@ with lib;
   };
 
   programs = {
+    antigravity-cli.enable = true;
+
     bat.enable = true;
 
     carapace.enable = true;
+
+    codex.enable = true;
+
+    claude-code.enable = true;
 
     command-not-found.enable = true;
 
