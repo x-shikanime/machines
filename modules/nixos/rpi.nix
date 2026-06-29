@@ -14,7 +14,7 @@
     })
   ];
 
-  services.tailscale-udp-gro-forwarding = {
+  systemd.services.tailscale-udp-gro-forwarding = {
     after = [ "network-online.target" ];
     description = "Enable Tailscale UDP GRO forwarding on end0";
     script = ''
