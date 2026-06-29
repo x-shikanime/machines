@@ -40,34 +40,10 @@ with lib;
       enable = true;
       settings = {
         aliases = {
-          ghstack =
-            let
-              ghstack = pkgs.writeShellScript "jj-ghstack" ''
-                if [ -z "$1" ]; then
-                  set -- "submit"
-                fi
-                if [ "$1" = "submit" ]; then
-                  ${getExe pkgs.jujutsu} abandon -r 'stack() & nulls()'
-                  ${getExe pkgs.jujutsu} rebase -d 'trunk()'
-                fi
-                ${getExe pkgs.ghstack} "$@"
-              '';
-            in
-            [
-              "util"
-              "exec"
-              "--"
-              "${ghstack}"
-            ];
           prune = [
             "abandon"
             "nulls()"
             "conflicts()"
-          ];
-          sync = [
-            "git"
-            "fetch"
-            "--all-remotes"
           ];
           restack = [
             "rebase"
@@ -75,6 +51,24 @@ with lib;
             "trunk()"
             "--source"
             "roots(trunk()..) & mutable()"
+            "--simplify-parents"
+          ];
+          stack = [
+            "rebase"
+            "--after"
+            "trunk()"
+            "--before"
+            "closest_merge(@)"
+          ];
+          stage = [
+            "stack"
+            "-r"
+            "closest_merge(@)+:: ~ empty()"
+          ];
+          sync = [
+            "git"
+            "fetch"
+            "--all-remotes"
           ];
         };
         git.private-commits = "description(glob:'secret:*')";
@@ -86,10 +80,8 @@ with lib;
           git_push_bookmark = "\"shikanime/push-\" ++ change_id.short()";
         };
         revset-aliases = {
+          "closest_merge(to)" = "heads(::to & merges())";
           "nulls()" = "empty() & mutable()";
-          "stack()" = "stack(@)";
-          "stack(x)" = "stack(x, 2)";
-          "stack(x, n)" = "ancestors(reachable(x, mutable()), n)";
         };
         ui.default-command = "log";
       };
