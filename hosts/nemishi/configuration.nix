@@ -10,6 +10,22 @@
     "${modulesPath}/installer/sd-card/sd-image-aarch64.nix"
   ];
 
+  disko.devices.disk.main = {
+    type = "disk";
+    device = "/dev/disk/by-label/main";
+    content = {
+      type = "filesystem";
+      format = "xfs";
+      mountpoint = "/mnt/main";
+      mountOptions = [
+        "nofail"
+        "x-systemd.automount"
+        "x-systemd.device-timeout=10s"
+        "x-systemd.mount-timeout=30s"
+      ];
+    };
+  };
+
   networking.hostName = "nemishi";
 
   services.knix.nodeIP = "192.168.1.27";
