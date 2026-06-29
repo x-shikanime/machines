@@ -4,7 +4,10 @@
   ];
 
   services = {
-    knix.role = "agent";
+    knix = {
+      enable = true;
+      role = "agent";
+    };
 
     # Expose RKE2 API (9345) as a single Tailscale Service.
     tailscale.serve = {
