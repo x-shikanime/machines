@@ -15,7 +15,7 @@
       services.nishir = {
         advertised = true;
         endpoints = {
-          "tcp:9345" = "http://127.0.0.1:9345";
+          "tcp:9345" = "https+insecure://127.0.0.1:9345";
         };
       };
     };
