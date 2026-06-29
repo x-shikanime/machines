@@ -12,7 +12,7 @@
 
   disko.devices.disk.data = {
     type = "disk";
-    device = "/dev/disk/by-label/data";
+    device = "/dev/nvme0n1";
     content = {
       type = "filesystem";
       format = "xfs";
