@@ -1,3 +1,5 @@
+{ modulesPath, ... }:
+
 {
   imports = [
     ../../modules/nixos/agent.nix
@@ -5,33 +7,22 @@
     ../../modules/nixos/distributed.nix
     ../../modules/nixos/follower.nix
     ../../modules/nixos/rpi.nix
+    "${modulesPath}/installer/sd-card/sd-image-aarch64.nix"
   ];
 
-  disko.devices.disk.main = {
+  disko.devices.disk.flandre = {
     type = "disk";
-    device = "/dev/disk/by-label/reimu";
+    device = "/dev/disk/by-label/flandre";
     content = {
-      type = "gpt";
-      partitions = {
-        ESP = {
-          size = "1G";
-          type = "EF00";
-          content = {
-            type = "filesystem";
-            format = "vfat";
-            mountpoint = "/boot";
-            mountOptions = [ "umask=0077" ];
-          };
-        };
-        root = {
-          size = "100%";
-          content = {
-            type = "filesystem";
-            format = "xfs";
-            mountpoint = "/";
-          };
-        };
-      };
+      type = "filesystem";
+      format = "xfs";
+      mountpoint = "/mnt/flandre";
+      mountOptions = [
+        "nofail"
+        "x-systemd.automount"
+        "x-systemd.device-timeout=10s"
+        "x-systemd.mount-timeout=30s"
+      ];
     };
   };
 
