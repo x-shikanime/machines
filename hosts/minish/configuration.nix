@@ -25,6 +25,8 @@
     };
   };
 
+  hardware.facter.reportPath = ./facter.json;
+
   networking.hostName = "minish";
 
   services.knix.nodeIP = "192.168.1.77";
