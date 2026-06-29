@@ -3,6 +3,11 @@ permissions:
   contents: read
 "on":
   workflow_call:
+    inputs:
+      push:
+        type: boolean
+        default: true
+        description: Whether to push images during build
     secrets:
       CACHIX_AUTH_TOKEN:
         required: true
@@ -43,8 +48,24 @@ jobs:
             }}
       - id: direnv
         uses: shikanime-studio/actions/direnv@v9
-      - env: ${{ fromJSON(steps.direnv.outputs.env) }}
+      - id: skaffold
+        env: ${{ fromJSON(steps.direnv.outputs.env) }}
         uses: shikanime-studio/actions/skaffold/integration@v9
+        with:
+          push: ${{ inputs.push }}
+      - name: Save manifest
+        run: |
+          mkdir -p artifacts
+          cat > artifacts/skaffold-manifest.yaml <<'MANIFEST_EOF'
+          $SKAFFOLD_MANIFEST
+          MANIFEST_EOF
+        shell: bash
+        env:
+          SKAFFOLD_MANIFEST: ${{ steps.skaffold.outputs.manifest }}
+      - uses: actions/upload-artifact@v4
+        with:
+          name: skaffold-manifest
+          path: artifacts/skaffold-manifest.yaml
   build-render-profile:
     name: Build & Render (Profile)
     if: ${{ needs['setup-profiles-jobs'].outputs.continue == 'true' }}
@@ -89,6 +110,7 @@ jobs:
         uses: shikanime-studio/actions/skaffold/integration@v9
         with:
           profile: ${{ matrix.name }}
+          push: ${{ inputs.push }}
   setup-profiles-jobs:
     name: Setup Profiles Jobs
     runs-on: ubuntu-latest
