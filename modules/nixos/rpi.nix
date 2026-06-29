@@ -11,6 +11,4 @@
       makeModulesClosure = x: super.makeModulesClosure (x // { allowMissing = true; });
     })
   ];
-
-  services.fstrim.enable = true;
 }
