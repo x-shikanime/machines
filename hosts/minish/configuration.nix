@@ -28,7 +28,7 @@
 
   networking.hostName = "minish";
 
-  services.knix.nodeIP = "192.168.1.29";
+  services.knix.nodeIP = "192.168.1.77";
 
   sops = {
     defaultSopsFile = ../../secrets/minish.enc.yaml;

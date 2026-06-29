@@ -28,7 +28,7 @@
 
   networking.hostName = "fushi";
 
-  services.knix.nodeIP = "192.168.1.30";
+  services.knix.nodeIP = "192.168.1.80";
 
   sops = {
     defaultSopsFile = ../../secrets/fushi.enc.yaml;
