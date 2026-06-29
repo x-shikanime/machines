@@ -1,3 +1,5 @@
+{ modulesPath, ... }:
+
 {
   imports = [
     ../../modules/nixos/agent.nix
@@ -5,35 +7,8 @@
     ../../modules/nixos/distributed.nix
     ../../modules/nixos/follower.nix
     ../../modules/nixos/rpi.nix
+    "${modulesPath}/installer/sd-card/sd-image-aarch64.nix"
   ];
-
-  disko.devices.disk.main = {
-    type = "disk";
-    device = "/dev/nvme0n1";
-    content = {
-      type = "gpt";
-      partitions = {
-        ESP = {
-          size = "1G";
-          type = "EF00";
-          content = {
-            type = "filesystem";
-            format = "vfat";
-            mountpoint = "/boot";
-            mountOptions = [ "umask=0077" ];
-          };
-        };
-        root = {
-          size = "100%";
-          content = {
-            type = "filesystem";
-            format = "xfs";
-            mountpoint = "/";
-          };
-        };
-      };
-    };
-  };
 
   networking.hostName = "nemishi";
 
