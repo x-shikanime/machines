@@ -4,7 +4,7 @@ metadata:
   name: niximgs
 build:
   artifacts:
-    - custom:
+    - image: ghcr.io/shikanime-labs/machines/catbox
+      custom:
         buildCommand:
           nix run github:shikanime-studio/nix-containers -- skaffold build
-      image: ghcr.io/shikanime-labs/machines/catbox

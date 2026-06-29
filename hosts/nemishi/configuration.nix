@@ -10,13 +10,13 @@
     "${modulesPath}/installer/sd-card/sd-image-aarch64.nix"
   ];
 
-  disko.devices.disk.main = {
+  disko.devices.disk.data = {
     type = "disk";
-    device = "/dev/disk/by-label/main";
+    device = "/dev/disk/by-label/data";
     content = {
       type = "filesystem";
       format = "xfs";
-      mountpoint = "/mnt/main";
+      mountpoint = "/mnt/data";
       mountOptions = [
         "nofail"
         "x-systemd.automount"
