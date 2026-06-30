@@ -1,9 +1,12 @@
 {
   config,
+  lib,
   modulesPath,
   pkgs,
   ...
 }:
+
+with lib;
 
 {
   imports = [
@@ -69,7 +72,7 @@
     includeNixDB = true;
     config = {
       LABELS = {
-        "devcontainer.metadata" = builtins.toJSON [
+        "devcontainer.metadata" = toJSON [
           {
             containerEnv = {
               USER = "shika";
