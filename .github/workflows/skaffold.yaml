@@ -31,9 +31,7 @@ jobs:
           private-key: ${{ secrets.OPERATOR_PRIVATE_KEY }}
       - uses: shikanime-studio/actions/checkout@v9
         with:
-          github-token:
-            ${{ steps.createGithubAppToken.outputs.token || secrets.GITHUB_TOKEN
-            }}
+          github-token: ${{ steps.createGithubAppToken.outputs.token || secrets.GITHUB_TOKEN }}
       - uses: docker/login-action@v4
         with:
           password: ${{ secrets.GITHUB_TOKEN }}
@@ -43,9 +41,7 @@ jobs:
         with:
           cachix-auth-token: ${{ secrets.CACHIX_AUTH_TOKEN }}
           extra-platforms: arm64
-          github-token:
-            ${{ steps.createGithubAppToken.outputs.token || secrets.GITHUB_TOKEN
-            }}
+          github-token: ${{ steps.createGithubAppToken.outputs.token || secrets.GITHUB_TOKEN }}
       - id: direnv
         uses: shikanime-studio/actions/direnv@v9
       - id: skaffold
@@ -89,9 +85,7 @@ jobs:
           private-key: ${{ secrets.OPERATOR_PRIVATE_KEY }}
       - uses: shikanime-studio/actions/checkout@v9
         with:
-          github-token:
-            ${{ steps.createGithubAppToken.outputs.token || secrets.GITHUB_TOKEN
-            }}
+          github-token: ${{ steps.createGithubAppToken.outputs.token || secrets.GITHUB_TOKEN }}
       - uses: docker/login-action@v4
         with:
           password: ${{ secrets.GITHUB_TOKEN }}
@@ -101,9 +95,7 @@ jobs:
         with:
           cachix-auth-token: ${{ secrets.CACHIX_AUTH_TOKEN }}
           extra-platforms: arm64
-          github-token:
-            ${{ steps.createGithubAppToken.outputs.token || secrets.GITHUB_TOKEN
-            }}
+          github-token: ${{ steps.createGithubAppToken.outputs.token || secrets.GITHUB_TOKEN }}
       - id: direnv
         uses: shikanime-studio/actions/direnv@v9
       - env: ${{ fromJSON(steps.direnv.outputs.env) }}
@@ -127,15 +119,11 @@ jobs:
           private-key: ${{ secrets.OPERATOR_PRIVATE_KEY }}
       - uses: shikanime-studio/actions/checkout@v9
         with:
-          github-token:
-            ${{ steps.createGithubAppToken.outputs.token || secrets.GITHUB_TOKEN
-            }}
+          github-token: ${{ steps.createGithubAppToken.outputs.token || secrets.GITHUB_TOKEN }}
       - uses: shikanime-studio/actions/nix/setup@v9
         with:
           cachix-auth-token: ${{ secrets.CACHIX_AUTH_TOKEN }}
           extra-platforms: arm64
-          github-token:
-            ${{ steps.createGithubAppToken.outputs.token || secrets.GITHUB_TOKEN
-            }}
+          github-token: ${{ steps.createGithubAppToken.outputs.token || secrets.GITHUB_TOKEN }}
       - id: setup-profiles-jobs
         uses: shikanime-studio/actions/skaffold/setup-profiles-jobs@v9
