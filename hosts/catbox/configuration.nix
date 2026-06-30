@@ -72,7 +72,7 @@ with lib;
     includeNixDB = true;
     config = {
       LABELS = {
-        "devcontainer.metadata" = toJSON [
+        "devcontainer.metadata" = builtins.toJSON [
           {
             containerEnv = {
               USER = "shika";
