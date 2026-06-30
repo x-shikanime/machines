@@ -45,19 +45,19 @@
             }
           ];
         };
-      };
-      addons.traefik.extraConfig.ports = {
-        syncthing = {
-          port = 22000;
-          expose.default = true;
-          exposedPort = 22000;
-          protocol = "TCP";
-        };
-        syncthing-udp = {
-          port = 22000;
-          expose.default = true;
-          exposedPort = 22000;
-          protocol = "UDP";
+        traefik.extraConfig.ports = {
+          syncthing = {
+            port = 22000;
+            expose.default = true;
+            exposedPort = 22000;
+            protocol = "TCP";
+          };
+          syncthing-udp = {
+            port = 22000;
+            expose.default = true;
+            exposedPort = 22000;
+            protocol = "UDP";
+          };
         };
       };
       # Tailscale IP SANs — required because agents resolve hostnames to IPv6
