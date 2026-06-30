@@ -33,77 +33,33 @@ overhead.
 This change requires a **rolling restart of RKE2 on each node** because the CNI
 configuration is read at node startup.
 
-### Step 1: Patch the flannel ConfigMap (pre-existing)
+### Step 1: Switch flannel backend via knix canal options
 
-WARNING: FluxCD may revert this if the HelmRelease manages this ConfigMap.
-Verify before/after that the change persists. If Flux reverts, the backend must
-be set via the RKE2 HelmChartConfig or the victoria-metrics-k8s-stack chart
-values.
+The `services.knix.canal` options are provided by the `canal.nix` module in
+[shikanime-studio/knix](https://github.com/shikanime-studio/knix). The backend
+is set to `host-gw` globally for all cluster nodes:
 
-```bash
-# Current config
-kubectl get cm -n kube-system rke2-canal-config -o yaml | grep -A2 Backend
-
-# Apply patch
-kubectl patch cm -n kube-system rke2-canal-config \
-  --type merge \
-  --patch '{"data":{"net-conf.json":"{\"Network\":\"10.244.0.0/16\",\"IPv6Network\":\"fd00::/108\",\"EnableIPv6\":true,\"Backend\":{\"Type\":\"host-gw\"}}"}}'
+```nix
+# modules/nixos/node.nix
+services.knix.canal.backend = "host-gw";
 ```
 
-### Step 2: Restart canal DaemonSet on each node (one at a time)
+Per-host override (if needed):
+```nix
+services.knix.canal.backend = lib.mkForce "vxlan";
+```
+
+Defaults (when importing knix):
+
+- `backend = "wireguard"` (backward compatible)
+- `vethMtu = "1500"` for host-gw, `"1400"` for wireguard
+- `wireguardKeepAlive = 25` (only when backend = wireguard)
+
+### Step 2: Restart canal to apply
 
 ```bash
-# Restart canal pods rolling — each node's pod will pick up the new config
 kubectl rollout restart ds -n kube-system rke2-canal
-
-# Verify all canal pods are running with the new backend
-kubectl get pods -n kube-system -l app=flannel -o wide
 ```
-
-### Step 3: Restart RKE2 rolling (to pick up new CNI config)
-
-For each node:
-
-```bash
-# SSH to node (or use tailscale-ssh)
-sudo systemctl restart rke2-server   # on control-plane nodes
-sudo systemctl restart rke2-agent    # on worker nodes
-
-# Wait for node + pods rescheduled before moving to next node
-kubectl wait --for=condition=Ready node/<name> --timeout=120s
-```
-
-### Step 4: Verify
-
-```bash
-# Confirm flannel routing uses host-gw (direct routes, no wg encapsulation)
-ip route | grep 10.244
-# Expected: direct via <interface> via <gateway-IP>, NOT via flannel.X device
-
-# Run cross-node iperf3 (from monitoring-system namespace)
-kubectl apply -f docs/iperf3-test.yaml
-# Check throughput — should see > 2 Gbps on Beelink, > 900 Mbps on Pi4
-```
-
-### Alternative if Flux reverts
-
-If FluxCD HelmRelease manages the canal config and reverts the patch:
-
-1. Create a `HelmChartConfig` CR in `kube-system` namespace:
-
-   ```yaml
-   apiVersion: helm.cattle.io/v1
-   kind: HelmChartConfig
-   metadata:
-     name: rke2-canal
-     namespace: kube-system
-   spec:
-     valuesContent: |
-       flannel:
-         backend: host-gw
-   ```
-
-2. Or change the RKE2 cluster template in `Chef/Rancher` to use host-gw.
 
 ## Expected Results After All Remediations Combined
 
@@ -115,13 +71,20 @@ If FluxCD HelmRelease manages the canal config and reverts the patch:
 
 ## Related Changes (in this PR)
 
-1. `modules/nixos/node.nix` — Firewall now allows pod CIDR (10.244.0.0/16) on
-   physical interfaces, enabling cross-node pod↔host communication (fixes
-   vmagent node-exporter scraping, 4 of 5 targets were DOWN).
+1. `shikanime-studio/knix` — New `modules/canal.nix` module upstreamed.
+   `services.knix.canal.backend` option (host-gw | vxlan | wireguard) with
+   per-host override. Default: wireguard (backward compatible). Also sets
+   `vethMtu` automatically per backend and loads WireGuard kernel module when
+   needed. `rke2.nix` updated to use `cfg.canal` values in the HelmChartConfig
+   manifest.
 
-2. `modules/nixos/beelink.nix` — Replaced `tailscale-udp-gro-forwarding` with
-   `network-nic-performance` enabling TSO, GSO, scatter-gather, TX/RX checksum
-   offloads, and RPS across all CPU cores.
+2. `modules/nixos/node.nix` — Firewall allows pod CIDR on br+ interfaces.
 
-3. `modules/nixos/rpi.nix` — Same improvement: GRO + TSO + GSO + RPS for Pi
-   NICs.
+3. `modules/nixos/beelink.nix` — Pod CIDR firewall on enp1s0/enp2s0. Replaced
+   GRO-only service with `network-nic-performance` (TSO/GSO/sg/tx+rx+RPS).
+
+4. `modules/nixos/rpi.nix` — Pod CIDR firewall on end0. Same NIC offload
+   service.
+
+5. `modules/nixos/rpi5.nix` — Imports rpi.nix (inherits firewall + offloads).
+   Pi5-specific: kernelboot, config.txt [pi5] section.

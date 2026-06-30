@@ -91,6 +91,9 @@ with lib;
     };
   };
 
+  # Use host-gw for flannel overlay — zero encapsulation overhead on same-LAN clusters
+  services.knix.canal.backend = "host-gw";
+
   systemd.services.tailscale-serve-syncthing = {
     description = "Expose RKE2 and Kubernetes APIs via Tailscale serve with HTTPS";
     after = [ "tailscaled.service" ];

@@ -63,7 +63,7 @@
       # Tailscale IP SANs — required because agents resolve hostnames to IPv6
       # first; without these the load balancer's TLS handshake to the supervisor
       # port (9345) fails with "tls: internal error".
-      tlsSan =
+      extraConfig.tls-san =
         let
           ashira = [
             "ashira.taila659a.ts.net"
