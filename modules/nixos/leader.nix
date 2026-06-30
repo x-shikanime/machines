@@ -36,15 +36,6 @@
             ];
           };
         };
-        longhorn.extraConfig.recurringJobSelector = {
-          enable = true;
-          jobList = [
-            {
-              name = "standard";
-              isGroup = true;
-            }
-          ];
-        };
         traefik.extraConfig.ports = {
           syncthing = {
             port = 22000;
