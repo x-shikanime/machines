@@ -5,7 +5,7 @@
 
   services = {
     knix = {
-      enable = true;
+      enable = false;
       addons = {
         flux = {
           instance.extraConfig.instance.sync = {
