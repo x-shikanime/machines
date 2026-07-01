@@ -41,7 +41,19 @@
     ];
   };
 
-  services.knix.nodeIP = "192.168.1.80,fd7a:115c:a1e0::793a:a25d";
+  services = {
+    knix = {
+      nodeIP = "192.168.1.80,fd7a:115c:a1e0::793a:a25d";
+      labels = [
+        "beta.kubernetes.io/instance-type=rpi4-model-b"
+        "node.kubernetes.io/instance-type=rpi4-model-b"
+      ];
+    };
+
+    services.tailscale.extraUpFlags = [
+      "--advertise-routes=10.244.4.0/24,fd00::4:0/112"
+    ];
+  };
 
   sops = {
     defaultSopsFile = ../../secrets/fushi.enc.yaml;

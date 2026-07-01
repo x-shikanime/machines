@@ -39,7 +39,19 @@
     ];
   };
 
-  services.knix.nodeIP = "192.168.1.27";
+  services = {
+    knix = {
+      nodeIP = "192.168.1.27";
+      labels = [
+        "beta.kubernetes.io/instance-type=rpi5"
+        "node.kubernetes.io/instance-type=rpi5"
+      ];
+    };
+
+    tailscale.extraUpFlags = [
+      "--advertise-routes=10.244.5.0/24,fd00::5:0/112"
+    ];
+  };
 
   sops = {
     defaultSopsFile = ../../secrets/nemishi.enc.yaml;

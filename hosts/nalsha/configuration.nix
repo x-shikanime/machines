@@ -39,7 +39,13 @@
   };
 
   services = {
-    knix.nodeIP = "192.168.1.64,2a02:8424:7899:f201:94eb:8d1:325a:7234";
+    knix = {
+      nodeIP = "192.168.1.64,2a02:8424:7899:f201:94eb:8d1:325a:7234";
+      labels = [
+        "beta.kubernetes.io/instance-type=beelink-eq14"
+        "node.kubernetes.io/instance-type=beelink-eq14"
+      ];
+    };
 
     tailscale.extraUpFlags = [
       "--advertise-routes=10.244.1.0/24,fd00::1:0/112"
