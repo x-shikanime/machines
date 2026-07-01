@@ -81,13 +81,9 @@
     distributedBuilds = true;
 
     linux-builder = {
-      enable = true;
-      config.boot.binfmt.emulatedSystems = [ "x86_64-linux" ];
+      enable = false;
       ephemeral = true;
-      systems = [
-        "x86_64-linux"
-        "aarch64-linux"
-      ];
+      systems = [ "aarch64-linux" ];
     };
 
     settings.builders-use-substitutes = true;
