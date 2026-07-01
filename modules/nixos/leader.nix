@@ -19,6 +19,7 @@
 
           operator.extraConfig.web.ingress = {
             enabled = true;
+            annotations."tailscale.com/tags" = "tag:web";
             className = "tailscale";
             hosts = [
               {
