@@ -81,7 +81,7 @@ kubectl rollout restart ds -n kube-system rke2-canal
 
 2. `modules/nixos/node.nix` — Firewall allows pod CIDR on br+ interfaces.
 
-3. `modules/nixos/beelink.nix` — Dual i226-V NICs bonded via `balance-alb`
+3. `modules/nixos/beelink.nix` — Dual i226-V NICs bonded via `active-backup`
    (bond0) into a single `br0` bridge. `network-nic-performance` service applies
    TSO/GSO/SG/RX+TX offloads and RPS on both physical ports.
 

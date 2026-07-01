@@ -10,19 +10,19 @@ bridge `br0` that carries all traffic — pod-to-pod, SSH, flannel, Longhorn.
 
 Configured inline in each hardware module — no custom abstraction module.
 
-| Module                      | Interfaces         | Bond                  | Bridge | DHCP |
-| --------------------------- | ------------------ | --------------------- | ------ | ---- |
-| `modules/nixos/beelink.nix` | `enp1s0`, `enp2s0` | `bond0` (balance-alb) | `br0`  | yes  |
-| `modules/nixos/rpi.nix`     | `end0`             | —                     | `br0`  | yes  |
+| Module                      | Interfaces         | Bond                    | Bridge | DHCP |
+| --------------------------- | ------------------ | ----------------------- | ------ | ---- |
+| `modules/nixos/beelink.nix` | `enp1s0`, `enp2s0` | `bond0` (active-backup) | `br0`  | yes  |
+| `modules/nixos/rpi.nix`     | `end0`             | —                       | `br0`  | yes  |
 
-### Beelink (dual 2.5G NIC, balance-alb bond)
+### Beelink (dual 2.5G NIC, active-backup bond)
 
 ```nix
 networking = {
   useNetworkd = true;
   bonds.bond0 = {
     interfaces = [ "enp1s0" "enp2s0" ];
-    driverOptions = { mode = "balance-alb"; miimon = "100"; };
+    driverOptions = { mode = "active-backup"; miimon = "100"; };
   };
   bridges.br0.interfaces = [ "bond0" ];
   interfaces.br0.useDHCP = true;
@@ -41,14 +41,25 @@ networking = {
 
 ## Bonding rationale
 
-The NETGEAR MS308 is an unmanaged switch — no LACP (802.3ad) support.
-`balance-alb` (mode 6) aggregates both NICs entirely in the Linux driver via ARP
-negotiation. Zero switch configuration required.
+The NETGEAR MS308 is an unmanaged switch — no LACP (`802.3ad`) support.
 
-- Single-flow throughput: 2.5 Gbps (per-flow hash)
-- Multi-flow aggregate: ~4-5 Gbps
-- Fails over automatically if one NIC/link dies (`miimon=100`)
-- One cable plugged in → bond works on single link; second cable is hot-add
+`active-backup` (mode 1) uses one NIC as primary and the other as passive
+failover. The active link is selected by the driver; `miimon=100` watches the
+link state and switches automatically if one NIC or cable fails.
+
+- Single-flow throughput: up to 2.5 Gbps on the active link
+- Failover without switch-side configuration
+- One cable plugged in → bond works immediately; second cable is hot-standby
+
+### Why active-backup instead of balance-alb
+
+This cluster moved from `balance-alb` (mode 6) to `active-backup` (mode 1) to
+eliminate a likely source of unpredictable path behavior on the MS308/GS305E
+topology. The RPi nodes sit behind a NETGEAR GS305E, whose single uplink feeds
+the MS308; on that path, ALB-style ARP-based multipath can cause odd
+forwarding/egress behavior instead of simple failover. Active-backup keeps
+automatic cable/NIC failover while removing that ALB edge case, which is a
+better match for this environment.
 
 ## Longhorn storage network
 
