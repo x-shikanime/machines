@@ -66,7 +66,6 @@ with lib;
       settings = {
         filenr.enabled = true;
         meminfo.enabled = true;
-        loadavg.enabled = true;
       };
     };
   };
